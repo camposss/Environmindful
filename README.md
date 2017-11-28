@@ -43,9 +43,10 @@ Hackathon project involving the combination of different data sources into an ap
   - Christin
   - Ryan
   - Francesca
+  - Bruce
 
 
 
 ### Deadline: 
-- 7:00PM Wednesday, November 30, 2017
+- 7:00PM Thursday, November 30, 2017
 
