@@ -11,6 +11,33 @@ function initializeApp () {
 
 }
 
+///////open weather api
+
+function handleWeatherInfo(lat, lon, city){
+    $.ajax({
+        method:'get',
+        data:{
+            api_key:'262d0228050ee6334c5273af092b068c',
+            latitude: lat,
+            longitude: lon,
+        },
+        url:'http://api.openweathermap.org/data/2.5/weather?lat=' +
+        lat + '&lon=' +
+        lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
+        dataType:'json',
+        success: function(data){
+            console.log(data);
+            var cityName = city;
+            var temperature = data.main.temp;
+            var humidity = data.main.humidity;
+            $('.data').append('City: ' + cityName,'<br>', 'Current Temperature: ' + temperature, '<br>', 'Humidity: ' + humidity);
+        },
+        error: function () {
+            $('.data').text('Sorry, your temperature info is missing!')
+        }
+    })
+}
+
 function pullFromCarma() {
     $.ajax({
         dataType: 'json',
