@@ -1,3 +1,15 @@
+var dataPlanet = {};
+
+$(document).ready(initializeApp);
+
+var geo_info_object= null;
+function initializeApp () {
+    $(".searchButton").click(getNewsData);
+
+    var submit_button= $('#submit_button');
+    submit_button.on('click',geocode);
+
+}
 
 ///////open weather api
 
@@ -29,21 +41,21 @@ function handleWeatherInfo(lat, lon, city){
 function pullFromCarma() {
     $.ajax({
         dataType: 'json',
-        url: 'https://carma.org/api/1.1/searchLocations?name=Idaho',
-        method: 'post',
-        success: successfulPull,
+        url: 'http://carma.org/api/1.1/searchLocations?name=Idaho',
+        method: 'get',
+        success: successfulCarmaPull,
         error:  errorPull
     });   
     
 }
 
-function successfulPull(data) {
+function successfulCarmaPull(data) {
     console.log(data);
     var dataCarma = data;
 }
 
-function errorPull(){
-    console.log('something went wrong :(');
+function errorPull(data){
+    console.log('something went wrong :(',data);
 }
 
 function pullFromPlanetOs () {
@@ -63,13 +75,13 @@ function pullFromPlanetOs () {
 }
 
 function successfulPlanetPull(data) {
-    console.log(data);
-    var dataPlanet = data;
+    console.log("PlanetOS Data: " +data.entries);
+    dataPlanet = data.entries['0'].data;
 }
 
-var locationForm= document.getElementById('location-form');
-locationForm.addEventListener('submit',geocode);
+
 function geocode(e) {
+    console.log("hello");
     //prevent actual submit
     e.preventDefault();
     var location = document.getElementById('location-input').value;
@@ -82,16 +94,21 @@ function geocode(e) {
         success: function (data) {
             console.log(data);
             //geometry
-            var lat = (data.results[0].geometry.location.lat);
-            var lng = (data.results[0].geometry.location.lng);
-            console.log(lat, lng);
-            initMap(lat, lng);
+            geo_info_object={
+                lat: (data.results[0].geometry.location.lat),
+                lon:(data.results[0].geometry.location.lng),
+                city:(data.results[0].address_components[0].long_name),
+                state:(data.results[0].address_components[2].long_name),
+                country: (data.results[0].address_components[2].long_name)
+            };
+            console.log(geo_info_object);
+            initMap(geo_info_object.lat, geo_info_object.lon);
         }
     });
 }
 function initMap(lat, lng) {
     var center = {lat: lat, lng: lng};
-    var map = new google.maps.Map(document.getElementById('map'), {
+    var map = new google.maps.Map(document.getElementById('map_display'), {
         zoom: 12,
         center: center
     });
@@ -212,11 +229,7 @@ function getDataByLocation(lat, lon){
 */
 }
 // News API Functionality
-$(document).ready(initializeApp);
 
-function initializeApp () {
-    $(".searchButton").click(getNewsData);
-}
 
 function getNewsData () {
     var nationalGeoAPIajaxOptions = {

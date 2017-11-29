@@ -17,9 +17,15 @@
         </div>
         <div class="rightCol col-md-9 col-lg-9">
             <div class="searchBox">
-                <input type="text" class="inputBox">
+                <form id="location-form">
+                    <input type="text" id="location-input" class="form-control form-control-lg">
+                    <br>
+                    <button id="submit_button" type="submit" class="btn btn-primary btn-block">Submit</button>
+                </form>
             </div>
-            <div class="map">map</div>
+            <div class="map_div">
+                <div id="map_display"></div>
+            </div>
             <div class="btnCol col-mg-12 col-lg-12">
                 <button class="air">AIR</button>
                 <button class="co2">CO2</button>
@@ -30,7 +36,7 @@
         
 
     </div>
-    <button onclick="pullFromCarma()">pull data</button>
+    <button onclick="pullFromCarma()">pull Carma</button>
     <button onclick="pullFromPlanetOs()">planetOS</button>
 
     <!-- News Inputs -->
@@ -46,5 +52,8 @@
     <!--</div>-->
     <!--<div class="newsListDisplay col-lg-6">-->
     <!--</div>-->
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy0-D5zCNe2d3E-wSsfbMSr3upkWsdRcA">
+</script>
 </body>
 </html>
