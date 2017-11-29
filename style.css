@@ -32,7 +32,7 @@
     margin-top: 2vh;
 }
 
-.map{
+.map_div{
     border: 1px solid black;
     width: 100%;
     height: 45vh;
@@ -40,7 +40,10 @@
     margin-bottom: 2vh;
 
 }
-
+#map_display{
+    width: 100%;
+    height: 500px;
+}
 .btnCol{
     margin-bottom: 1vh;
     border: 1px solid black;
