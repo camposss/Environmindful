@@ -172,6 +172,21 @@ function getStationsByKeyword(keyword){
     ]
 
 */
+$.ajax({
+    data: {
+        api_key: '1af10262d0228050ee6334c5273af092b068ca53'
+    },
+    method: 'GET',
+    dataType: 'json',
+    url: 'http://api.waqi.info/feed/' + cityNumber + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
+    success: function(data) {
+        ajax_result = data;
+        console.log('handleAirQuality ajax call was successful');
+    },
+    error: function(data) {
+        console.log('handleAirQuality ajax call resulted in error');
+    }
+})
 }
 
 /*
