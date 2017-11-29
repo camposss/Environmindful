@@ -1,0 +1,61 @@
+.leftCol{
+    border: 1px solid black;
+    height: 100%;
+}
+
+.title{
+    border:1px solid black;
+    width: 100%;
+    height:10vh;
+    margin-top: 2vh;
+}
+
+.news{
+    border: 1px solid black;
+    height: 83vh;
+    margin-top: 5vh;
+}
+
+.rightCol{
+    background-color: #4a8cdb;
+    height: 100%;
+}
+
+.searchBox{
+    width: 100%;
+    height: 10vh;
+}
+
+.inputBox{
+    height:8vh;
+    width: 100%;
+    margin-top: 2vh;
+}
+
+.map{
+    border: 1px solid black;
+    width: 100%;
+    height: 45vh;
+    margin-top: 7vh;
+    margin-bottom: 2vh;
+
+}
+
+.btnCol{
+    margin-bottom: 1vh;
+    border: 1px solid black;
+}
+
+.data,
+.dataChart{
+    margin-top:1vh;
+    margin-bottom: 1vh;
+    border: 1px solid black;
+    height: 30vh;
+    display: inline-block;
+    width: 45%;
+}
+
+.data{
+    float: right;
+}
