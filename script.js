@@ -96,6 +96,12 @@ function handleAirQuality() {
     })
 }
 
+
+
+
+
+
+
 /*
 *   url: http://api.waqi.info/search/?token=TOKEN&keyword=KEYWORD    
 *   key/token: 1af10262d0228050ee6334c5273af092b068ca53
@@ -130,6 +136,11 @@ function getStationsByKeyword(keyword){
 
 */
 }
+
+
+
+
+
 
 /*
 *   url: http://api.waqi.info/feed/geo:LAT;LON/?token=TOKEN
@@ -204,6 +215,7 @@ function getDataByLocation(lat, lon){
     }
 */
 }
+
 
 
 // ****************************************CESKA'S CODE ENDS HERE****************************************
