@@ -1,7 +1,7 @@
 
 ///////open weather api
 
-function handleWeatherInfo(lat, lon, addr){
+function handleWeatherInfo(lat, lon, city){
     $.ajax({
         method:'get',
         data:{
@@ -14,9 +14,13 @@ function handleWeatherInfo(lat, lon, addr){
         dataType:'json',
         success: function(data){
             console.log(data);
+            var cityName = city;
             var temperature = data.main.temp;
             var humidity = data.main.humidity;
-            $('.data').append(addr,'<br>', temperature, '<br>', humidity);
+            $('.data').append('City: ' + cityName,'<br>', 'Current Temperature: ' + temperature, '<br>', 'Humidity: ' + humidity);
+        },
+        error: function () {
+            $('.data').text('Sorry, your temperature info is missing!')
         }
     })
 }
