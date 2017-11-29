@@ -12,9 +12,10 @@ function initializeApp () {
 }
 
 function pullFromCarma() {
+    var proxy = 'https://cors-anywhere.herokuapp.com/';
     $.ajax({
         dataType: 'json',
-        url: 'http://carma.org/api/1.1/searchLocations?name=Idaho',
+        url: proxy + 'http://carma.org/api/1.1/searchLocations?name=Idaho',
         method: 'get',
         success: successfulCarmaPull,
         error:  errorPull
