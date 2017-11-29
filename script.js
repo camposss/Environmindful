@@ -28,8 +28,9 @@ function handleWeatherInfo(lat, lon, city){
         success: function(data){
             console.log(data);
             var cityName = city;
-            var temperature = data.main.temp;
-            var humidity = data.main.humidity;
+            var temperature = data['main']['temp'];
+            var humidity = data['main']['humidity'];
+            $('.data').empty();
             $('.data').append('City: ' + cityName,'<br>', 'Current Temperature: ' + temperature, '<br>', 'Humidity: ' + humidity);
         },
         error: function () {
@@ -103,6 +104,7 @@ function geocode(e) {
             };
             console.log(geo_info_object);
             initMap(geo_info_object.lat, geo_info_object.lon);
+            handleWeatherInfo(geo_info_object.lat, geo_info_object.lon, geo_info_object.city);
         }
     });
 }
