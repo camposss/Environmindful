@@ -171,6 +171,71 @@ function getStationsByKeyword(keyword){
     ]
 
 */
+    $.ajax({
+        data: {
+            api_key: '1af10262d0228050ee6334c5273af092b068ca53'
+        },
+        method: 'GET',
+        dataType: 'json',
+        url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword,
+        success: function(result) {
+            console.log('handleAirQuality ajax call was successful', result);
+            var aqi = result.data[0].aqi;
+            console.log('Air Quality Index of ' + keyword + ': ' + aqi);
+
+            var airPollutionLvl;
+            var healthImplications;
+            var cautionaryStmt;
+
+            if (aqi > 0 && aqi > 50) {
+                airPollutionLvl = 'Air Pollution Level: Good';
+                healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
+                cautionaryStmt = 'None';
+                console.log(airPollutionLvl);
+                console.log(healthImplications);
+                console.log(cautionaryStmt);
+            } else if (aqi > 50 && aqi < 100) {
+                airPollutionLvl = 'Air Pollution Level: Moderate';
+                healthImplications = 'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.';
+                cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
+                console.log(airPollutionLvl);
+                console.log(healthImplications);
+                console.log(cautionaryStmt);
+            } else if (aqi > 100 && aqi < 150) {
+                airPollutionLvl = 'Air Pollution Level: Unhealthy for Sensitive Groups';
+                healthImplications = 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.';
+                cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
+                console.log(airPollutionLvl);
+                console.log(healthImplications);
+                console.log(cautionaryStmt);
+            } else if (aqi > 151 && aqi < 200) {
+                airPollutionLvl = 'Air Pollution Level: Unhealthy';
+                healthImplications = 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects';
+                cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion';
+                console.log(airPollutionLvl);
+                console.log(healthImplications);
+                console.log(cautionaryStmt);
+            } else if (aqi > 201 && aqi < 300) {
+                airPollutionLvl = 'Air Pollution Level: Very Unhealthy';
+                healthImplications = 'Health warnings of emergency conditions. The entire population is more likely to be affected.';
+                cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.';
+                console.log(airPollutionLvl);
+                console.log(healthImplications);
+                console.log(cautionaryStmt);
+            } else if (aqi > 300) {
+                airPollutionLvl = 'Air Pollution Level: Hazardous';
+                healthImplications = 'Health alert: everyone may experience more serious health effects';
+                cautionaryStmt = 'Everyone should avoid all outdoor exertion';
+                console.log(airPollutionLvl);
+                console.log(healthImplications);
+                console.log(cautionaryStmt);
+            }
+        },
+        error: function(result) {
+            console.log('handleAirQuality ajax call resulted in error', result);
+        }
+    })
+
 }
 
 /*
