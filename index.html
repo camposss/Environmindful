@@ -1,30 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-    <title>My Geocode App</title>
-    <style>
-        #map{
-            height: 600px;
-            width: 100%;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" href="style.css">
+    <title>GlassPlot</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
-<div class="container">
-    <h2 id="text-center">Enter location:</h2>
-    <form id="location-form">
-        <input type="text" id="location-input" class="form-control form-control-lg">
-        <br>
-        <button type="submit" class="btn btn-primary btn-block">Submit</button>
-    </form>
-    <div id="map"></div>
-</div>
-<script src="script.js"></script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy0-D5zCNe2d3E-wSsfbMSr3upkWsdRcA">
-</script>
+    <div class="container">
+        <div class="leftCol col-md-3 col-lg-3">
+            <div class="title">GlassPlot</div>
+            <div class="news">news</div>
+        </div>
+        <div class="rightCol col-md-9 col-lg-9">
+            <div class="searchBox">
+                <input type="text" class="inputBox">
+            </div>
+            <div class="map">map</div>
+            <div class="btnCol col-mg-12 col-lg-12">
+                <button class="air">AIR</button>
+                <button class="co2">CO2</button>
+            </div>
+            <div class="dataChart">chart</div>
+            <div class="data">data</div>
+        </div>
+        
+
+    </div>
+    <!-- News Inputs -->
+    <!--<div class="row searchFormContainer">-->
+        <!--<div class="col-lg-6">-->
+            <!--<div class="input-group">-->
+                <!--<input type="text" class="form-control searchNews" placeholder="Enter a location...">-->
+                <!--<span class="input-group-btn">-->
+        <!--<button class="btn btn-default searchButton" type="button">Go!</button>-->
+      <!--</span>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="newsListDisplay col-lg-6">-->
+    <!--</div>-->
 </body>
 </html>
