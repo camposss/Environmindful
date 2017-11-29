@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 function handleAirQuality() {
     $.ajax({
         data: {
@@ -108,7 +107,6 @@ function getDataByLocation(lat, lon){
     }
 */
 }
-=======
 // News API Functionality
 $(document).ready(initializeApp);
 
@@ -188,4 +186,3 @@ function formatTextArea () {
     var enteredText = $(".searchNews").val().split(" ").join("+");
     return enteredText;
 }
->>>>>>> 717f1dd795571fcb88031a7056b61f791563b6ad
