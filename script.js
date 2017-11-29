@@ -186,49 +186,56 @@ function getStationsByKeyword(keyword){
             var airPollutionLvl;
             var healthImplications;
             var cautionaryStmt;
+            var colorLvl;
 
             if (aqi > 0 && aqi > 50) {
+                colorLvl = '#009966'; //green
                 airPollutionLvl = 'Air Pollution Level: Good';
                 healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
                 cautionaryStmt = 'None';
-                console.log(airPollutionLvl);
-                console.log(healthImplications);
-                console.log(cautionaryStmt);
+                console.log('Air Pollution Level: ' + airPollutionLvl);
+                console.log('Health Implications: ' + healthImplications);
+                console.log('Cautionary Statement: ' + cautionaryStmt);
             } else if (aqi > 50 && aqi < 100) {
-                airPollutionLvl = 'Air Pollution Level: Moderate';
+                colorLvl = '#ffde33'; //yellow
+                airPollutionLvl = 'Moderate';
                 healthImplications = 'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.';
                 cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
-                console.log(airPollutionLvl);
-                console.log(healthImplications);
-                console.log(cautionaryStmt);
+                console.log('Air Pollution Level: ' + airPollutionLvl);
+                console.log('Health Implications: ' + healthImplications);
+                console.log('Cautionary Statement: ' + cautionaryStmt);
             } else if (aqi > 100 && aqi < 150) {
+                colorLvl = '#ff9933'; //orange
                 airPollutionLvl = 'Air Pollution Level: Unhealthy for Sensitive Groups';
                 healthImplications = 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.';
                 cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
-                console.log(airPollutionLvl);
-                console.log(healthImplications);
-                console.log(cautionaryStmt);
+                console.log('Air Pollution Level: ' + airPollutionLvl);
+                console.log('Health Implications: ' + healthImplications);
+                console.log('Cautionary Statement: ' + cautionaryStmt);
             } else if (aqi > 151 && aqi < 200) {
+                colorLvl = '#cc0033'; //red
                 airPollutionLvl = 'Air Pollution Level: Unhealthy';
                 healthImplications = 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects';
                 cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion';
-                console.log(airPollutionLvl);
-                console.log(healthImplications);
-                console.log(cautionaryStmt);
+                console.log('Air Pollution Level: ' + airPollutionLvl);
+                console.log('Health Implications: ' + healthImplications);
+                console.log('Cautionary Statement: ' + cautionaryStmt);
             } else if (aqi > 201 && aqi < 300) {
+                colorLvl = '#660099'; //purple
                 airPollutionLvl = 'Air Pollution Level: Very Unhealthy';
                 healthImplications = 'Health warnings of emergency conditions. The entire population is more likely to be affected.';
                 cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.';
-                console.log(airPollutionLvl);
-                console.log(healthImplications);
-                console.log(cautionaryStmt);
+                console.log('Air Pollution Level: ' + airPollutionLvl);
+                console.log('Health Implications: ' + healthImplications);
+                console.log('Cautionary Statement: ' + cautionaryStmt);
             } else if (aqi > 300) {
+                colorLvl = '#7e0023'; //dark red
                 airPollutionLvl = 'Air Pollution Level: Hazardous';
                 healthImplications = 'Health alert: everyone may experience more serious health effects';
                 cautionaryStmt = 'Everyone should avoid all outdoor exertion';
-                console.log(airPollutionLvl);
-                console.log(healthImplications);
-                console.log(cautionaryStmt);
+                console.log('Air Pollution Level: ' + airPollutionLvl);
+                console.log('Health Implications: ' + healthImplications);
+                console.log('Cautionary Statement: ' + cautionaryStmt);
             }
         },
         error: function(result) {
