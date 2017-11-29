@@ -74,7 +74,10 @@ function initMap(lat, lng) {
     });
 }
 
-//ceska
+
+// ****************************************CESKA'S CODE STARTS HERE****************************************
+
+
 function handleAirQuality() {
     $.ajax({
         data: {
@@ -93,6 +96,14 @@ function handleAirQuality() {
     })
 }
 
+/*
+*
+*   Create a function called getStationsByKeyword 
+*   Takes in 1 parameter
+*   @param keyword - city, state, country
+*   @returns an array of stations closest to keyword
+*
+*/
 
 function getStationsByKeyword(keyword){
     //http://api.waqi.info/search/?token=TOKEN&keyword=KEYWORD
@@ -120,6 +131,16 @@ function getStationsByKeyword(keyword){
 
 */
 }
+
+/*
+*
+*   Create a function called getDataByLocation
+*   Takes in 2 parameters
+*   @param lat - latitude
+*   @param lon - longitude
+*   @returns closest station to the lat and lon
+*
+*/
 
 function getDataByLocation(lat, lon){
     //http://api.waqi.info/feed/geo:LAT;LON/?token=TOKEN
@@ -184,6 +205,12 @@ function getDataByLocation(lat, lon){
     }
 */
 }
+
+
+// ****************************************CESKA'S CODE ENDS HERE****************************************
+
+
+
 // News API Functionality
 $(document).ready(initializeApp);
 
