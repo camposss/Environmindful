@@ -1,3 +1,5 @@
+var dataPlanet = {};
+
 $(document).ready(initializeApp);
 
 var geo_info_object= null;
@@ -8,24 +10,25 @@ function initializeApp () {
     submit_button.on('click',geocode);
 
 }
+
 function pullFromCarma() {
     $.ajax({
         dataType: 'json',
-        url: 'https://carma.org/api/1.1/searchLocations?name=Idaho',
-        method: 'post',
-        success: successfulPull,
+        url: 'http://carma.org/api/1.1/searchLocations?name=Idaho',
+        method: 'get',
+        success: successfulCarmaPull,
         error:  errorPull
     });   
     
 }
 
-function successfulPull(data) {
+function successfulCarmaPull(data) {
     console.log(data);
     var dataCarma = data;
 }
 
-function errorPull(){
-    console.log('something went wrong :(');
+function errorPull(data){
+    console.log('something went wrong :(',data);
 }
 
 function pullFromPlanetOs () {
@@ -45,8 +48,8 @@ function pullFromPlanetOs () {
 }
 
 function successfulPlanetPull(data) {
-    console.log(data);
-    var dataPlanet = data;
+    console.log("PlanetOS Data: " +data.entries);
+    dataPlanet = data.entries['0'].data;
 }
 
 
