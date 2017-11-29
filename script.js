@@ -97,7 +97,7 @@ function handleAirQuality() {
 }
 
 /*
-*   url: http://api.waqi.info/search/?token=TOKEN&keyword= +KEYWORD    
+*   url: http://api.waqi.info/search/?token=TOKEN&keyword=KEYWORD    
 *   key/token: 1af10262d0228050ee6334c5273af092b068ca53
 *   Create a function called getStationsByKeyword 
 *   Takes in 1 parameter
@@ -132,7 +132,7 @@ function getStationsByKeyword(keyword){
 }
 
 /*
-*   url: http://api.waqi.info/feed/geo:LAT;LON/?token= +TOKEN
+*   url: http://api.waqi.info/feed/geo:LAT;LON/?token=TOKEN
 *   key/token: 1af10262d0228050ee6334c5273af092b068ca53
 *   Create a function called getDataByLocation
 *   Takes in 2 parameters
