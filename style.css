@@ -59,3 +59,26 @@
 .data{
     float: right;
 }
+
+/* News Search */
+.searchFormContainer {
+    margin-top: 20px;
+}
+.newsListDisplay {
+    height: 50vh;
+    border-radius: 2%;
+    margin-top: 20px;
+    overflow: scroll;
+}
+.newsTitle {
+    font-weight: 400;
+}
+/*.newsAuthor {*/
+
+/*}*/
+/*.newsLink {*/
+
+/*}*/
+/*.newsSourceLink {*/
+    /**/
+/*}*/
