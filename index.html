@@ -13,14 +13,19 @@
     <div class="container">
         <div class="leftCol col-md-3 col-lg-3">
             <div class="title">GlassPlot</div>
-            <div class="news">news</div>
+            <div class="news">
+                <div class="row m-auto col-sm-12 text-center newsTitle">
+                    <h1>Recent News</h1>
+                </div>
+                <div class="newsListDisplay col-lg-12 m-auto"></div>
+            </div>
         </div>
         <div class="rightCol col-md-9 col-lg-9">
             <div class="searchBox">
                 <form id="location-form">
                     <input type="text" id="location-input" class="form-control form-control-lg">
                     <br>
-                    <button id="submit_button" type="submit" class="btn btn-primary btn-block">Submit</button>
+                    <button id="submit_button" type="submit" class="btn btn-primary btn-block getNews">Submit</button>
                 </form>
             </div>
             <div class="map_div">
@@ -33,8 +38,6 @@
             <div class="dataChart">chart</div>
             <div class="data">data</div>
         </div>
-        
-
     </div>
     <button onclick="pullFromCarma()">pull Carma</button>
     <button onclick="pullFromPlanetOs()">planetOS</button>

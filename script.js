@@ -4,11 +4,9 @@ $(document).ready(initializeApp);
 
 var geo_info_object= null;
 function initializeApp () {
-    $(".searchButton").click(getNewsData);
-
+    $(".getNews").click(getNewsData);
     var submit_button= $('#submit_button');
     submit_button.on('click',geocode);
-
 }
 
 ///////open weather api
@@ -39,9 +37,10 @@ function handleWeatherInfo(lat, lon, city){
 }
 
 function pullFromCarma() {
+    var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
-        url: 'http://carma.org/api/1.1/searchLocations?name=Idaho',
+        url: proxy+'http://carma.org/api/1.1/searchLocations?name=Idaho',
         method: 'get',
         success: successfulCarmaPull,
         error:  errorPull
@@ -294,8 +293,8 @@ function getNewsData () {
     var cnnAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=cnn&q="+ formatTextArea() +"+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
-            displayNewsData(data);
             console.log("Data received from CNN news: ", data);
+            displayNewsData(data);
         },
         error: function () {
             console.log("The data was not received.");
@@ -307,8 +306,8 @@ function getNewsData () {
 }
 
 function displayNewsData (data) {
-    if ($(".searchNews").val() === "") {
-        $(".searchNews").attr({
+    if ($("#location-input").val() === "") {
+        $("#location-input").attr({
             placeholder: "Please enter keywords to search."
         });
         return;
@@ -339,7 +338,7 @@ function displayNewsData (data) {
     }
 }
 function formatTextArea () {
-    var enteredText = $(".searchNews").val().split(" ").join("+");
+    var enteredText = $("#location-input").val().split(" ").join("+");
     return enteredText;
 }
 
