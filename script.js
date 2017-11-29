@@ -94,7 +94,6 @@ function initMap(lat, lng) {
 
 // ****************************************CESKA'S CODE STARTS HERE****************************************
 
-
 function handleAirQuality() {
     $.ajax({
         data: {
@@ -112,12 +111,6 @@ function handleAirQuality() {
         }
     })
 }
-
-
-
-
-
-
 
 /*
 *   url: http://api.waqi.info/search/?token=TOKEN&keyword=KEYWORD    
@@ -153,11 +146,6 @@ function getStationsByKeyword(keyword){
 
 */
 }
-
-
-
-
-
 
 /*
 *   url: http://api.waqi.info/feed/geo:LAT;LON/?token=TOKEN
@@ -232,8 +220,6 @@ function getDataByLocation(lat, lon){
     }
 */
 }
-
-
 
 // ****************************************CESKA'S CODE ENDS HERE****************************************
 
