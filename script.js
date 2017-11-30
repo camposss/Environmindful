@@ -162,7 +162,7 @@ function handleAirQuality() {
 *   Create a function called getStationsByKeyword 
 *   Takes in 1 parameter
 *   @param keyword - city, state, country
-*   @returns an array of stations closest to keyword
+*   @returns aqi - air quality index (number)
 *
 */
 
