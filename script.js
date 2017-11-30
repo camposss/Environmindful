@@ -166,7 +166,7 @@ function getStationsByKeyword(keyword) {
         url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword,
         success: function(result) {
             var aqi = result.data[0].aqi; //only grabbing the first element in the array
-            determineAqiLevel(aqi);
+            determineAqiLevel(aqi, keyword);
             return aqi;
         },
         error: function (result) {
@@ -186,7 +186,7 @@ function getStationsByKeyword(keyword) {
 *   
 */
 
-function determineAqiLevel(aqi) {
+function determineAqiLevel(aqi, keyword) {
     console.log('Air Quality Level: ', aqi);
     var airPollutionLvl;
     var healthImplications;
@@ -198,6 +198,12 @@ function determineAqiLevel(aqi) {
         airPollutionLvl = 'Good';
         healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
         cautionaryStmt = 'None';
+
+        // $('.aqi-city').text(keyword);
+        // $('#aqiNum').text(aqi);
+        // $('#h_implications').text(healthImplications);
+        // $('#c_statement').text(cautionaryStmt);
+
         console.log('Air Pollution Level: ' + airPollutionLvl);
         console.log('Health Implications: ' + healthImplications);
         console.log('Cautionary Statement: ' + cautionaryStmt);
