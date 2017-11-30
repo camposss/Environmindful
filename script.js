@@ -60,10 +60,7 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
-<<<<<<< HEAD
-=======
     //debugger
->>>>>>> b86be463bcc2a4ed88e927e1922eeedc06efaeb0
     // dataCarma = data;
 
     google.charts.load('current', {'packages':['corechart']});
@@ -135,23 +132,10 @@ function geocode(e) {
                 // state: (data.results[0].address_components[1].long_name),
                 // country: (data.results[0].address_components[2].long_name)
             };
-<<<<<<< HEAD
-            console.log('GeoInfoObj: ' , geo_info_object);
-            initMap(geo_info_object.lat, geo_info_object.lon);
-            handleWeatherInfo();
-            pullFromCarma();
-            pullFromPlanetOs();
-            getStationsByKeyword(geo_info_object.state);
-            // getDataByLocation(geo_info_object.lat, geo_info_object.lon);  DO NOT USE (maybe), NOT SURE IF FUNCTION WORKS YET
-            handleWeatherInfo();
-            pullFromCarma();
-            pullFromPlanetOs();
-=======
 
             console.log('GeoInfoObj: ' +geo_info_object);
 
             callApi();
->>>>>>> b86be463bcc2a4ed88e927e1922eeedc06efaeb0
         }
     });
 }
