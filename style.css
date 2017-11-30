@@ -44,7 +44,8 @@ body {
     background-color: #dd651d;
 }
 .title-search-container {
-    height: 10vh;
+    position: relative;
+    height: 5vh;
 }
 .searchContainer {
     line-height: 10vh;
@@ -54,6 +55,7 @@ body {
     margin-bottom: 2vh;
     position: relative;
     left: 3vmin;
+    top: 10vh;
 }
 /* Map Display */
 .map_div{
@@ -61,6 +63,7 @@ body {
     /*margin-bottom: 2vh;*/
     border-radius: 1%;
     position: relative;
+    top: 10vh;
 }
 #map_display{
     width: 100%;
