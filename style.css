@@ -57,6 +57,10 @@ body {
     left: 3vmin;
     top: 10vh;
 }
+.carousel-inner {
+    position:relative;
+    top: 10vh;
+}
 /* Map Display */
 .map_div{
     height: 35vh;
@@ -86,9 +90,8 @@ body {
     background-color: #61982f;
     border-radius: 1%;
     text-align: center;
-    line-height: 50vh;
     color: #000;
-    font-size: 4vmin;
+    font-size: 1vmin;
 }
 
 /*.data{*/
@@ -156,4 +159,92 @@ body {
 
 #weatherList{
     list-style: none;
+    position: relative;
+    top: 5vh;
+    height: 50vh;
+}
+#weatherList li {
+    line-height: 5vh;
+}
+
+/*Air quality styles*/
+
+.aqi-container {
+    font-family: Tahoma, Geneva, sans-serif;
+    height: 50vmin;
+    width: 100%;
+    /*   border: 2px solid black; */
+    display: flex;
+    flex-direction: column;
+}
+
+#head-col {
+    font-size: 20px;
+    height: 8vmin;
+    text-align: center;
+    /*   background-color: lightgrey; */
+}
+
+#aqi-col {
+    width: 10%;
+}
+
+#poll-col {
+    width: 15%;
+}
+
+.good {
+    background-color: #009966;
+}
+
+.moderate {
+    background-color: #ffde33;
+}
+
+.sensitive {
+    background-color: #ff9933;
+}
+
+.unhealthy {
+    background-color: #cc0033;
+}
+
+.very-unhealthy {
+    background-color: #660099;
+}
+
+.hazard {
+    background-color: #7e0023;
+}
+
+.airContainer {
+    height: 50vmin;
+    width: 80%;
+    border: 2px solid black;
+    display: flex;
+    flex-wrap: row wrap;
+    align-content: center;
+    padding: 30px;
+}
+
+/* .container2 {
+  margin: auto;
+} */
+
+#aqi-number-container {
+    height: 20vmin;
+    width: 20vmin;
+    border: 2px solid black;
+    margin: auto;
+    text-align: center;
+    padding: 3%;
+    border-radius: 20px;
+    background-color: #009966;
+}
+
+#aqiNum {
+    font-size: 15vmin;
+}
+thead {
+    background-color: #fff;
 }
