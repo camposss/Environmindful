@@ -1,4 +1,5 @@
 var dataPlanet = {};
+var dataCarma = {};
 
 $(document).ready(initializeApp);
 var geo_info_object= null;
@@ -43,7 +44,7 @@ function pullFromCarma() {
     var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
-        url: proxy+'http://carma.org/api/1.1/searchLocations?name=Idaho',
+        url: proxy+'http://carma.org/api/1.1/searchLocations?name=' + geo_info_object.state,
         method: 'get',
         success: successfulCarmaPull,
         error:  errorPull
@@ -53,7 +54,7 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
-    var dataCarma = data;
+    dataCarma = data;
 }
 
 function errorPull(data){
@@ -67,8 +68,8 @@ function pullFromPlanetOs () {
         method: 'get',
             data: {
                 origin: 'dataset-details',
-                lat: '49.5',
-                lon: '-50.5',
+                lat: geo_info_object.lat,
+                lon: geo_info_object.lon,
                 apikey: 'bdbcb059658f4b788838a5d957bf6ba8'
             },
         success: successfulPlanetPull,
@@ -126,7 +127,7 @@ function initMap(lat, lng) {
         from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
       },
         styles: [{
-            fillColor: 'color'
+            polygon: 'color'
         }],
       map: map
        
@@ -183,7 +184,7 @@ function getStationsByKeyword(keyword){
             var cautionaryStmt;
             var colorLvl;
 
-            if (aqi > 0 && aqi > 50) {
+            if (aqi > 0 && aqi < 50) {
                 colorLvl = '#009966'; //green
                 airPollutionLvl = 'Good';
                 healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
@@ -232,6 +233,7 @@ function getStationsByKeyword(keyword){
                 console.log('Health Implications: ' + healthImplications);
                 console.log('Cautionary Statement: ' + cautionaryStmt);
             }
+            return aqi;
         },
         error: function(result) {
             console.log('handleAirQuality ajax call resulted in error', result);
@@ -252,66 +254,20 @@ function getStationsByKeyword(keyword){
 */
 
 function getDataByLocation(lat, lon){
-/*
-{
-
-        "aqi": 31,
-        "idx": 317,
-        "attributions": [
-            {
-                "url": "http://www.arb.ca.gov/",
-                "name": "CARB - California Air Resources Board"
-            },
-            {
-                "url": "http://www.airnow.gov/",
-                "name": "Air Now - US EPA"
-            }
-        ],
-        "city": {
-            "geo": [
-                33.83061,
-                -117.9385
-            ],
-            "name": "Anaheim-Loara School, Orange, California",
-            "url": "http://aqicn.org/city/california/orange/anaheim-loara-school/"
+    $.ajax({
+        data: {
+            api_key: '1af10262d0228050ee6334c5273af092b068ca53' //not being used at the moment, it is hardcoded into the url
         },
-        "dominentpol": "pm10",
-        "iaqi": {
-            "co": {
-                "v": 10.2
-            },
-            "h": {
-                "v": 76
-            },
-            "no2": {
-                "v": 25.1
-            },
-            "o3": {
-                "v": 0.8
-            },
-            "p": {
-                "v": 961.19
-            },
-            "pm10": {
-                "v": 31
-            },
-            "pm25": {
-                "v": 91
-            },
-            "so2": {
-                "v": 1.5
-            },
-            "t": {
-                "v": 11.5
-            }
+        method: 'GET',
+        dataType: 'json',
+        url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
+        success: function(result) {
+            console.log('getDataByLocation call was successful', result);
         },
-        "time": {
-            "s": "2017-11-29 09:00:00",
-            "tz": "-08:00",
-            "v": 1511946000
+        error: function(result) {
+            console.log('getDataByLocation call resulted in error', result);
         }
-    }
-*/
+    })
 }
 
 // ****************************************CESKA'S CODE ENDS HERE****************************************
