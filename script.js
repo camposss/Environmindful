@@ -14,25 +14,27 @@ function initializeApp() {
 
 ///////open weather api
 
-function handleWeatherInfo(lat, lon, city) {
+function handleWeatherInfo() {
     $.ajax({
         method: 'get',
         data: {
             api_key: '262d0228050ee6334c5273af092b068c',
-            latitude: lat,
-            longitude: lon,
+            latitude: geo_info_object.lat,
+            longitude: geo_info_object.lon,
         },
         url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
-        lat + '&lon=' +
-        lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
+        geo_info_object.lat + '&lon=' +
+        geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            var cityName = city;
+            var cityName = geo_info_object.city;
             var temperature = data['main']['temp'];
             var humidity = data['main']['humidity'];
+            var minTemp = data['main']['temp_min'];
+            var maxTemp = data['main']['temp_max'];
             $('.data').empty();
-            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Humidity: ' + humidity);
+            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Temperature: ' + minTemp + '&deg;'+ '-' + maxTemp + '&deg;', '<br>', 'Humidity: ' + humidity);
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
@@ -105,11 +107,12 @@ function geocode(e) {
             };
             console.log(geo_info_object);
             initMap(geo_info_object.lat, geo_info_object.lon);
-            handleWeatherInfo(geo_info_object.lat, geo_info_object.lon, geo_info_object.city);
+            handleWeatherInfo();
 
             pullFromCarma();
             pullFromPlanetOs();
-            pieChart();
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
         }
     });
 }
@@ -376,34 +379,31 @@ function formatTextArea() {
     return enteredText;
 }
 
-// pie chart
-function pieChart(){
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
 
-        var data = google.visualization.arrayToDataTable([
-            ['Element', 'Presentage'],
-            ['idhfi',     45],
-            ['Eat',      2],
-            ['Commute',  2],
-            ['Watch TV', 2],
-            ['Sleep',    7]
-            // ['Fossil',parseFloat($(dataCarma)[0].fossil.present)],
-            // ['Hydro',parseFloat($(dataCarma)[0].hydro.present)],
-            // ['Nuclear',parseFloat($(dataCarma)[0].nuclear.present)],
-            // ['Renewable',parseFloat($(dataCarma)[0].renewable.present)]
-        ]);
+function drawChart() {
 
-        var options = {
-            title: 'title'
-        };
+    var data = google.visualization.arrayToDataTable([
+        ['Element', 'Presentage'],
+        // ['idhfi',     45],
+        // ['Eat',      2],
+        // ['Commute',  2],
+        // ['Watch TV', 2],
+        // ['Sleep',    7]
+        ['Fossil',parseFloat($(dataCarma)[0].fossil.present)],
+        ['Hydro',parseFloat($(dataCarma)[0].hydro.present)],
+        ['Nuclear',parseFloat($(dataCarma)[0].nuclear.present)],
+        ['Renewable',parseFloat($(dataCarma)[0].renewable.present)]
+    ]);
 
-        var chart = new google.visualization.PieChart(document.getElementsByClassName('pieChart'));
+    var options = {
+        title: 'title'
+    };
 
-        chart.draw(data, options);
-    }
+    var chart = new google.visualization.PieChart(document.getElementsByClassName('pieChart'));
+
+    chart.draw(data, options);
 }
+
 
 
 
