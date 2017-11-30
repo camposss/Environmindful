@@ -160,6 +160,8 @@ function initMap(lat, lng) {
 // function setCurrentLocation(){
 //     console.log("Hello");
 // }
+
+
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
