@@ -149,31 +149,9 @@ function handleAirQuality() {
 */
 
 function getStationsByKeyword(keyword){
-/*
- [
-        {
-            "uid": 289,
-            "aqi": "87",
-            "time": {
-                "tz": "-08:00",
-                "stime": "2017-11-29 10:00:00",
-                "vtime": 1511978400
-            },
-            "station": {
-                "name": "Visalia, Tulare, California",
-                "geo": [
-                    36.33252,
-                    -119.29095
-                ],
-                "url": "california/tulare/visalia"
-            }
-        },
-    ]
-
-*/
     $.ajax({
         data: {
-            api_key: '1af10262d0228050ee6334c5273af092b068ca53'
+            api_key: '1af10262d0228050ee6334c5273af092b068ca53' //not being used at the moment, it is hardcoded into the url
         },
         method: 'GET',
         dataType: 'json',
@@ -190,7 +168,7 @@ function getStationsByKeyword(keyword){
 
             if (aqi > 0 && aqi > 50) {
                 colorLvl = '#009966'; //green
-                airPollutionLvl = 'Air Pollution Level: Good';
+                airPollutionLvl = 'Good';
                 healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
                 cautionaryStmt = 'None';
                 console.log('Air Pollution Level: ' + airPollutionLvl);
@@ -206,7 +184,7 @@ function getStationsByKeyword(keyword){
                 console.log('Cautionary Statement: ' + cautionaryStmt);
             } else if (aqi > 100 && aqi < 150) {
                 colorLvl = '#ff9933'; //orange
-                airPollutionLvl = 'Air Pollution Level: Unhealthy for Sensitive Groups';
+                airPollutionLvl = 'Unhealthy for Sensitive Groups';
                 healthImplications = 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.';
                 cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
                 console.log('Air Pollution Level: ' + airPollutionLvl);
@@ -214,7 +192,7 @@ function getStationsByKeyword(keyword){
                 console.log('Cautionary Statement: ' + cautionaryStmt);
             } else if (aqi > 151 && aqi < 200) {
                 colorLvl = '#cc0033'; //red
-                airPollutionLvl = 'Air Pollution Level: Unhealthy';
+                airPollutionLvl = 'Unhealthy';
                 healthImplications = 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects';
                 cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion';
                 console.log('Air Pollution Level: ' + airPollutionLvl);
@@ -222,7 +200,7 @@ function getStationsByKeyword(keyword){
                 console.log('Cautionary Statement: ' + cautionaryStmt);
             } else if (aqi > 201 && aqi < 300) {
                 colorLvl = '#660099'; //purple
-                airPollutionLvl = 'Air Pollution Level: Very Unhealthy';
+                airPollutionLvl = 'Very Unhealthy';
                 healthImplications = 'Health warnings of emergency conditions. The entire population is more likely to be affected.';
                 cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.';
                 console.log('Air Pollution Level: ' + airPollutionLvl);
@@ -230,7 +208,7 @@ function getStationsByKeyword(keyword){
                 console.log('Cautionary Statement: ' + cautionaryStmt);
             } else if (aqi > 300) {
                 colorLvl = '#7e0023'; //dark red
-                airPollutionLvl = 'Air Pollution Level: Hazardous';
+                airPollutionLvl = 'Hazardous';
                 healthImplications = 'Health alert: everyone may experience more serious health effects';
                 cautionaryStmt = 'Everyone should avoid all outdoor exertion';
                 console.log('Air Pollution Level: ' + airPollutionLvl);
