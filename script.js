@@ -1,10 +1,15 @@
 var dataPlanet = {};
 var dataCarma = {};
 
+//GOOGLE FUSION TABLE API: AIzaSyBWgR4nfF3j9TO6kvtsSkTwxeqNu10M60Q
+//URL:
 $(document).ready(initializeApp);
 var geo_info_object = null;
 
 function initializeApp() {
+    $(".getNews").click(function () {
+        $(".newsListDisplay").text("");
+    })
     $(".getNews").click(getNewsData);
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
@@ -30,8 +35,10 @@ function handleWeatherInfo() {
             var cityName = geo_info_object.city;
             var temperature = data['main']['temp'];
             var humidity = data['main']['humidity'];
+            var minTemp = data['main']['temp_min'];
+            var maxTemp = data['main']['temp_max'];
             $('.data').empty();
-            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Humidity: ' + humidity);
+            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Temperature: ' + minTemp + '&deg;'+ '-' + maxTemp + '&deg;', '<br>', 'Humidity: ' + humidity);
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
@@ -53,7 +60,13 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
-    dataCarma = data;
+    debugger
+    // dataCarma = data;
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(function() {
+        drawChart(data);
+    });
 }
 
 function errorPull(data) {
@@ -105,12 +118,14 @@ function geocode(e) {
             };
             console.log('GeoInfoObj: ' +geo_info_object);
             initMap(geo_info_object.lat, geo_info_object.lon);
+            handleWeatherInfo();
+            pullFromCarma();
+            pullFromPlanetOs();
             getStationsByKeyword(geo_info_object.state);
             // getDataByLocation(geo_info_object.lat, geo_info_object.lon);
             handleWeatherInfo();
             pullFromCarma();
-            pullFromPlanetOs();          
-            pieChart();
+            pullFromPlanetOs();
         }
     });
 }
@@ -126,23 +141,7 @@ function initMap(lat, lng) {
         map: map
     });
 
-    
-//    var layer = new google.maps.FusionTablesLayer({
-//      query: {
-//        select: 'geometry',
-//        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
-//      },
-//        styles: [{
-//            polygon: 'color'
-//        }],
-//      map: map
-//       
-//    });
-//     layer.setMap(map);
-
 }
-
-
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
@@ -339,6 +338,7 @@ function displayNewsData(data) {
     var newsModalLink;
     var newsSourceDiv;
     var image;
+    var newsItems;
     for (var newsIndex = 0; newsIndex < data.articles.length; newsIndex++) {
         newsInfo = {
             newsTitle: data.articles[newsIndex].title,
@@ -346,40 +346,63 @@ function displayNewsData(data) {
             newsAuthor: data.articles[newsIndex].author,
             description: data.articles[newsIndex].description,
             newsLink: data.articles[newsIndex].url,
-            imgSource: data.articles[newsIndex].urlToImage
+            imgSource: data.articles[newsIndex].urlToImage,
+            newsSourceID: data.articles[newsIndex].source.id
         };
         newsInfoArray.push(newsInfo);
     }
-    console.log(newsInfoArray);
-    for (var i = 0; i < newsInfoArray.length; i++) {
+    for (var newsInfoArrayIndex = 0; newsInfoArrayIndex < newsInfoArray.length; newsInfoArrayIndex++) {
         newsAuthorDiv = $("<div>", {
             "class": "newsAuthor",
-            text: "By: " + newsInfoArray[i].newsAuthor
+            text: "By: " + newsInfoArray[newsInfoArrayIndex].newsAuthor
         });
         newsLinkTag = $("<a>", {
-            text: newsInfoArray[i].newsTitle
-        }).addClass("newsSourceLink");
+            text: newsInfoArray[newsInfoArrayIndex].newsTitle
+        }).addClass("newsLink");
+        newsLinkTag.click(displayModal);
         newsModalLink = $("<a>", {
             text: "here",
-            href: newsInfoArray[i].newsLink
+            href: newsInfoArray[newsInfoArrayIndex].newsLink
         });
         image = $("<img>", {
-            src: newsInfoArray[i].imgSource,
+            src: newsInfoArray[newsInfoArrayIndex].imgSource,
             class: "newsModalImage"
-        });
-        newsLinkTag.on('click', function () {
-            $("#newsModal").modal('show');
-            $(".modal-title").text(newsInfoArray[i].newsTitle);
-            $(".modal-body p").text(newsInfoArray[i].description);
-            $(".img-container").append(newsInfoArray[i].image);
-            $(".fullArticle").text("See full article here: ").append(newsInfoArray[i].newsLink);
         });
         newsSourceDiv = $("<div>", {
             "class": "newsSourceLink",
-            text: "Source: " + newsInfoArray[i].newsSource
+            text: "Source: " + newsInfoArray[newsInfoArrayIndex].newsSource
         });
-        var newsItems = $("<div>").addClass("newsItem").append(newsLinkTag, newsAuthorDiv, newsSourceDiv);
+        newsItems = $("<div>").addClass("newsItem").append(newsLinkTag, newsAuthorDiv, newsSourceDiv);
         $(".newsListDisplay").append(newsItems);
+        newsItems[0].indexPosition = newsInfoArrayIndex;
+        newsItems[0].newsSource = data.articles[newsInfoArrayIndex].source.id;
+        console.log("Here is a news item: ", newsItems);
+    }
+    function displayModal () {
+            var fullArticleLink;
+            (function () {
+            for (var newsClickIndex = 0; newsClickIndex < newsInfoArray.length; newsClickIndex++) {
+                fullArticleLink = $("<a>", {
+                    href: newsInfoArray[newsClickIndex].newsLink,
+                    text: "here",
+                    target: "_blank"
+                })
+                if ($(event.target).parent()[0].indexPosition === newsClickIndex && $(event.target).parent()[0].newsSource === newsInfoArray[newsClickIndex].newsSourceID) {
+                    $(".modal-title").text(newsInfoArray[newsClickIndex].newsTitle);
+                    $(".img-container").text("");
+                    $(".img-container").append($("<img>", {
+                        src: newsInfoArray[newsClickIndex].imgSource,
+                        "class": "newsModalImage"
+                    }));
+                    $(".modal-body p").text(newsInfoArray[newsClickIndex].description);
+                    $(".fullArticle").text("See full article: ").append(fullArticleLink);
+                    $("#newsModal").modal("show");
+                }
+            }
+        })()
+        // console.log(newsInfoArray);
+        // console.log($(this).parent()[0].indexPosition);
+        // console.log($(this).parent()[0].newsSource);
     }
 }
 
@@ -388,34 +411,25 @@ function formatTextArea() {
     return enteredText;
 }
 
-// pie chart
-function pieChart(){
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
 
-        var data = google.visualization.arrayToDataTable([
-            ['Element', 'Presentage'],
-            ['idhfi',     45],
-            ['Eat',      2],
-            ['Commute',  2],
-            ['Watch TV', 2],
-            ['Sleep',    7]
-            // ['Fossil',parseFloat($(dataCarma)[0].fossil.present)],
-            // ['Hydro',parseFloat($(dataCarma)[0].hydro.present)],
-            // ['Nuclear',parseFloat($(dataCarma)[0].nuclear.present)],
-            // ['Renewable',parseFloat($(dataCarma)[0].renewable.present)]
-        ]);
+function drawChart(carma) {
+    console.log("draw the chart", carma);
+    var airQuality = carma[0];
 
-        var options = {
-            title: 'title'
-        };
+    var data = google.visualization.arrayToDataTable([
+        ['Element', 'Presentage'],
+        ['Fossil',parseFloat(airQuality.fossil.present)],
+        ['Hydro',parseFloat(airQuality.hydro.present)],
+        ['Nuclear',parseFloat(airQuality.nuclear.present)],
+        ['Renewable',parseFloat(airQuality.renewable.present)]
+    ]);
 
-        var chart = new google.visualization.PieChart(document.getElementsByClassName('pieChart'));
+    var options = {
+        title: geo_info_object.state +' Energy Production'
+    };
 
-        chart.draw(data, options);
-    }
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(data, options);
 }
-
-
 
