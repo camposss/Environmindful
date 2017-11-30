@@ -105,9 +105,9 @@ body {
 .newsModalImage {
     width: 100%;
 }
-.pieChart{
-    height:100px;
-    width:100px;
+#pieChart{
+    height:50vh;
+    width:100%;
 }
 .newsListDisplay {
     background-color: #272727;
