@@ -145,7 +145,7 @@ function callApi() {
         getNewsData();
         handleWeatherInfo();
         pullFromCarma();
-        getStationsByKeyword(geo_info_object.state);
+        getAqiData(geo_info_object.state);
 }
 
 function initMap(lat, lng) {
@@ -161,12 +161,13 @@ function initMap(lat, lng) {
     });
 }
 
+
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
 *   url: http://api.waqi.info/search/?token=TOKEN&keyword=KEYWORD    
 *   key/token: 1af10262d0228050ee6334c5273af092b068ca53
-*   Create a function called getStationsByKeyword 
+*   Create a function called getAqiData 
 *   Takes in 1 parameter
 *   @param keyword - STATE??
 *   @callback determineAqiLevel - takes in aqi as a param, see function for further info
@@ -174,7 +175,7 @@ function initMap(lat, lng) {
 *
 */
 
-function getStationsByKeyword(keyword) {
+function getAqiData(keyword) {
     console.log('*************************GET STATIONS BY KEYWORD FUNCTION IS BEING CALLED*************************');
     $.ajax({
         data: {
@@ -263,7 +264,7 @@ function determineAqiLevel(aqi, keyword) {
     } else {
         console.log('*****NO AQI AVAILABLE*****');
     }
-    console.log('*****' + keyword);
+    console.log('*****State: ' + keyword);
     console.log('*****Air Quality Level: ', aqi);
     console.log('*****Air Pollution Level: ' + airPollutionLvl);
     console.log('*****Health Implications: ' + healthImplications);
