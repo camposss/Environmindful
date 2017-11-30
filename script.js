@@ -106,8 +106,10 @@ function geocode(e) {
             console.log(geo_info_object);
             initMap(geo_info_object.lat, geo_info_object.lon);
             handleWeatherInfo(geo_info_object.lat, geo_info_object.lon, geo_info_object.city);
+
             pullFromCarma();
             pullFromPlanetOs();
+            pieChart();
         }
     });
 }
@@ -123,18 +125,20 @@ function initMap(lat, lng) {
         map: map
     });
 
-    var layer = new google.maps.FusionTablesLayer({
-        query: {
-            select: 'geometry',
-            from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
-        },
-        styles: [{
-            polygon: 'color'
-        }],
-        map: map
+    
+//    var layer = new google.maps.FusionTablesLayer({
+//      query: {
+//        select: 'geometry',
+//        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
+//      },
+//        styles: [{
+//            polygon: 'color'
+//        }],
+//      map: map
+//       
+//    });
+//     layer.setMap(map);
 
-    });
-    layer.setMap(map);
 }
 
 
@@ -373,4 +377,35 @@ function formatTextArea() {
     var enteredText = $("#location-input").val().split(" ").join("+");
     return enteredText;
 }
+
+// pie chart
+function pieChart(){
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['Element', 'Presentage'],
+            ['idhfi',     45],
+            ['Eat',      2],
+            ['Commute',  2],
+            ['Watch TV', 2],
+            ['Sleep',    7]
+            // ['Fossil',parseFloat($(dataCarma)[0].fossil.present)],
+            // ['Hydro',parseFloat($(dataCarma)[0].hydro.present)],
+            // ['Nuclear',parseFloat($(dataCarma)[0].nuclear.present)],
+            // ['Renewable',parseFloat($(dataCarma)[0].renewable.present)]
+        ]);
+
+        var options = {
+            title: 'title'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementsByClassName('pieChart'));
+
+        chart.draw(data, options);
+    }
+}
+
+
 

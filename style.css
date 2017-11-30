@@ -58,6 +58,7 @@ body {
     left: 85%;
     top: 4%;
 }
+
 .btnCol button {
     border-radius: 2%;
 }
@@ -66,7 +67,7 @@ body {
     margin-top:1vh;
     margin-bottom: 1vh;
     height: 30vh;
-    display: inline-block;
+    width:100%;
     background-color: #61982f;
     border-radius: 2%;
     width: 100%;
@@ -108,4 +109,9 @@ body {
 }
 .newsModalImage {
     width: 100%;
+}
+
+.pieChart{
+    height:100px;
+    width:100px;
 }
