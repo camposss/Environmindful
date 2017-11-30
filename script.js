@@ -161,13 +161,10 @@ function initMap(lat, lng) {
         map: map
     });
 }
-<<<<<<< HEAD
 // function setCurrentLocation(){
 //     console.log("Hello");
 // }
 
-=======
->>>>>>> 45f69eda95ec8182d141ad9cac6d4e594f377636
 
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
@@ -205,7 +202,7 @@ function getStationsByKeyword(keyword) {
                 }  
                 // determineAqiLevel(checkAqi, keyword);
             }
-            console.log('************** NO AQI AVAILABLE FOR ' + keyword);
+            console.log('**************NO AQI AVAILABLE FOR ' + keyword);
             // return checkAqi;
         },
         error: function (result) {
@@ -271,11 +268,11 @@ function determineAqiLevel(aqi, keyword) {
     } else {
         console.log('*****NO AQI AVAILABLE*****');
     }
-    console.log('*****  ' + keyword);
-    console.log('*****  Air Quality Level: ', aqi);
-    console.log('*****  Air Pollution Level: ' + airPollutionLvl);
-    console.log('*****  Health Implications: ' + healthImplications);
-    console.log('*****  Cautionary Statement: ' + cautionaryStmt);
+    console.log('*****' + keyword);
+    console.log('*****Air Quality Level: ', aqi);
+    console.log('*****Air Pollution Level: ' + airPollutionLvl);
+    console.log('*****Health Implications: ' + healthImplications);
+    console.log('*****Cautionary Statement: ' + cautionaryStmt);
     renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl)
 }
 
