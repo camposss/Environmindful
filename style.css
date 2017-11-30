@@ -49,14 +49,13 @@
     border: 1px solid black;
 }
 
-.data,
-.dataChart{
+.data{
     margin-top:1vh;
     margin-bottom: 1vh;
     border: 1px solid black;
     height: 30vh;
     display: inline-block;
-    width: 45%;
+    width:100%;
 }
 
 .data{
@@ -89,4 +88,9 @@
 }
 .newsModalImage {
     width: 100%;
+}
+
+.pieChart{
+    height:100px;
+    width:100px;
 }
