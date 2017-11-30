@@ -30,7 +30,7 @@ function handleWeatherInfo(lat, lon, city){
             var temperature = data['main']['temp'];
             var humidity = data['main']['humidity'];
             $('.data').empty();
-            $('.data').append('City: ' + cityName,'<br>', 'Current Temperature: ' + temperature, '<br>', 'Humidity: ' + humidity);
+            $('.data').append('City: ' + cityName,'<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Humidity: ' + humidity);
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
