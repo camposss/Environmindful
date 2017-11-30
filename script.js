@@ -7,10 +7,10 @@ $(document).ready(initializeApp);
 var geo_info_object = null;
 
 function initializeApp() {
-    $(".getNews").click(function () {
-        $(".newsListDisplay").text("");
-    })
-    $(".getNews").click(getNewsData);
+//    $(".getNews").click(function () {
+//        $(".newsListDisplay").text("");
+//    })
+//    $(".getNews").click(getNewsData);
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
     $("#myModal").show("modal");
@@ -60,6 +60,10 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
+<<<<<<< HEAD
+=======
+    //debugger
+>>>>>>> b86be463bcc2a4ed88e927e1922eeedc06efaeb0
     // dataCarma = data;
 
     google.charts.load('current', {'packages':['corechart']});
@@ -131,6 +135,7 @@ function geocode(e) {
                 // state: (data.results[0].address_components[1].long_name),
                 // country: (data.results[0].address_components[2].long_name)
             };
+<<<<<<< HEAD
             console.log('GeoInfoObj: ' , geo_info_object);
             initMap(geo_info_object.lat, geo_info_object.lon);
             handleWeatherInfo();
@@ -141,11 +146,30 @@ function geocode(e) {
             handleWeatherInfo();
             pullFromCarma();
             pullFromPlanetOs();
+=======
+
+            console.log('GeoInfoObj: ' +geo_info_object);
+
+            callApi();
+>>>>>>> b86be463bcc2a4ed88e927e1922eeedc06efaeb0
         }
     });
 }
 
+function callApi() {
+        initMap(geo_info_object.lat, geo_info_object.lon);
+        $(".newsListDisplay").text("");
+        getNewsData();
+        handleWeatherInfo();
+        pullFromCarma();
+        pullFromPlanetOs();
+        getStationsByKeyword(geo_info_object.state);
+}
+
 function initMap(lat, lng) {
+    if($('#location-input').val()===""){
+
+    }
     var center = {lat: lat, lng: lng};
     var map = new google.maps.Map(document.getElementById('map_display'), {
         zoom: 12,
@@ -157,6 +181,9 @@ function initMap(lat, lng) {
     });
 
 }
+// function setCurrentLocation(){
+//     console.log("Hello");
+// }
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
@@ -444,7 +471,8 @@ function displayNewsData(data) {
 }
 
 function formatTextArea() {
-    var enteredText = $("#location-input").val().split(" ").join("+");
+    //var enteredText = $("#location-input").val().split(" ").join("+");
+    var enteredText = geo_info_object.city.split(" ").join('+');
     return enteredText;
 }
 
