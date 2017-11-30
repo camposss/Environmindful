@@ -2,11 +2,12 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
           type="text/css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <title>GlassPlot</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
     <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
@@ -41,22 +42,24 @@
     </div>
     <button onclick="pullFromCarma()">pull Carma</button>
     <button onclick="pullFromPlanetOs()">planetOS</button>
-
-    <!-- News Inputs -->
-    <!--<div class="row searchFormContainer">-->
-        <!--<div class="col-lg-6">-->
-            <!--<div class="input-group">-->
-                <!--<input type="text" class="form-control searchNews" placeholder="Enter a location...">-->
-                <!--<span class="input-group-btn">-->
-        <!--<button class="btn btn-default searchButton" type="button">Go!</button>-->
-      <!--</span>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="newsListDisplay col-lg-6">-->
-    <!--</div>-->
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy0-D5zCNe2d3E-wSsfbMSr3upkWsdRcA">
-</script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy0-D5zCNe2d3E-wSsfbMSr3upkWsdRcA">
+    </script>
+    <div class="modal fade" id="newsModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -6,6 +6,7 @@ function initializeApp () {
     $(".getNews").click(getNewsData);
     var submit_button= $('#submit_button');
     submit_button.on('click',geocode);
+    $("#myModal").show("modal");
 }
 
 
@@ -321,6 +322,7 @@ function getDataByLocation(lat, lon){
 
 
 function getNewsData () {
+    $(".newsListDisplay").text("");
     var nationalGeoAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=national-geographic&q="+ formatTextArea() +"+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
@@ -341,8 +343,8 @@ function getNewsData () {
             console.log("The data was not received.");
         }
     };
-    var cnnAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=cnn&q="+ formatTextArea() +"+environment&apiKey=626bed419f824271a515c974d606275b",
+    var scienceAPIajaxOptions = {
+        url: "https://newsapi.org/v2/everything?sources=new-scientist&q="+ formatTextArea() +"+climate+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             console.log("Data received from CNN news: ", data);
             displayNewsData(data);
@@ -351,9 +353,9 @@ function getNewsData () {
             console.log("The data was not received.");
         }
     };
-    $.ajax(abcAPIajaxOptions);
     $.ajax(nationalGeoAPIajaxOptions);
-    $.ajax(cnnAPIajaxOptions);
+    $.ajax(abcAPIajaxOptions);
+    $.ajax(scienceAPIajaxOptions);
 }
 
 function displayNewsData (data) {
@@ -378,13 +380,19 @@ function displayNewsData (data) {
         });
         var newsLinkTag = $("<a>", {
            text: newsTitle,
-           href: newsLink
+           href: newsLink,
+            // "data-toggle": "modal",
+            // "data-target": "#newsModal",
+            target: "_blank"
         });
+        newsLinkTag.on('click', function(){
+            $("#newsModal").modal('show');
+        })
         var newsSourceDiv = $("<div>", {
             "class": "newsSourceLink",
             text: "Source: " + newsSource
         });
-        $(".newsListDisplay").append(newsTitleDiv, newsAuthorDiv, newsLinkTag, newsSourceDiv);
+        $(".newsListDisplay").append(newsLinkTag, newsAuthorDiv, newsSourceDiv);
         // console.log(data.articles[newsIndex]);
     }
 }
