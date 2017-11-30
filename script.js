@@ -1,19 +1,13 @@
-var dataPlanet = {};
-var dataCarma = {};
-
 //GOOGLE FUSION TABLE API: AIzaSyBWgR4nfF3j9TO6kvtsSkTwxeqNu10M60Q
 //URL:
 $(document).ready(initializeApp);
 var geo_info_object = null;
 
 function initializeApp() {
-//    $(".getNews").click(function () {
-//        $(".newsListDisplay").text("");
-//    })
-//    $(".getNews").click(getNewsData);
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
     $("#myModal").show("modal");
+    google.charts.load('current', {'packages':['corechart']});
 }
 
 ///////open weather api
@@ -46,6 +40,16 @@ function handleWeatherInfo() {
     })
 }
 
+
+/*
+*   url: http://carma.org/api/  
+*   key/token: NA
+*   Calls successfulCarmaPull upon successful ajax call 
+*   @parameter - none
+*   @callback chart - calls drawChart function
+*   @returns - none
+*
+*/
 function pullFromCarma() {
     var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
@@ -58,41 +62,20 @@ function pullFromCarma() {
 
 }
 
+/*
+Pulls Carma data, adds data to geo info object and calls drawChart
+*/
 function successfulCarmaPull(data) {
-    console.log(data);
-    //debugger
-    // dataCarma = data;
-
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(function() {
-        drawChart(data);
-    });
+    geo_info_object.fossil = parseFloat(data[0].fossil.present);
+    geo_info_object.hydro = parseFloat(data[0].hydro.present);
+    geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
+    geo_info_object.renewable = parseFloat(data[0].renewable.present);
+    
+    google.charts.setOnLoadCallback(drawChart);
 }
 
 function errorPull(data) {
     console.log('something went wrong :(', data);
-}
-
-function pullFromPlanetOs() {
-    var proxy = 'http://cors-anywhere.herokuapp.com/'
-    $.ajax({
-        dataType: 'json',
-        url: proxy+'https://api.planetos.com/v1/datasets/fmi_silam_global05/point?',
-        method: 'get',
-        data: {
-            origin: 'dataset-details',
-            lat: geo_info_object.lat,
-            lon: geo_info_object.lon,
-            apikey: 'bdbcb059658f4b788838a5d957bf6ba8'
-        },
-        success: successfulPlanetPull,
-        error: errorPull
-    });
-}
-
-function successfulPlanetPull(data) {
-    console.log("PlanetOS Data: " + data.entries);
-    dataPlanet = data.entries['0'].data;
 }
 
 function geocode(e) {
@@ -146,8 +129,8 @@ function callApi() {
         getNewsData();
         handleWeatherInfo();
         pullFromCarma();
-        pullFromPlanetOs();
         getStationsByKeyword(geo_info_object.state);
+    
 }
 
 function initMap(lat, lng) {
@@ -158,7 +141,7 @@ function initMap(lat, lng) {
     });
     var marker = new google.maps.Marker({
         position: center,
-        map: map
+        map: mapget
     });
 
 }
@@ -433,16 +416,14 @@ function formatTextArea() {
 }
 
 
-function drawChart(carma) {
-    console.log("draw the chart", carma);
-    var airQuality = carma[0];
+function drawChart() {
 
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
-        ['Fossil',parseFloat(airQuality.fossil.present)],
-        ['Hydro',parseFloat(airQuality.hydro.present)],
-        ['Nuclear',parseFloat(airQuality.nuclear.present)],
-        ['Renewable',parseFloat(airQuality.renewable.present)]
+        ['Fossil',geo_info_object.fossil],
+        ['Hydro',geo_info_object.hydro],
+        ['Nuclear',geo_info_object.nuclear],
+        ['Renewable',geo_info_object.renewable]
     ]);
 
     var options = {
