@@ -7,10 +7,10 @@ $(document).ready(initializeApp);
 var geo_info_object = null;
 
 function initializeApp() {
-    $(".getNews").click(function () {
-        $(".newsListDisplay").text("");
-    })
-    $(".getNews").click(getNewsData);
+//    $(".getNews").click(function () {
+//        $(".newsListDisplay").text("");
+//    })
+//    $(".getNews").click(getNewsData);
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
     $("#myModal").show("modal");
@@ -60,7 +60,7 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
-    debugger
+    //debugger
     // dataCarma = data;
 
     google.charts.load('current', {'packages':['corechart']});
@@ -117,17 +117,20 @@ function geocode(e) {
                 country: (data.results[0].address_components[2].long_name)
             };
             console.log('GeoInfoObj: ' +geo_info_object);
-            initMap(geo_info_object.lat, geo_info_object.lon);
-            handleWeatherInfo();
-            pullFromCarma();
-            pullFromPlanetOs();
-            getStationsByKeyword(geo_info_object.state);
-            // getDataByLocation(geo_info_object.lat, geo_info_object.lon);
-            handleWeatherInfo();
-            pullFromCarma();
-            pullFromPlanetOs();
+
+            callApi();
         }
     });
+}
+
+function callApi() {
+        initMap(geo_info_object.lat, geo_info_object.lon);
+        $(".newsListDisplay").text("");
+        getNewsData();
+        handleWeatherInfo();
+        pullFromCarma();
+        pullFromPlanetOs();
+        getStationsByKeyword(geo_info_object.state);
 }
 
 function initMap(lat, lng) {
@@ -407,7 +410,8 @@ function displayNewsData(data) {
 }
 
 function formatTextArea() {
-    var enteredText = $("#location-input").val().split(" ").join("+");
+    //var enteredText = $("#location-input").val().split(" ").join("+");
+    var enteredText = geo_info_object.city.split(" ").join('+');
     return enteredText;
 }
 
