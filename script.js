@@ -122,7 +122,7 @@ function geocode(e) {
             pullFromCarma();
             pullFromPlanetOs();
             getStationsByKeyword(geo_info_object.state);
-            // getDataByLocation(geo_info_object.lat, geo_info_object.lon);
+            // getDataByLocation(geo_info_object.lat, geo_info_object.lon);  DO NOT USE (maybe), NOT SURE IF FUNCTION WORKS YET
             handleWeatherInfo();
             pullFromCarma();
             pullFromPlanetOs();
@@ -151,11 +151,13 @@ function initMap(lat, lng) {
 *   Takes in 1 parameter
 *   @param keyword - city, state, country
 *   @callback determineAqiLevel - takes in aqi as a param, see function for further info
-*   @returns aqi - number
+*   @returns aqi - {string} number
 *
 */
 
 function getStationsByKeyword(keyword) {
+    console.log('GET STATIONS BY KEYWORD FUNCTION IS BEING CALLED*************************');
+    debugger;
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
@@ -179,9 +181,11 @@ function getStationsByKeyword(keyword) {
 *   Create a function called determineAqiLevel
 *   This function will determine where the aqi falls on the air quality index scale (color coded)
 *   Possibly append health implications and cautionary statement somewhere on DOM
-*   Takes in 1 parameter
-*   @param aqi - number 
+*   Takes in 2 parameters
+*   @param aqi - {string} number 
+*   @param keyword - ???????STATE OR CITY??????????
 *   @returns {currently unknown, if any}
+*   @calls renderAqiInfoOnDom
 *   
 */
 
@@ -235,6 +239,18 @@ function determineAqiLevel(aqi, keyword) {
     console.log('Cautionary Statement: ' + cautionaryStmt);
     renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl)
 }
+
+/*
+*   Create a function called renderAqiInfoOnDom
+*   Takes in 5 parameters
+*   @param keyword - ???????STATE OR CITY??????????
+*   @param aqi - {string} number
+*   @param healthImplications 
+*   @param cautionaryStmt 
+*   @param  colorLvl 
+*   @returns closest station to the lat and lon
+*
+*/
 
 function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl) {
     $('.aqi-city').text(keyword);
