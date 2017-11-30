@@ -1,13 +1,20 @@
 //GOOGLE FUSION TABLE API: AIzaSyBWgR4nfF3j9TO6kvtsSkTwxeqNu10M60Q
 //URL:
 $(document).ready(initializeApp);
-var geo_info_object = null;
+var geo_info_object = {
+    lat: 34.0522 ,
+    lon: -118.2437,
+    city: "Los Angeles",
+    state: "California"
+};
 
 function initializeApp() {
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
     $("#myModal").show("modal");
     google.charts.load('current', {'packages':['corechart']});
+    callApi();
+
 }
 
 // *********************** open weather api *************************
@@ -142,9 +149,7 @@ function callApi() {
 }
 
 function initMap(lat, lng) {
-    if($('#location-input').val()===""){
 
-    }
     var center = {lat: lat, lng: lng};
     var map = new google.maps.Map(document.getElementById('map_display'), {
         zoom: 12,
@@ -154,11 +159,8 @@ function initMap(lat, lng) {
         position: center,
         map: map
     });
-
 }
-// function setCurrentLocation(){
-//     console.log("Hello");
-// }
+
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
@@ -328,9 +330,10 @@ function getDataByLocation(lat, lon) {
 
 
 function getNewsData() {
+    var cityName= formatTextArea();
     $(".newsListDisplay").text("");
     var nationalGeoAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=national-geographic&q=" + formatTextArea() + "+climate&apiKey=626bed419f824271a515c974d606275b",
+        url: "https://newsapi.org/v2/everything?sources=national-geographic&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             displayNewsData(data);
             console.log("Data received from National Geo: ", data);
@@ -340,7 +343,7 @@ function getNewsData() {
         }
     };
     var abcAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=abc-news&q=" + formatTextArea() + "+climate&apiKey=626bed419f824271a515c974d606275b",
+        url: "https://newsapi.org/v2/everything?sources=abc-news&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             displayNewsData(data);
             console.log("Data received from ABC news: ", data);
@@ -350,7 +353,7 @@ function getNewsData() {
         }
     };
     var scienceAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=new-scientist&q=" + formatTextArea() + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
+        url: "https://newsapi.org/v2/everything?sources=new-scientist&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             console.log("Data received from CNN news: ", data);
             displayNewsData(data);
@@ -365,12 +368,12 @@ function getNewsData() {
 }
 
 function displayNewsData(data) {
-    if ($("#location-input").val() === "") {
-        $("#location-input").attr({
-            placeholder: "Please enter keywords to search."
-        });
-        return;
-    }
+    // if ($("#location-input").val() === "") {
+    //     $("#location-input").attr({
+    //         placeholder: "Please enter keywords to search."
+    //     });
+    //     return;
+    // }
     var newsInfoArray = [];
     var newsInfo;
     var newsTitleDiv;
