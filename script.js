@@ -311,6 +311,20 @@ function getDataByLocation(lat, lon){
         }
     }
 */
+    $.ajax({
+        data: {
+            api_key: '1af10262d0228050ee6334c5273af092b068ca53' //not being used at the moment, it is hardcoded into the url
+        },
+        method: 'GET',
+        dataType: 'json',
+        url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
+        success: function(result) {
+            console.log('getDataByLocation call was successful', result);
+        },
+        error: function(result) {
+            console.log('getDataByLocation call resulted in error', result);
+        }
+    })
 }
 
 // ****************************************CESKA'S CODE ENDS HERE****************************************
