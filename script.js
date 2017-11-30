@@ -107,6 +107,7 @@ function geocode(e) {
             console.log(geo_info_object);
             initMap(geo_info_object.lat, geo_info_object.lon);
             handleWeatherInfo(geo_info_object.lat, geo_info_object.lon, geo_info_object.city);
+            
         }
     });
 }
