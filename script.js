@@ -348,7 +348,7 @@ function displayNewsData(data) {
         });
         newsLinkTag = $("<a>", {
             text: newsInfoArray[i].newsTitle
-        }).addClass("newsSourceLink");
+        }).addClass("newsLink");
         newsModalLink = $("<a>", {
             text: "here",
             href: newsInfoArray[i].newsLink
