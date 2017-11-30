@@ -154,3 +154,9 @@ body {
 #weatherList{
     list-style: none;
 }
+
+#weatherIcon{
+    height:30%;
+    width: 25%;
+    border: 1px solid black;
+}
