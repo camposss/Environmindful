@@ -159,7 +159,7 @@ function getStationsByKeyword(keyword){
         },
         method: 'GET',
         dataType: 'json',
-        url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword,
+        url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword + ',USA',
         success: function(result) {
             var aqi = result.data[0].aqi; //only grabbing the first element in the array
             determineAqiLevel(aqi);
