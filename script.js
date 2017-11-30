@@ -326,6 +326,7 @@ function displayNewsData (data) {
         var newsSource = data.articles[newsIndex].source.name;
         var newsAuthor = data.articles[newsIndex].author;
         var newsLink = data.articles[newsIndex].url;
+        var imgSource = data.articles[newsIndex].urlToImage;
         var newsTitleDiv = $("<div>", {
             "class": "newsTitle",
             text: newsTitle
@@ -335,15 +336,22 @@ function displayNewsData (data) {
             text: "By: " + newsAuthor
         });
         var newsLinkTag = $("<a>", {
-           text: newsTitle,
-           href: newsLink,
-            // "data-toggle": "modal",
-            // "data-target": "#newsModal",
-            target: "_blank"
+           text: newsTitle
+        });
+        var newsModalLink = $("<a>", {
+            text: "here",
+            href: newsLink
+        });
+        var image = $("<img>", {
+            src: imgSource,
+            class: "newsModalImage"
         });
         newsLinkTag.on('click', function(){
             $("#newsModal").modal('show');
-        })
+            $(".modal-title").text(newsTitle);
+            $(".modal-body p").text("");
+            $(".img-container").append("See full article here: ", newsModalLink);
+        });
         var newsSourceDiv = $("<div>", {
             "class": "newsSourceLink",
             text: "Source: " + newsSource
