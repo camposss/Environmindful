@@ -149,14 +149,14 @@ function initMap(lat, lng) {
 *   key/token: 1af10262d0228050ee6334c5273af092b068ca53
 *   Create a function called getStationsByKeyword 
 *   Takes in 1 parameter
-*   @param keyword - city, state, country
+*   @param keyword - STATE
 *   @callback determineAqiLevel - takes in aqi as a param, see function for further info
 *   @returns aqi - {string} number
 *
 */
 
 function getStationsByKeyword(keyword) {
-    console.log('GET STATIONS BY KEYWORD FUNCTION IS BEING CALLED*************************');
+    console.log('*************************GET STATIONS BY KEYWORD FUNCTION IS BEING CALLED*************************');
     debugger;
     $.ajax({
         data: {
@@ -183,7 +183,7 @@ function getStationsByKeyword(keyword) {
 *   Possibly append health implications and cautionary statement somewhere on DOM
 *   Takes in 2 parameters
 *   @param aqi - {string} number 
-*   @param keyword - ???????STATE OR CITY??????????
+*   @param keyword - state (will work with city or country too)
 *   @returns {currently unknown, if any}
 *   @calls renderAqiInfoOnDom
 *   
@@ -243,7 +243,7 @@ function determineAqiLevel(aqi, keyword) {
 /*
 *   Create a function called renderAqiInfoOnDom
 *   Takes in 5 parameters
-*   @param keyword - ???????STATE OR CITY??????????
+*   @param keyword - state (will work with city or country too)
 *   @param aqi - {string} number
 *   @param healthImplications 
 *   @param cautionaryStmt 
