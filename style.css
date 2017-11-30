@@ -11,7 +11,7 @@ body {
     height:8vh;
 }
 .leftCol {
-    margin-right: 2%;
+    margin-right: 1%;
 }
 /*#location-input {*/
     /*margin-bottom: 2vh;*/
@@ -34,6 +34,8 @@ body {
 }
 .news-carousel {
     margin-bottom: 2vh;
+    position: relative;
+    left: 3vmin;
 }
 /* Map Display */
 .map_div{
@@ -75,7 +77,6 @@ body {
 /* News Search */
 .news{
     height: 50vh;
-    overflow: scroll;
     background-color: #61982f;
     border-radius: 1%;
 }
@@ -118,4 +119,9 @@ body {
     margin: 0 auto;
     border-radius: 1%;
     overflow: scroll;
+}
+.modal-title,
+.modal-body p,
+.fullArticle {
+    color: #272727;
 }

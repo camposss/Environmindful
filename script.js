@@ -5,6 +5,9 @@ $(document).ready(initializeApp);
 var geo_info_object = null;
 
 function initializeApp() {
+    $(".getNews").click(function () {
+        $(".newsListDisplay").text("");
+    })
     $(".getNews").click(getNewsData);
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
@@ -329,6 +332,7 @@ function displayNewsData(data) {
     var newsModalLink;
     var newsSourceDiv;
     var image;
+    var newsItems;
     for (var newsIndex = 0; newsIndex < data.articles.length; newsIndex++) {
         newsInfo = {
             newsTitle: data.articles[newsIndex].title,
@@ -336,40 +340,63 @@ function displayNewsData(data) {
             newsAuthor: data.articles[newsIndex].author,
             description: data.articles[newsIndex].description,
             newsLink: data.articles[newsIndex].url,
-            imgSource: data.articles[newsIndex].urlToImage
+            imgSource: data.articles[newsIndex].urlToImage,
+            newsSourceID: data.articles[newsIndex].source.id
         };
         newsInfoArray.push(newsInfo);
     }
-    console.log(newsInfoArray);
-    for (var i = 0; i < newsInfoArray.length; i++) {
+    for (var newsInfoArrayIndex = 0; newsInfoArrayIndex < newsInfoArray.length; newsInfoArrayIndex++) {
         newsAuthorDiv = $("<div>", {
             "class": "newsAuthor",
-            text: "By: " + newsInfoArray[i].newsAuthor
+            text: "By: " + newsInfoArray[newsInfoArrayIndex].newsAuthor
         });
         newsLinkTag = $("<a>", {
-            text: newsInfoArray[i].newsTitle
+            text: newsInfoArray[newsInfoArrayIndex].newsTitle
         }).addClass("newsLink");
+        newsLinkTag.click(displayModal);
         newsModalLink = $("<a>", {
             text: "here",
-            href: newsInfoArray[i].newsLink
+            href: newsInfoArray[newsInfoArrayIndex].newsLink
         });
         image = $("<img>", {
-            src: newsInfoArray[i].imgSource,
+            src: newsInfoArray[newsInfoArrayIndex].imgSource,
             class: "newsModalImage"
-        });
-        newsLinkTag.on('click', function () {
-            $("#newsModal").modal('show');
-            $(".modal-title").text(newsInfoArray[i].newsTitle);
-            $(".modal-body p").text(newsInfoArray[i].description);
-            $(".img-container").append(newsInfoArray[i].image);
-            $(".fullArticle").text("See full article here: ").append(newsInfoArray[i].newsLink);
         });
         newsSourceDiv = $("<div>", {
             "class": "newsSourceLink",
-            text: "Source: " + newsInfoArray[i].newsSource
+            text: "Source: " + newsInfoArray[newsInfoArrayIndex].newsSource
         });
-        var newsItems = $("<div>").addClass("newsItem").append(newsLinkTag, newsAuthorDiv, newsSourceDiv);
+        newsItems = $("<div>").addClass("newsItem").append(newsLinkTag, newsAuthorDiv, newsSourceDiv);
         $(".newsListDisplay").append(newsItems);
+        newsItems[0].indexPosition = newsInfoArrayIndex;
+        newsItems[0].newsSource = data.articles[newsInfoArrayIndex].source.id;
+        console.log("Here is a news item: ", newsItems);
+    }
+    function displayModal () {
+            var fullArticleLink;
+            (function () {
+            for (var newsClickIndex = 0; newsClickIndex < newsInfoArray.length; newsClickIndex++) {
+                fullArticleLink = $("<a>", {
+                    href: newsInfoArray[newsClickIndex].newsLink,
+                    text: "here",
+                    target: "_blank"
+                })
+                if ($(event.target).parent()[0].indexPosition === newsClickIndex && $(event.target).parent()[0].newsSource === newsInfoArray[newsClickIndex].newsSourceID) {
+                    $(".modal-title").text(newsInfoArray[newsClickIndex].newsTitle);
+                    $(".img-container").text("");
+                    $(".img-container").append($("<img>", {
+                        src: newsInfoArray[newsClickIndex].imgSource,
+                        "class": "newsModalImage"
+                    }));
+                    $(".modal-body p").text(newsInfoArray[newsClickIndex].description);
+                    $(".fullArticle").text("See full article: ").append(fullArticleLink);
+                    $("#newsModal").modal("show");
+                }
+            }
+        })()
+        // console.log(newsInfoArray);
+        // console.log($(this).parent()[0].indexPosition);
+        // console.log($(this).parent()[0].newsSource);
     }
 }
 
