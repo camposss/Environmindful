@@ -60,7 +60,6 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
-    debugger
     // dataCarma = data;
 
     google.charts.load('current', {'packages':['corechart']});
@@ -165,7 +164,7 @@ function initMap(lat, lng) {
 *   key/token: 1af10262d0228050ee6334c5273af092b068ca53
 *   Create a function called getStationsByKeyword 
 *   Takes in 1 parameter
-*   @param keyword - STATE
+*   @param keyword - STATE??
 *   @callback determineAqiLevel - takes in aqi as a param, see function for further info
 *   @returns aqi - {string} number
 *
@@ -173,7 +172,6 @@ function initMap(lat, lng) {
 
 function getStationsByKeyword(keyword) {
     console.log('*************************GET STATIONS BY KEYWORD FUNCTION IS BEING CALLED*************************');
-    debugger;
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
@@ -182,9 +180,17 @@ function getStationsByKeyword(keyword) {
         dataType: 'json',
         url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword + ',USA',
         success: function(result) {
-            var aqi = result.data[0].aqi; //only grabbing the first element in the array
-            determineAqiLevel(aqi, keyword);
-            return aqi;
+            if (result.data.length === 0) {
+                console.log('NO AQI AVAILABLE FOR ' + keyword.toUpperCase());
+            }
+            // if the first station in the array does not have an aqi available, it will check until it finds one
+            for (var i=0; i<result.data.length; i++) {
+                var checkAqi = result.data[i].aqi;
+                if (checkAqi !== '-') {
+                    determineAqiLevel(checkAqi, keyword);
+                    return checkAqi;
+                }
+            }
         },
         error: function (result) {
             console.log('handleAirQuality ajax call resulted in error', result);
@@ -206,7 +212,7 @@ function getStationsByKeyword(keyword) {
 */
 
 function determineAqiLevel(aqi, keyword) {
-    console.log('Air Quality Level: ', aqi);
+    console.log('*****Air Quality Level: ', aqi);
     var airPollutionLvl;
     var healthImplications;
     var cautionaryStmt;
@@ -250,9 +256,9 @@ function determineAqiLevel(aqi, keyword) {
     } else {
         console.log('*****NO AQI AVAILABLE*****');
     }
-    console.log('Air Pollution Level: ' + airPollutionLvl);
-    console.log('Health Implications: ' + healthImplications);
-    console.log('Cautionary Statement: ' + cautionaryStmt);
+    console.log('*****Air Pollution Level: ' + airPollutionLvl);
+    console.log('*****Health Implications: ' + healthImplications);
+    console.log('*****Cautionary Statement: ' + cautionaryStmt);
     renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl)
 }
 
