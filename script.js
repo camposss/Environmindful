@@ -196,7 +196,7 @@ function getStationsByKeyword(keyword) {
                 }  
                 // determineAqiLevel(checkAqi, keyword);
             }
-            console.log('**************NO AQI AVAILABLE FOR ' + keyword);
+            console.log('************** NO AQI AVAILABLE FOR ' + keyword);
             // return checkAqi;
         },
         error: function (result) {
@@ -262,11 +262,11 @@ function determineAqiLevel(aqi, keyword) {
     } else {
         console.log('*****NO AQI AVAILABLE*****');
     }
-    console.log('*****' + keyword);
-    console.log('*****Air Quality Level: ', aqi);
-    console.log('*****Air Pollution Level: ' + airPollutionLvl);
-    console.log('*****Health Implications: ' + healthImplications);
-    console.log('*****Cautionary Statement: ' + cautionaryStmt);
+    console.log('*****  ' + keyword);
+    console.log('*****  Air Quality Level: ', aqi);
+    console.log('*****  Air Pollution Level: ' + airPollutionLvl);
+    console.log('*****  Health Implications: ' + healthImplications);
+    console.log('*****  Cautionary Statement: ' + cautionaryStmt);
     renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl)
 }
 
