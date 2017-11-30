@@ -105,7 +105,7 @@ body {
 .newsModalImage {
     width: 100%;
 }
-#pieChart,#weatherDisplay{
+#pieChart{
     height:100%;
     width:100%;
 }
@@ -124,4 +124,15 @@ body {
 .modal-body p,
 .fullArticle {
     color: #272727;
+}
+
+#weatherDisplay{
+    font-size:3vmin;
+    color: white;
+    line-height:initial;
+    text-align: left;
+}
+
+#weatherList{
+    list-style: none;
 }

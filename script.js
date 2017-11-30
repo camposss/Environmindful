@@ -25,7 +25,7 @@ function handleWeatherInfo() {
         data: {
             api_key: '262d0228050ee6334c5273af092b068c',
             latitude: geo_info_object.lat,
-            longitude: geo_info_object.lon,
+            longitude: geo_info_object.lon
         },
         url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
         geo_info_object.lat + '&lon=' +
@@ -33,13 +33,20 @@ function handleWeatherInfo() {
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            var cityName = geo_info_object.city.setAttribute('id','city_name');
-            var temperature = data['main']['temp'];
-            var humidity = data['main']['humidity'];
-            var minTemp = data['main']['temp_min'];
-            var maxTemp = data['main']['temp_max'];
-            $('#weatherDisplay').empty();
-            $('#weatherDisplay').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Temperature: ' + minTemp + '&deg;'+ '- ' + maxTemp + '&deg;', '<br>', 'Humidity: ' + humidity);
+            var dataMain = data['main'];
+            var cityName = geo_info_object.city;
+            var temperature = dataMain['temp'];
+            var humidity = dataMain['humidity'];
+            var minTemp = dataMain['temp_min'];
+            var maxTemp = dataMain['temp_max'];
+            $('#weatherCity').empty();
+            $('#weatherCurrent').empty();
+            $('#weatherTemp').empty();
+            $('#weatherHumidity').empty();
+            $('#weatherCity').append('City: ' + cityName);
+            $('#weatherCurrent').append('Current Temperature: ' + temperature + '&deg;');
+            $('#weatherTemp').append('Temperature: ' + minTemp + '&deg;'+ '- ' + maxTemp + '&deg;');
+            $('#weatherHumidity').append('Humidity: ' + humidity + '%');
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
@@ -61,7 +68,6 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
-    debugger
     // dataCarma = data;
 
     google.charts.load('current', {'packages':['corechart']});
