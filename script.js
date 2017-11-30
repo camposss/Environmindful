@@ -1,6 +1,8 @@
 var dataPlanet = {};
 var dataCarma = {};
 
+//GOOGLE FUSION TABLE API: AIzaSyBWgR4nfF3j9TO6kvtsSkTwxeqNu10M60Q
+//URL:
 $(document).ready(initializeApp);
 var geo_info_object = null;
 
@@ -55,7 +57,13 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
-    dataCarma = data;
+    debugger
+    // dataCarma = data;
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(function() {
+        drawChart(data);
+    });
 }
 
 function errorPull(data) {
@@ -130,23 +138,7 @@ function initMap(lat, lng) {
         map: map
     });
 
-    
-//    var layer = new google.maps.FusionTablesLayer({
-//      query: {
-//        select: 'geometry',
-//        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
-//      },
-//        styles: [{
-//            polygon: 'color'
-//        }],
-//      map: map
-//       
-//    });
-//     layer.setMap(map);
-
 }
-
-
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
@@ -393,30 +385,24 @@ function formatTextArea() {
 }
 
 
-function drawChart() {
+function drawChart(carma) {
+    console.log("draw the chart", carma);
+    var airQuality = carma[0];
 
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
-        // ['idhfi',     45],
-        // ['Eat',      2],
-        // ['Commute',  2],
-        // ['Watch TV', 2],
-        // ['Sleep',    7]
-        ['Fossil',parseFloat($(dataCarma)[0].fossil.present)],
-        ['Hydro',parseFloat($(dataCarma)[0].hydro.present)],
-        ['Nuclear',parseFloat($(dataCarma)[0].nuclear.present)],
-        ['Renewable',parseFloat($(dataCarma)[0].renewable.present)]
+        ['Fossil',parseFloat(airQuality.fossil.present)],
+        ['Hydro',parseFloat(airQuality.hydro.present)],
+        ['Nuclear',parseFloat(airQuality.nuclear.present)],
+        ['Renewable',parseFloat(airQuality.renewable.present)]
     ]);
 
     var options = {
-        title: 'title'
+        title: geo_info_object.state +' Energy Production'
     };
 
-    var chart = new google.visualization.PieChart(document.getElementsByClassName('pieChart'));
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
     chart.draw(data, options);
 }
-
-
-
 
