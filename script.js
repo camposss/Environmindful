@@ -9,6 +9,8 @@ function initializeApp () {
     submit_button.on('click',geocode);
 }
 
+
+
 ///////open weather api
 
 function handleWeatherInfo(lat, lon, city){
