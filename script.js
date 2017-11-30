@@ -11,7 +11,8 @@ function initializeApp() {
     $("#myModal").show("modal");
 }
 
-///////open weather api
+// *********************** open weather api *************************
+
 
 function handleWeatherInfo() {
     $.ajax({
@@ -33,7 +34,7 @@ function handleWeatherInfo() {
             var minTemp = data['main']['temp_min'];
             var maxTemp = data['main']['temp_max'];
             $('.data').empty();
-            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Temperature: ' + minTemp + '&deg;'+ '-' + maxTemp + '&deg;', '<br>', 'Humidity: ' + humidity);
+            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Temperature: ' + minTemp + '&deg;'+ '- ' + maxTemp + '&deg;', '<br>', 'Humidity: ' + humidity);
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
