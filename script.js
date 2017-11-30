@@ -1,4 +1,5 @@
 var dataPlanet = {};
+var dataCarma = {};
 
 $(document).ready(initializeApp);
 var geo_info_object= null;
@@ -43,7 +44,7 @@ function pullFromCarma() {
     var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
-        url: proxy+'http://carma.org/api/1.1/searchLocations?name=Idaho',
+        url: proxy+'http://carma.org/api/1.1/searchLocations?name=' + geo_info_object.state,
         method: 'get',
         success: successfulCarmaPull,
         error:  errorPull
@@ -53,7 +54,7 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
-    var dataCarma = data;
+    dataCarma = data;
 }
 
 function errorPull(data){
@@ -67,8 +68,8 @@ function pullFromPlanetOs () {
         method: 'get',
             data: {
                 origin: 'dataset-details',
-                lat: '49.5',
-                lon: '-50.5',
+                lat: geo_info_object.lat,
+                lon: geo_info_object.lon,
                 apikey: 'bdbcb059658f4b788838a5d957bf6ba8'
             },
         success: successfulPlanetPull,
@@ -126,7 +127,7 @@ function initMap(lat, lng) {
         from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
       },
         styles: [{
-            fillColor: 'color'
+            polygon: 'color'
         }],
       map: map
        
