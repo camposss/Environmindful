@@ -82,7 +82,6 @@ function successfulPlanetPull(data) {
     dataPlanet = data.entries['0'].data;
 }
 
-
 function geocode(e) {
     console.log("hello");
     //prevent actual submit
@@ -112,6 +111,7 @@ function geocode(e) {
         }
     });
 }
+
 function initMap(lat, lng) {
     var center = {lat: lat, lng: lng};
     var map = new google.maps.Map(document.getElementById('map_display'), {
@@ -138,25 +138,8 @@ function initMap(lat, lng) {
 }
 
 
-// ****************************************CESKA'S CODE STARTS HERE****************************************
+// **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
-function handleAirQuality() {
-    $.ajax({
-        data: {
-            api_key: '1af10262d0228050ee6334c5273af092b068ca53'
-        },
-        method: 'GET',
-        dataType: 'json',
-        url: 'http://api.waqi.info/feed/' + cityNumber + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
-        success: function(data) {
-            ajax_result = data;
-            console.log('handleAirQuality ajax call was successful');
-        },
-        error: function(data) {
-            console.log('handleAirQuality ajax call resulted in error');
-        }
-    })
-}
 
 /*
 *   url: http://api.waqi.info/search/?token=TOKEN&keyword=KEYWORD    
@@ -164,77 +147,22 @@ function handleAirQuality() {
 *   Create a function called getStationsByKeyword 
 *   Takes in 1 parameter
 *   @param keyword - city, state, country
-*   @returns an array of stations closest to keyword
+*   @callback determineAqiLevel - takes in aqi as a param, see function for further info
+*   @returns aqi - number
 *
 */
 
 function getStationsByKeyword(keyword){
     $.ajax({
         data: {
-            api_key: '1af10262d0228050ee6334c5273af092b068ca53' //not being used at the moment, it is hardcoded into the url
+            api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
         },
         method: 'GET',
         dataType: 'json',
         url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword,
         success: function(result) {
-            console.log('handleAirQuality ajax call was successful', result);
-            var aqi = result.data[0].aqi;
-            console.log('Air Quality Index of ' + keyword + ': ' + aqi);
-
-            var airPollutionLvl;
-            var healthImplications;
-            var cautionaryStmt;
-            var colorLvl;
-
-            if (aqi > 0 && aqi < 50) {
-                colorLvl = '#009966'; //green
-                airPollutionLvl = 'Good';
-                healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
-                cautionaryStmt = 'None';
-                console.log('Air Pollution Level: ' + airPollutionLvl);
-                console.log('Health Implications: ' + healthImplications);
-                console.log('Cautionary Statement: ' + cautionaryStmt);
-            } else if (aqi > 50 && aqi < 100) {
-                colorLvl = '#ffde33'; //yellow
-                airPollutionLvl = 'Moderate';
-                healthImplications = 'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.';
-                cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
-                console.log('Air Pollution Level: ' + airPollutionLvl);
-                console.log('Health Implications: ' + healthImplications);
-                console.log('Cautionary Statement: ' + cautionaryStmt);
-            } else if (aqi > 100 && aqi < 150) {
-                colorLvl = '#ff9933'; //orange
-                airPollutionLvl = 'Unhealthy for Sensitive Groups';
-                healthImplications = 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.';
-                cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
-                console.log('Air Pollution Level: ' + airPollutionLvl);
-                console.log('Health Implications: ' + healthImplications);
-                console.log('Cautionary Statement: ' + cautionaryStmt);
-            } else if (aqi > 151 && aqi < 200) {
-                colorLvl = '#cc0033'; //red
-                airPollutionLvl = 'Unhealthy';
-                healthImplications = 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects';
-                cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion';
-                console.log('Air Pollution Level: ' + airPollutionLvl);
-                console.log('Health Implications: ' + healthImplications);
-                console.log('Cautionary Statement: ' + cautionaryStmt);
-            } else if (aqi > 201 && aqi < 300) {
-                colorLvl = '#660099'; //purple
-                airPollutionLvl = 'Very Unhealthy';
-                healthImplications = 'Health warnings of emergency conditions. The entire population is more likely to be affected.';
-                cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.';
-                console.log('Air Pollution Level: ' + airPollutionLvl);
-                console.log('Health Implications: ' + healthImplications);
-                console.log('Cautionary Statement: ' + cautionaryStmt);
-            } else if (aqi > 300) {
-                colorLvl = '#7e0023'; //dark red
-                airPollutionLvl = 'Hazardous';
-                healthImplications = 'Health alert: everyone may experience more serious health effects';
-                cautionaryStmt = 'Everyone should avoid all outdoor exertion';
-                console.log('Air Pollution Level: ' + airPollutionLvl);
-                console.log('Health Implications: ' + healthImplications);
-                console.log('Cautionary Statement: ' + cautionaryStmt);
-            }
+            var aqi = result.data[0].aqi; //only grabbing the first element in the array
+            determineAqiLevel(aqi);
             return aqi;
         },
         error: function(result) {
@@ -242,6 +170,74 @@ function getStationsByKeyword(keyword){
         }
     })
 
+}
+
+/*
+*   Create a function called determineAqiLevel
+*   This function will determine where the aqi falls on the air quality index scale (color coded)
+*   Possibly append health implications and cautionary statement somewhere on DOM
+*   Takes in 1 parameter
+*   @param aqi - number 
+*   @returns {currently unknown, if any}
+*   
+*/
+
+function determineAqiLevel(aqi) {
+    console.log('Air Quality Level: ', aqi);
+    var airPollutionLvl;
+    var healthImplications;
+    var cautionaryStmt;
+    var colorLvl;
+
+    if (aqi > 0 && aqi < 50) {
+        colorLvl = '#009966'; //green
+        airPollutionLvl = 'Good';
+        healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
+        cautionaryStmt = 'None';
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
+    } else if (aqi > 50 && aqi < 100) {
+        colorLvl = '#ffde33'; //yellow
+        airPollutionLvl = 'Moderate';
+        healthImplications = 'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.';
+        cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
+    } else if (aqi > 100 && aqi < 150) {
+        colorLvl = '#ff9933'; //orange
+        airPollutionLvl = 'Unhealthy for Sensitive Groups';
+        healthImplications = 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.';
+        cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
+    } else if (aqi > 151 && aqi < 200) {
+        colorLvl = '#cc0033'; //red
+        airPollutionLvl = 'Unhealthy';
+        healthImplications = 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects';
+        cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion';
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
+    } else if (aqi > 201 && aqi < 300) {
+        colorLvl = '#660099'; //purple
+        airPollutionLvl = 'Very Unhealthy';
+        healthImplications = 'Health warnings of emergency conditions. The entire population is more likely to be affected.';
+        cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.';
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
+    } else if (aqi > 300) {
+        colorLvl = '#7e0023'; //dark red
+        airPollutionLvl = 'Hazardous';
+        healthImplications = 'Health alert: everyone may experience more serious health effects';
+        cautionaryStmt = 'Everyone should avoid all outdoor exertion';
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
+    }
 }
 
 /*
@@ -258,7 +254,7 @@ function getStationsByKeyword(keyword){
 function getDataByLocation(lat, lon){
     $.ajax({
         data: {
-            api_key: '1af10262d0228050ee6334c5273af092b068ca53' //not being used at the moment, it is hardcoded into the url
+            api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
         },
         method: 'GET',
         dataType: 'json',
@@ -272,7 +268,7 @@ function getDataByLocation(lat, lon){
     })
 }
 
-// ****************************************CESKA'S CODE ENDS HERE****************************************
+// **********************CESKA'S CODE -- AIR POLLUTION API -- END**********************
 
 
 
@@ -362,6 +358,7 @@ function displayNewsData (data) {
         // console.log(data.articles[newsIndex]);
     }
 }
+
 function formatTextArea () {
     var enteredText = $("#location-input").val().split(" ").join("+");
     return enteredText;
