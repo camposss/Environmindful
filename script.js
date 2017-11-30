@@ -1,6 +1,8 @@
 var dataPlanet = {};
 var dataCarma = {};
 
+//GOOGLE FUSION TABLE API: AIzaSyBWgR4nfF3j9TO6kvtsSkTwxeqNu10M60Q
+//URL:
 $(document).ready(initializeApp);
 var geo_info_object = null;
 
@@ -14,28 +16,29 @@ function initializeApp() {
     $("#myModal").show("modal");
 }
 
-
 ///////open weather api
 
-function handleWeatherInfo(lat, lon, city) {
+function handleWeatherInfo() {
     $.ajax({
         method: 'get',
         data: {
             api_key: '262d0228050ee6334c5273af092b068c',
-            latitude: lat,
-            longitude: lon,
+            latitude: geo_info_object.lat,
+            longitude: geo_info_object.lon,
         },
         url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
-        lat + '&lon=' +
-        lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
+        geo_info_object.lat + '&lon=' +
+        geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            var cityName = city;
+            var cityName = geo_info_object.city;
             var temperature = data['main']['temp'];
             var humidity = data['main']['humidity'];
+            var minTemp = data['main']['temp_min'];
+            var maxTemp = data['main']['temp_max'];
             $('.data').empty();
-            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Humidity: ' + humidity);
+            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Temperature: ' + minTemp + '&deg;'+ '-' + maxTemp + '&deg;', '<br>', 'Humidity: ' + humidity);
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
@@ -57,7 +60,13 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
-    dataCarma = data;
+    debugger
+    // dataCarma = data;
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(function() {
+        drawChart(data);
+    });
 }
 
 function errorPull(data) {
@@ -65,9 +74,10 @@ function errorPull(data) {
 }
 
 function pullFromPlanetOs() {
+    var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
-        url: 'https://api.planetos.com/v1/datasets/fmi_silam_global05/point?',
+        url: proxy+'https://api.planetos.com/v1/datasets/fmi_silam_global05/point?',
         method: 'get',
         data: {
             origin: 'dataset-details',
@@ -103,16 +113,19 @@ function geocode(e) {
                 lat: (data.results[0].geometry.location.lat),
                 lon: (data.results[0].geometry.location.lng),
                 city: (data.results[0].address_components[0].long_name),
-                state: (data.results[0].address_components[2].long_name),
+                state: (data.results[0].address_components[1].long_name),
                 country: (data.results[0].address_components[2].long_name)
             };
-            console.log(geo_info_object);
+            console.log('GeoInfoObj: ' +geo_info_object);
             initMap(geo_info_object.lat, geo_info_object.lon);
-            handleWeatherInfo(geo_info_object.lat, geo_info_object.lon, geo_info_object.city);
-
+            handleWeatherInfo();
             pullFromCarma();
             pullFromPlanetOs();
-            pieChart();
+            getStationsByKeyword(geo_info_object.state);
+            // getDataByLocation(geo_info_object.lat, geo_info_object.lon);
+            handleWeatherInfo();
+            pullFromCarma();
+            pullFromPlanetOs();
         }
     });
 }
@@ -128,23 +141,7 @@ function initMap(lat, lng) {
         map: map
     });
 
-    
-//    var layer = new google.maps.FusionTablesLayer({
-//      query: {
-//        select: 'geometry',
-//        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
-//      },
-//        styles: [{
-//            polygon: 'color'
-//        }],
-//      map: map
-//       
-//    });
-//     layer.setMap(map);
-
 }
-
-
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
@@ -168,7 +165,7 @@ function getStationsByKeyword(keyword) {
         url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword + ',USA',
         success: function(result) {
             var aqi = result.data[0].aqi; //only grabbing the first element in the array
-            determineAqiLevel(aqi);
+            determineAqiLevel(aqi, keyword);
             return aqi;
         },
         error: function (result) {
@@ -188,7 +185,7 @@ function getStationsByKeyword(keyword) {
 *   
 */
 
-function determineAqiLevel(aqi) {
+function determineAqiLevel(aqi, keyword) {
     console.log('Air Quality Level: ', aqi);
     var airPollutionLvl;
     var healthImplications;
@@ -200,6 +197,12 @@ function determineAqiLevel(aqi) {
         airPollutionLvl = 'Good';
         healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
         cautionaryStmt = 'None';
+
+        // $('.aqi-city').text(keyword);
+        // $('#aqiNum').text(aqi);
+        // $('#h_implications').text(healthImplications);
+        // $('#c_statement').text(cautionaryStmt);
+
         console.log('Air Pollution Level: ' + airPollutionLvl);
         console.log('Health Implications: ' + healthImplications);
         console.log('Cautionary Statement: ' + cautionaryStmt);
@@ -266,6 +269,9 @@ function getDataByLocation(lat, lon) {
         dataType: 'json',
         url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
         success: function (result) {
+            var aqi = result.data[0].aqi; //only grabbing the first element in the array
+            determineAqiLevel(aqi);
+            return aqi;
             console.log('getDataByLocation call was successful', result);
         },
         error: function (result) {
@@ -405,34 +411,25 @@ function formatTextArea() {
     return enteredText;
 }
 
-// pie chart
-function pieChart(){
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
 
-        var data = google.visualization.arrayToDataTable([
-            ['Element', 'Presentage'],
-            ['idhfi',     45],
-            ['Eat',      2],
-            ['Commute',  2],
-            ['Watch TV', 2],
-            ['Sleep',    7]
-            // ['Fossil',parseFloat($(dataCarma)[0].fossil.present)],
-            // ['Hydro',parseFloat($(dataCarma)[0].hydro.present)],
-            // ['Nuclear',parseFloat($(dataCarma)[0].nuclear.present)],
-            // ['Renewable',parseFloat($(dataCarma)[0].renewable.present)]
-        ]);
+function drawChart(carma) {
+    console.log("draw the chart", carma);
+    var airQuality = carma[0];
 
-        var options = {
-            title: 'title'
-        };
+    var data = google.visualization.arrayToDataTable([
+        ['Element', 'Presentage'],
+        ['Fossil',parseFloat(airQuality.fossil.present)],
+        ['Hydro',parseFloat(airQuality.hydro.present)],
+        ['Nuclear',parseFloat(airQuality.nuclear.present)],
+        ['Renewable',parseFloat(airQuality.renewable.present)]
+    ]);
 
-        var chart = new google.visualization.PieChart(document.getElementsByClassName('pieChart'));
+    var options = {
+        title: geo_info_object.state +' Energy Production'
+    };
 
-        chart.draw(data, options);
-    }
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(data, options);
 }
-
-
 
