@@ -1,6 +1,8 @@
 var dataPlanet = {};
 var dataCarma = {};
 
+//GOOGLE FUSION TABLE API: AIzaSyBWgR4nfF3j9TO6kvtsSkTwxeqNu10M60Q
+//URL:
 $(document).ready(initializeApp);
 var geo_info_object= null;
 function initializeApp () {
@@ -121,18 +123,18 @@ function initMap(lat, lng) {
         map: map
     });
     
-    var layer = new google.maps.FusionTablesLayer({
-      query: {
-        select: 'geometry',
-        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
-      },
-        styles: [{
-            polygon: 'color'
-        }],
-      map: map
-       
-    });
-     layer.setMap(map);
+    // var layer = new google.maps.FusionTablesLayer({
+    //   query: {
+    //     select: 'geometry',
+    //     from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
+    //   },
+    //     styles: [{
+    //         polygon: 'color'
+    //     }],
+    //   map: map
+    //
+    // });
+    //  layer.setMap(map);
 }
 
 
@@ -364,4 +366,3 @@ function formatTextArea () {
     var enteredText = $("#location-input").val().split(" ").join("+");
     return enteredText;
 }
-
