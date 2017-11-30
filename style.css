@@ -13,7 +13,7 @@ body {
 }
 
 .title > img{
-    border: 2px solid #ff652f;
+    border: 3px solid #ff652f;
     border-radius: 5px;
     width: 20%;
     display: inline-block;
@@ -23,6 +23,9 @@ body {
 .title> h1 {
     font-family: Montserrat-Alt;
     display: inline-block;
+    font-size: 5vmin;
+    vertical-align: bottom;
+    margin-left: 2%;
 }
 /* Main content */
 .inputBox{
@@ -39,6 +42,8 @@ body {
     background-color: #ff652f;
     border: none;
     transition: 0.2s;
+    width: 20%;
+    font-weight: bold;
 }
 #submit_button:hover {
     background-color: #dd651d;

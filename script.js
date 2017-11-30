@@ -139,7 +139,6 @@ function callApi() {
         handleWeatherInfo();
         pullFromCarma();
         getStationsByKeyword(geo_info_object.state);
-    
 }
 
 function initMap(lat, lng) {
