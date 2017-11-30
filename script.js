@@ -33,13 +33,13 @@ function handleWeatherInfo() {
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            var cityName = geo_info_object.city;
+            var cityName = geo_info_object.city.setAttribute('id','city_name');
             var temperature = data['main']['temp'];
             var humidity = data['main']['humidity'];
             var minTemp = data['main']['temp_min'];
             var maxTemp = data['main']['temp_max'];
-            $('.data').empty();
-            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Temperature: ' + minTemp + '&deg;'+ '- ' + maxTemp + '&deg;', '<br>', 'Humidity: ' + humidity);
+            $('#weatherDisplay').empty();
+            $('#weatherDisplay').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Temperature: ' + minTemp + '&deg;'+ '- ' + maxTemp + '&deg;', '<br>', 'Humidity: ' + humidity);
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')

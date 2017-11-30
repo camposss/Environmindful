@@ -70,9 +70,9 @@ body {
     font-size: 4vmin;
 }
 
-.data{
-    float: right;
-}
+/*.data{*/
+    /*float: right;*/
+/*}*/
 
 /* News Search */
 .news{
@@ -105,8 +105,8 @@ body {
 .newsModalImage {
     width: 100%;
 }
-#pieChart{
-    height:50vh;
+#pieChart,#weatherDisplay{
+    height:100%;
     width:100%;
 }
 .newsListDisplay {
