@@ -119,6 +119,19 @@ function initMap(lat, lng) {
         position: center,
         map: map
     });
+    
+    var layer = new google.maps.FusionTablesLayer({
+      query: {
+        select: 'geometry',
+        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
+      },
+        styles: [{
+            fillColor: 'color'
+        }],
+      map: map
+       
+    });
+     layer.setMap(map);
 }
 
 
