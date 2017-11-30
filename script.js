@@ -183,7 +183,7 @@ function getStationsByKeyword(keyword){
             var cautionaryStmt;
             var colorLvl;
 
-            if (aqi > 0 && aqi > 50) {
+            if (aqi > 0 && aqi < 50) {
                 colorLvl = '#009966'; //green
                 airPollutionLvl = 'Good';
                 healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
@@ -232,6 +232,7 @@ function getStationsByKeyword(keyword){
                 console.log('Health Implications: ' + healthImplications);
                 console.log('Cautionary Statement: ' + cautionaryStmt);
             }
+            return aqi;
         },
         error: function(result) {
             console.log('handleAirQuality ajax call resulted in error', result);
