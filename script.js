@@ -193,17 +193,19 @@ function getStationsByKeyword(keyword) {
         success: function(result) {
             if (result.data.length === 0) {
                 console.log('************** NO STATIONS EXIST IN ' + keyword);
+                return;
             }
             // if the first station in the array does not have an aqi available, it will check until it finds one
             for (var i=0; i<result.data.length; i++) {
                 var checkAqi = result.data[i].aqi;
-                if (checkAqi === '' || checkAqi === '-') {
-                    console.log('**************NO AQI AVAILABLE FOR ' + keyword);
+                if (checkAqi !== '' && checkAqi !== '-') {
+                    determineAqiLevel(checkAqi, keyword);
                     return;
                 }  
-                determineAqiLevel(checkAqi, keyword);
-                return checkAqi;
+                // determineAqiLevel(checkAqi, keyword);
             }
+            console.log('**************NO AQI AVAILABLE FOR ' + keyword);
+            // return checkAqi;
         },
         error: function (result) {
             console.log('handleAirQuality ajax call resulted in error', result);
