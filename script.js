@@ -146,12 +146,9 @@ function initMap(lat, lng) {
 *   Create a function called getStationsByKeyword 
 *   Takes in 1 parameter
 *   @param keyword - city, state, country
-<<<<<<< HEAD
 *   @returns aqi - air quality index (number)
-=======
 *   @callback determineAqiLevel - takes in aqi as a param, see function for further info
 *   @returns aqi - number
->>>>>>> 06c096e334b24cc6630e903e600ec00c36088d3f
 *
 */
 
