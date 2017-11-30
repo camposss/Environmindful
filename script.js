@@ -181,15 +181,17 @@ function getStationsByKeyword(keyword) {
         url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword + ',USA',
         success: function(result) {
             if (result.data.length === 0) {
-                console.log('NO AQI AVAILABLE FOR ' + keyword.toUpperCase());
+                console.log('************** NO STATIONS EXIST IN ' + keyword);
             }
             // if the first station in the array does not have an aqi available, it will check until it finds one
             for (var i=0; i<result.data.length; i++) {
                 var checkAqi = result.data[i].aqi;
-                if (checkAqi !== '-') {
-                    determineAqiLevel(checkAqi, keyword);
-                    return checkAqi;
-                }
+                if (checkAqi === '' || checkAqi === '-') {
+                    console.log('**************NO AQI AVAILABLE FOR ' + keyword);
+                    return;
+                }  
+                determineAqiLevel(checkAqi, keyword);
+                return checkAqi;
             }
         },
         error: function (result) {
@@ -256,6 +258,7 @@ function determineAqiLevel(aqi, keyword) {
     } else {
         console.log('*****NO AQI AVAILABLE*****');
     }
+    console.log('---' + keyword + '---');
     console.log('*****Air Pollution Level: ' + airPollutionLvl);
     console.log('*****Health Implications: ' + healthImplications);
     console.log('*****Cautionary Statement: ' + cautionaryStmt);
