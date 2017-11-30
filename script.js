@@ -227,7 +227,6 @@ function getStationsByKeyword(keyword) {
 */
 
 function determineAqiLevel(aqi, keyword) {
-    console.log('*****Air Quality Level: ', aqi);
     var airPollutionLvl;
     var healthImplications;
     var cautionaryStmt;
@@ -271,7 +270,8 @@ function determineAqiLevel(aqi, keyword) {
     } else {
         console.log('*****NO AQI AVAILABLE*****');
     }
-    console.log('---' + keyword + '---');
+    console.log('*****' + keyword);
+    console.log('*****Air Quality Level: ', aqi);
     console.log('*****Air Pollution Level: ' + airPollutionLvl);
     console.log('*****Health Implications: ' + healthImplications);
     console.log('*****Cautionary Statement: ' + cautionaryStmt);
