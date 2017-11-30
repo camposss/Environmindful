@@ -109,14 +109,30 @@ function geocode(e) {
         success: function (data) {
             console.log(data);
             //geometry
+            var city;
+            var state;
+            var addressComponentArray= data.results[0].address_components;
+            if(addressComponentArray[0].types[0]==="locality"){
+                city= addressComponentArray[0].long_name;
+            }
+            if(addressComponentArray.length===4){
+                state=addressComponentArray[2].long_name;
+            }else if(addressComponentArray.length===3){
+                state=addressComponentArray[1].long_name;
+            }
+            // if((data.results[0].address_components[2].types[0]==="administrative_area_level_1")){
+            //     state= (data.results[0].address_components[2].long_name);
+            // }
             geo_info_object = {
                 lat: (data.results[0].geometry.location.lat),
                 lon: (data.results[0].geometry.location.lng),
-                city: (data.results[0].address_components[0].long_name),
-                state: (data.results[0].address_components[1].long_name),
-                country: (data.results[0].address_components[2].long_name)
+                city: city,
+                state: state
+                // city: (data.results[0].address_components[0].long_name),
+                // state: (data.results[0].address_components[1].long_name),
+                // country: (data.results[0].address_components[2].long_name)
             };
-            console.log('GeoInfoObj: ' +geo_info_object);
+            console.log('GeoInfoObj: ' , geo_info_object);
             initMap(geo_info_object.lat, geo_info_object.lon);
             handleWeatherInfo();
             pullFromCarma();
