@@ -186,7 +186,7 @@ function getStationsByKeyword(keyword){
             var cautionaryStmt;
             var colorLvl;
 
-            if (aqi > 0 && aqi > 50) {
+            if (aqi > 0 && aqi < 50) {
                 colorLvl = '#009966'; //green
                 airPollutionLvl = 'Good';
                 healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
@@ -235,6 +235,7 @@ function getStationsByKeyword(keyword){
                 console.log('Health Implications: ' + healthImplications);
                 console.log('Cautionary Statement: ' + cautionaryStmt);
             }
+            return aqi;
         },
         error: function(result) {
             console.log('handleAirQuality ajax call resulted in error', result);
@@ -255,66 +256,20 @@ function getStationsByKeyword(keyword){
 */
 
 function getDataByLocation(lat, lon){
-/*
-{
-
-        "aqi": 31,
-        "idx": 317,
-        "attributions": [
-            {
-                "url": "http://www.arb.ca.gov/",
-                "name": "CARB - California Air Resources Board"
-            },
-            {
-                "url": "http://www.airnow.gov/",
-                "name": "Air Now - US EPA"
-            }
-        ],
-        "city": {
-            "geo": [
-                33.83061,
-                -117.9385
-            ],
-            "name": "Anaheim-Loara School, Orange, California",
-            "url": "http://aqicn.org/city/california/orange/anaheim-loara-school/"
+    $.ajax({
+        data: {
+            api_key: '1af10262d0228050ee6334c5273af092b068ca53' //not being used at the moment, it is hardcoded into the url
         },
-        "dominentpol": "pm10",
-        "iaqi": {
-            "co": {
-                "v": 10.2
-            },
-            "h": {
-                "v": 76
-            },
-            "no2": {
-                "v": 25.1
-            },
-            "o3": {
-                "v": 0.8
-            },
-            "p": {
-                "v": 961.19
-            },
-            "pm10": {
-                "v": 31
-            },
-            "pm25": {
-                "v": 91
-            },
-            "so2": {
-                "v": 1.5
-            },
-            "t": {
-                "v": 11.5
-            }
+        method: 'GET',
+        dataType: 'json',
+        url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
+        success: function(result) {
+            console.log('getDataByLocation call was successful', result);
         },
-        "time": {
-            "s": "2017-11-29 09:00:00",
-            "tz": "-08:00",
-            "v": 1511946000
+        error: function(result) {
+            console.log('getDataByLocation call resulted in error', result);
         }
-    }
-*/
+    })
 }
 
 // ****************************************CESKA'S CODE ENDS HERE****************************************
@@ -373,6 +328,7 @@ function displayNewsData (data) {
         var newsSource = data.articles[newsIndex].source.name;
         var newsAuthor = data.articles[newsIndex].author;
         var newsLink = data.articles[newsIndex].url;
+        var imgSource = data.articles[newsIndex].urlToImage;
         var newsTitleDiv = $("<div>", {
             "class": "newsTitle",
             text: newsTitle
@@ -382,15 +338,22 @@ function displayNewsData (data) {
             text: "By: " + newsAuthor
         });
         var newsLinkTag = $("<a>", {
-           text: newsTitle,
-           href: newsLink,
-            // "data-toggle": "modal",
-            // "data-target": "#newsModal",
-            target: "_blank"
+           text: newsTitle
+        });
+        var newsModalLink = $("<a>", {
+            text: "here",
+            href: newsLink
+        });
+        var image = $("<img>", {
+            src: imgSource,
+            class: "newsModalImage"
         });
         newsLinkTag.on('click', function(){
             $("#newsModal").modal('show');
-        })
+            $(".modal-title").text(newsTitle);
+            $(".modal-body p").text("");
+            $(".img-container").append("See full article here: ", newsModalLink);
+        });
         var newsSourceDiv = $("<div>", {
             "class": "newsSourceLink",
             text: "Source: " + newsSource
