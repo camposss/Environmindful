@@ -11,24 +11,23 @@ function initializeApp() {
     $("#myModal").show("modal");
 }
 
-
 ///////open weather api
 
-function handleWeatherInfo(lat, lon, city) {
+function handleWeatherInfo() {
     $.ajax({
         method: 'get',
         data: {
             api_key: '262d0228050ee6334c5273af092b068c',
-            latitude: lat,
-            longitude: lon,
+            latitude: geo_info_object.lat,
+            longitude: geo_info_object.lon,
         },
         url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
-        lat + '&lon=' +
-        lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
+        geo_info_object.lat + '&lon=' +
+        geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            var cityName = city;
+            var cityName = geo_info_object.city;
             var temperature = data['main']['temp'];
             var humidity = data['main']['humidity'];
             $('.data').empty();
@@ -62,9 +61,10 @@ function errorPull(data) {
 }
 
 function pullFromPlanetOs() {
+    var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
-        url: 'https://api.planetos.com/v1/datasets/fmi_silam_global05/point?',
+        url: proxy+'https://api.planetos.com/v1/datasets/fmi_silam_global05/point?',
         method: 'get',
         data: {
             origin: 'dataset-details',
@@ -100,14 +100,17 @@ function geocode(e) {
                 lat: (data.results[0].geometry.location.lat),
                 lon: (data.results[0].geometry.location.lng),
                 city: (data.results[0].address_components[0].long_name),
-                state: (data.results[0].address_components[2].long_name),
+                state: (data.results[0].address_components[1].long_name),
                 country: (data.results[0].address_components[2].long_name)
             };
-            console.log(geo_info_object);
+            console.log('GeoInfoObj: ' +geo_info_object);
             initMap(geo_info_object.lat, geo_info_object.lon);
-            handleWeatherInfo(geo_info_object.lat, geo_info_object.lon, geo_info_object.city);
+            getStationsByKeyword(geo_info_object.state);
+            // getDataByLocation(geo_info_object.lat, geo_info_object.lon);
+            handleWeatherInfo();
             pullFromCarma();
-            pullFromPlanetOs();
+            pullFromPlanetOs();          
+            pieChart();
         }
     });
 }
@@ -123,18 +126,20 @@ function initMap(lat, lng) {
         map: map
     });
 
-    var layer = new google.maps.FusionTablesLayer({
-        query: {
-            select: 'geometry',
-            from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
-        },
-        styles: [{
-            polygon: 'color'
-        }],
-        map: map
+    
+//    var layer = new google.maps.FusionTablesLayer({
+//      query: {
+//        select: 'geometry',
+//        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
+//      },
+//        styles: [{
+//            polygon: 'color'
+//        }],
+//      map: map
+//       
+//    });
+//     layer.setMap(map);
 
-    });
-    layer.setMap(map);
 }
 
 
@@ -146,7 +151,6 @@ function initMap(lat, lng) {
 *   Create a function called getStationsByKeyword 
 *   Takes in 1 parameter
 *   @param keyword - city, state, country
-*   @returns aqi - air quality index (number)
 *   @callback determineAqiLevel - takes in aqi as a param, see function for further info
 *   @returns aqi - number
 *
@@ -162,7 +166,7 @@ function getStationsByKeyword(keyword) {
         url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword + ',USA',
         success: function(result) {
             var aqi = result.data[0].aqi; //only grabbing the first element in the array
-            determineAqiLevel(aqi);
+            determineAqiLevel(aqi, keyword);
             return aqi;
         },
         error: function (result) {
@@ -182,7 +186,7 @@ function getStationsByKeyword(keyword) {
 *   
 */
 
-function determineAqiLevel(aqi) {
+function determineAqiLevel(aqi, keyword) {
     console.log('Air Quality Level: ', aqi);
     var airPollutionLvl;
     var healthImplications;
@@ -194,6 +198,12 @@ function determineAqiLevel(aqi) {
         airPollutionLvl = 'Good';
         healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
         cautionaryStmt = 'None';
+
+        // $('.aqi-city').text(keyword);
+        // $('#aqiNum').text(aqi);
+        // $('#h_implications').text(healthImplications);
+        // $('#c_statement').text(cautionaryStmt);
+
         console.log('Air Pollution Level: ' + airPollutionLvl);
         console.log('Health Implications: ' + healthImplications);
         console.log('Cautionary Statement: ' + cautionaryStmt);
@@ -260,6 +270,9 @@ function getDataByLocation(lat, lon) {
         dataType: 'json',
         url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
         success: function (result) {
+            var aqi = result.data[0].aqi; //only grabbing the first element in the array
+            determineAqiLevel(aqi);
+            return aqi;
             console.log('getDataByLocation call was successful', result);
         },
         error: function (result) {
@@ -374,4 +387,35 @@ function formatTextArea() {
     var enteredText = $("#location-input").val().split(" ").join("+");
     return enteredText;
 }
+
+// pie chart
+function pieChart(){
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['Element', 'Presentage'],
+            ['idhfi',     45],
+            ['Eat',      2],
+            ['Commute',  2],
+            ['Watch TV', 2],
+            ['Sleep',    7]
+            // ['Fossil',parseFloat($(dataCarma)[0].fossil.present)],
+            // ['Hydro',parseFloat($(dataCarma)[0].hydro.present)],
+            // ['Nuclear',parseFloat($(dataCarma)[0].nuclear.present)],
+            // ['Renewable',parseFloat($(dataCarma)[0].renewable.present)]
+        ]);
+
+        var options = {
+            title: 'title'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementsByClassName('pieChart'));
+
+        chart.draw(data, options);
+    }
+}
+
+
 
