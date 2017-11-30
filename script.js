@@ -123,18 +123,18 @@ function initMap(lat, lng) {
         map: map
     });
     
-    var layer = new google.maps.FusionTablesLayer({
-      query: {
-        select: 'geometry',
-        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
-      },
-        styles: [{
-            polygon: 'color'
-        }],
-      map: map
-       
-    });
-     layer.setMap(map);
+//    var layer = new google.maps.FusionTablesLayer({
+//      query: {
+//        select: 'geometry',
+//        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
+//      },
+//        styles: [{
+//            polygon: 'color'
+//        }],
+//      map: map
+//       
+//    });
+//     layer.setMap(map);
 }
 
 
