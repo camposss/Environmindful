@@ -1,44 +1,52 @@
-.leftCol{
-    border: 1px solid black;
-    height: 100%;
+/* General Styles */
+*{
+    box-sizing: border-box;
 }
-
+body {
+    background-color: #222629;
+    color: #86c232;
+}
+/* Main content */
+/*.leftCol{*/
+    /*height: 100%;*/
+/*}*/
 .title{
-    border:1px solid black;
-    width: 100%;
-    height:10vh;
     margin-top: 2vh;
+    text-align: center;
+    height: 5vh;
+    line-height: 5vh;
 }
-
-.news{
-    border: 1px solid black;
-    height: 83vh;
-    margin-top: 5vh;
-}
-
 .rightCol{
-    background-color: #4a8cdb;
-    height: 100%;
+    position: relative;
+    top: 3vh;
 }
-
 .searchBox{
     width: 100%;
     height: 10vh;
+    margin-bottom: 2vh;
 }
-
 .inputBox{
     height:8vh;
     width: 100%;
-    margin-top: 2vh;
 }
-
-.map_div{
-    border: 1px solid black;
-    width: 100%;
-    height: 45vh;
-    margin-top: 7vh;
+#location-input {
     margin-bottom: 2vh;
-
+}
+#submit_button {
+    background-color: #ff652f;
+    border: none;
+    transition: 0.2s;
+}
+#submit_button:hover {
+    background-color: #dd651d;
+}
+/* Map Display */
+.map_div{
+    height: 50vh;
+    margin-bottom: 2vh;
+    border: 1px solid #000;
+    border-radius: 2%;
+    position: relative;
 }
 #map_display{
     width: 100%;
@@ -46,17 +54,22 @@
 }
 .btnCol{
     margin-bottom: 1vh;
-    border: 1px solid black;
+    position: absolute;
+    left: 85%;
+    top: 4%;
 }
-
-.data,
-.dataChart{
+.btnCol button {
+    border-radius: 2%;
+}
+/* Data */
+.carouselContainer{
     margin-top:1vh;
     margin-bottom: 1vh;
-    border: 1px solid black;
     height: 30vh;
     display: inline-block;
-    width: 45%;
+    background-color: #61982f;
+    border-radius: 2%;
+    width: 100%;
 }
 
 .data{
@@ -65,10 +78,10 @@
 
 /* News Search */
 .news{
-    border: 1px solid black;
-    height: 83vh;
-    margin-top: 5vh;
+    height: 50vh;
     overflow: scroll;
+    background-color: #61982f;
+    border-radius: 2%;
 }
 .newsTitle {
     margin: 0 auto;
@@ -76,16 +89,22 @@
 .news h1 {
     font-size: 3vmin;
     font-weight: 400;
-    border-bottom: 1px solid #000;
+    color: #fff;
 }
 .newsAuthor {
-    color: #a3a3a3;
+    color: #272727;
 }
 /*.newsLink {*/
 
 /*}*/
 .newsSourceLink {
-    font-size: 1.5vmin;
+    font-size: 2vmin;
+    color: #222;
+    font-weight: 500;
+}
+.newsSourceLink:hover {
+    cursor: pointer;
+    text-decoration: none;
 }
 .newsModalImage {
     width: 100%;

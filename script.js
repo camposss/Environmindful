@@ -2,37 +2,37 @@ var dataPlanet = {};
 var dataCarma = {};
 
 $(document).ready(initializeApp);
-var geo_info_object= null;
-function initializeApp () {
+var geo_info_object = null;
+
+function initializeApp() {
     $(".getNews").click(getNewsData);
-    var submit_button= $('#submit_button');
-    submit_button.on('click',geocode);
+    var submit_button = $('#submit_button');
+    submit_button.on('click', geocode);
     $("#myModal").show("modal");
 }
 
 
-
 ///////open weather api
 
-function handleWeatherInfo(lat, lon, city){
+function handleWeatherInfo(lat, lon, city) {
     $.ajax({
-        method:'get',
-        data:{
-            api_key:'262d0228050ee6334c5273af092b068c',
+        method: 'get',
+        data: {
+            api_key: '262d0228050ee6334c5273af092b068c',
             latitude: lat,
             longitude: lon,
         },
-        url:'http://api.openweathermap.org/data/2.5/weather?lat=' +
+        url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
         lat + '&lon=' +
         lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
-        dataType:'json',
-        success: function(data){
+        dataType: 'json',
+        success: function (data) {
             console.log(data);
             var cityName = city;
             var temperature = data['main']['temp'];
             var humidity = data['main']['humidity'];
             $('.data').empty();
-            $('.data').append('City: ' + cityName,'<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Humidity: ' + humidity);
+            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Humidity: ' + humidity);
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
@@ -44,12 +44,12 @@ function pullFromCarma() {
     var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
-        url: proxy+'http://carma.org/api/1.1/searchLocations?name=' + geo_info_object.state,
+        url: proxy + 'http://carma.org/api/1.1/searchLocations?name=' + geo_info_object.state,
         method: 'get',
         success: successfulCarmaPull,
-        error:  errorPull
-    });   
-    
+        error: errorPull
+    });
+
 }
 
 function successfulCarmaPull(data) {
@@ -57,28 +57,28 @@ function successfulCarmaPull(data) {
     dataCarma = data;
 }
 
-function errorPull(data){
-    console.log('something went wrong :(',data);
+function errorPull(data) {
+    console.log('something went wrong :(', data);
 }
 
-function pullFromPlanetOs () {
-        $.ajax({
+function pullFromPlanetOs() {
+    $.ajax({
         dataType: 'json',
         url: 'https://api.planetos.com/v1/datasets/fmi_silam_global05/point?',
         method: 'get',
-            data: {
-                origin: 'dataset-details',
-                lat: geo_info_object.lat,
-                lon: geo_info_object.lon,
-                apikey: 'bdbcb059658f4b788838a5d957bf6ba8'
-            },
+        data: {
+            origin: 'dataset-details',
+            lat: geo_info_object.lat,
+            lon: geo_info_object.lon,
+            apikey: 'bdbcb059658f4b788838a5d957bf6ba8'
+        },
         success: successfulPlanetPull,
-        error:  errorPull
-    });   
+        error: errorPull
+    });
 }
 
 function successfulPlanetPull(data) {
-    console.log("PlanetOS Data: " +data.entries);
+    console.log("PlanetOS Data: " + data.entries);
     dataPlanet = data.entries['0'].data;
 }
 
@@ -96,11 +96,11 @@ function geocode(e) {
         success: function (data) {
             console.log(data);
             //geometry
-            geo_info_object={
+            geo_info_object = {
                 lat: (data.results[0].geometry.location.lat),
-                lon:(data.results[0].geometry.location.lng),
-                city:(data.results[0].address_components[0].long_name),
-                state:(data.results[0].address_components[2].long_name),
+                lon: (data.results[0].geometry.location.lng),
+                city: (data.results[0].address_components[0].long_name),
+                state: (data.results[0].address_components[2].long_name),
                 country: (data.results[0].address_components[2].long_name)
             };
             console.log(geo_info_object);
@@ -122,24 +122,23 @@ function initMap(lat, lng) {
         position: center,
         map: map
     });
-    
+
     var layer = new google.maps.FusionTablesLayer({
-      query: {
-        select: 'geometry',
-        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
-      },
+        query: {
+            select: 'geometry',
+            from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
+        },
         styles: [{
             polygon: 'color'
         }],
-      map: map
-       
+        map: map
+
     });
-     layer.setMap(map);
+    layer.setMap(map);
 }
 
 
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
-
 
 /*
 *   url: http://api.waqi.info/search/?token=TOKEN&keyword=KEYWORD    
@@ -152,7 +151,7 @@ function initMap(lat, lng) {
 *
 */
 
-function getStationsByKeyword(keyword){
+function getStationsByKeyword(keyword) {
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
@@ -165,7 +164,7 @@ function getStationsByKeyword(keyword){
             determineAqiLevel(aqi);
             return aqi;
         },
-        error: function(result) {
+        error: function (result) {
             console.log('handleAirQuality ajax call resulted in error', result);
         }
     })
@@ -251,7 +250,7 @@ function determineAqiLevel(aqi) {
 *
 */
 
-function getDataByLocation(lat, lon){
+function getDataByLocation(lat, lon) {
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
@@ -259,10 +258,10 @@ function getDataByLocation(lat, lon){
         method: 'GET',
         dataType: 'json',
         url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
-        success: function(result) {
+        success: function (result) {
             console.log('getDataByLocation call was successful', result);
         },
-        error: function(result) {
+        error: function (result) {
             console.log('getDataByLocation call resulted in error', result);
         }
     })
@@ -271,14 +270,13 @@ function getDataByLocation(lat, lon){
 // **********************CESKA'S CODE -- AIR POLLUTION API -- END**********************
 
 
-
 // News API Functionality
 
 
-function getNewsData () {
+function getNewsData() {
     $(".newsListDisplay").text("");
     var nationalGeoAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=national-geographic&q="+ formatTextArea() +"+climate&apiKey=626bed419f824271a515c974d606275b",
+        url: "https://newsapi.org/v2/everything?sources=national-geographic&q=" + formatTextArea() + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             displayNewsData(data);
             console.log("Data received from National Geo: ", data);
@@ -288,7 +286,7 @@ function getNewsData () {
         }
     };
     var abcAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=abc-news&q="+ formatTextArea() +"+climate&apiKey=626bed419f824271a515c974d606275b",
+        url: "https://newsapi.org/v2/everything?sources=abc-news&q=" + formatTextArea() + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             displayNewsData(data);
             console.log("Data received from ABC news: ", data);
@@ -298,7 +296,7 @@ function getNewsData () {
         }
     };
     var scienceAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=new-scientist&q="+ formatTextArea() +"+climate+environment&apiKey=626bed419f824271a515c974d606275b",
+        url: "https://newsapi.org/v2/everything?sources=new-scientist&q=" + formatTextArea() + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             console.log("Data received from CNN news: ", data);
             displayNewsData(data);
@@ -312,54 +310,66 @@ function getNewsData () {
     $.ajax(scienceAPIajaxOptions);
 }
 
-function displayNewsData (data) {
+function displayNewsData(data) {
     if ($("#location-input").val() === "") {
         $("#location-input").attr({
             placeholder: "Please enter keywords to search."
         });
         return;
     }
+    var newsInfoArray = [];
+    var newsInfo;
+    var newsTitleDiv;
+    var newsAuthorDiv;
+    var newsLinkTag;
+    var newsModalLink;
+    var newsSourceDiv;
+    var image;
     for (var newsIndex = 0; newsIndex < data.articles.length; newsIndex++) {
-        var newsTitle = data.articles[newsIndex].title;
-        var newsSource = data.articles[newsIndex].source.name;
-        var newsAuthor = data.articles[newsIndex].author;
-        var newsLink = data.articles[newsIndex].url;
-        var imgSource = data.articles[newsIndex].urlToImage;
-        var newsTitleDiv = $("<div>", {
-            "class": "newsTitle",
-            text: newsTitle
-        });
-        var newsAuthorDiv = $("<div>", {
+        newsInfo = {
+            newsTitle: data.articles[newsIndex].title,
+            newsSource: data.articles[newsIndex].source.name,
+            newsAuthor: data.articles[newsIndex].author,
+            description: data.articles[newsIndex].description,
+            newsLink: data.articles[newsIndex].url,
+            imgSource: data.articles[newsIndex].urlToImage
+        };
+        newsInfoArray.push(newsInfo);
+    }
+    console.log(newsInfoArray);
+    for (var i = 0; i < newsInfoArray.length; i++) {
+        newsAuthorDiv = $("<div>", {
             "class": "newsAuthor",
-            text: "By: " + newsAuthor
+            text: "By: " + newsInfoArray[i].newsAuthor
         });
-        var newsLinkTag = $("<a>", {
-           text: newsTitle
-        });
-        var newsModalLink = $("<a>", {
+        newsLinkTag = $("<a>", {
+            text: newsInfoArray[i].newsTitle
+        }).addClass("newsSourceLink");
+        newsModalLink = $("<a>", {
             text: "here",
-            href: newsLink
+            href: newsInfoArray[i].newsLink
         });
-        var image = $("<img>", {
-            src: imgSource,
+        image = $("<img>", {
+            src: newsInfoArray[i].imgSource,
             class: "newsModalImage"
         });
-        newsLinkTag.on('click', function(){
+        newsLinkTag.on('click', function () {
             $("#newsModal").modal('show');
-            $(".modal-title").text(newsTitle);
-            $(".modal-body p").text("");
-            $(".img-container").append("See full article here: ", newsModalLink);
+            $(".modal-title").text(newsInfoArray[i].newsTitle);
+            $(".modal-body p").text(newsInfoArray[i].description);
+            $(".img-container").append(newsInfoArray[i].image);
+            $(".fullArticle").text("See full article here: ").append(newsInfoArray[i].newsLink);
         });
-        var newsSourceDiv = $("<div>", {
+        newsSourceDiv = $("<div>", {
             "class": "newsSourceLink",
-            text: "Source: " + newsSource
+            text: "Source: " + newsInfoArray[i].newsSource
         });
-        $(".newsListDisplay").append(newsLinkTag, newsAuthorDiv, newsSourceDiv);
-        // console.log(data.articles[newsIndex]);
+        var newsItems = $("<div>").addClass("newsItem").append(newsLinkTag, newsAuthorDiv, newsSourceDiv);
+        $(".newsListDisplay").append(newsItems);
     }
 }
 
-function formatTextArea () {
+function formatTextArea() {
     var enteredText = $("#location-input").val().split(" ").join("+");
     return enteredText;
 }
