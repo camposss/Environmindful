@@ -1,22 +1,17 @@
-var dataPlanet = {};
-var dataCarma = {};
-
 //GOOGLE FUSION TABLE API: AIzaSyBWgR4nfF3j9TO6kvtsSkTwxeqNu10M60Q
 //URL:
 $(document).ready(initializeApp);
 var geo_info_object = null;
 
 function initializeApp() {
-//    $(".getNews").click(function () {
-//        $(".newsListDisplay").text("");
-//    })
-//    $(".getNews").click(getNewsData);
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
     $("#myModal").show("modal");
+    google.charts.load('current', {'packages':['corechart']});
 }
 
-///////open weather api
+// *********************** open weather api *************************
+
 
 function handleWeatherInfo() {
     $.ajax({
@@ -24,7 +19,7 @@ function handleWeatherInfo() {
         data: {
             api_key: '262d0228050ee6334c5273af092b068c',
             latitude: geo_info_object.lat,
-            longitude: geo_info_object.lon,
+            longitude: geo_info_object.lon
         },
         url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
         geo_info_object.lat + '&lon=' +
@@ -32,13 +27,20 @@ function handleWeatherInfo() {
         dataType: 'json',
         success: function (data) {
             console.log(data);
+            var dataMain = data['main'];
             var cityName = geo_info_object.city;
-            var temperature = data['main']['temp'];
-            var humidity = data['main']['humidity'];
-            var minTemp = data['main']['temp_min'];
-            var maxTemp = data['main']['temp_max'];
-            $('.data').empty();
-            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Temperature: ' + minTemp + '&deg;'+ '-' + maxTemp + '&deg;', '<br>', 'Humidity: ' + humidity);
+            var temperature = dataMain['temp'];
+            var humidity = dataMain['humidity'];
+            var minTemp = dataMain['temp_min'];
+            var maxTemp = dataMain['temp_max'];
+            $('#weatherCity').empty();
+            $('#weatherCurrent').empty();
+            $('#weatherTemp').empty();
+            $('#weatherHumidity').empty();
+            $('#weatherCity').append('City: ' + cityName);
+            $('#weatherCurrent').append('Current Temperature: ' + temperature + '&deg;');
+            $('#weatherTemp').append('Temperature: ' + minTemp + '&deg;'+ '- ' + maxTemp + '&deg;');
+            $('#weatherHumidity').append('Humidity: ' + humidity + '%');
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
@@ -46,7 +48,18 @@ function handleWeatherInfo() {
     })
 }
 
+
+/*
+*   url: http://carma.org/api/  
+*   key/token: NA
+*   Calls successfulCarmaPull upon successful ajax call 
+*   @parameter - none
+*   @callback chart - calls drawChart function
+*   @returns - none
+*
+*/
 function pullFromCarma() {
+
     var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
@@ -58,41 +71,20 @@ function pullFromCarma() {
 
 }
 
+/*
+Pulls Carma data, adds data to geo info object and calls drawChart
+*/
 function successfulCarmaPull(data) {
-    console.log(data);
-    //debugger
-    // dataCarma = data;
-
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(function() {
-        drawChart(data);
-    });
+    geo_info_object.fossil = parseFloat(data[0].fossil.present);
+    geo_info_object.hydro = parseFloat(data[0].hydro.present);
+    geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
+    geo_info_object.renewable = parseFloat(data[0].renewable.present);
+    
+    google.charts.setOnLoadCallback(drawChart);
 }
 
 function errorPull(data) {
     console.log('something went wrong :(', data);
-}
-
-function pullFromPlanetOs() {
-    var proxy = 'http://cors-anywhere.herokuapp.com/'
-    $.ajax({
-        dataType: 'json',
-        url: proxy+'https://api.planetos.com/v1/datasets/fmi_silam_global05/point?',
-        method: 'get',
-        data: {
-            origin: 'dataset-details',
-            lat: geo_info_object.lat,
-            lon: geo_info_object.lon,
-            apikey: 'bdbcb059658f4b788838a5d957bf6ba8'
-        },
-        success: successfulPlanetPull,
-        error: errorPull
-    });
-}
-
-function successfulPlanetPull(data) {
-    console.log("PlanetOS Data: " + data.entries);
-    dataPlanet = data.entries['0'].data;
 }
 
 function geocode(e) {
@@ -146,8 +138,8 @@ function callApi() {
         getNewsData();
         handleWeatherInfo();
         pullFromCarma();
-        pullFromPlanetOs();
         getStationsByKeyword(geo_info_object.state);
+    
 }
 
 function initMap(lat, lng) {
@@ -463,16 +455,14 @@ function formatTextArea() {
 }
 
 
-function drawChart(carma) {
-    console.log("draw the chart", carma);
-    var airQuality = carma[0];
+function drawChart() {
 
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
-        ['Fossil',parseFloat(airQuality.fossil.present)],
-        ['Hydro',parseFloat(airQuality.hydro.present)],
-        ['Nuclear',parseFloat(airQuality.nuclear.present)],
-        ['Renewable',parseFloat(airQuality.renewable.present)]
+        ['Fossil',geo_info_object.fossil],
+        ['Hydro',geo_info_object.hydro],
+        ['Nuclear',geo_info_object.nuclear],
+        ['Renewable',geo_info_object.renewable]
     ]);
 
     var options = {

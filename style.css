@@ -88,9 +88,9 @@ body {
     font-size: 4vmin;
 }
 
-.data{
-    float: right;
-}
+/*.data{*/
+    /*float: right;*/
+/*}*/
 
 /* News Search */
 .news{
@@ -124,7 +124,7 @@ body {
     width: 100%;
 }
 #pieChart{
-    height:50vh;
+    height:100%;
     width:100%;
 }
 .newsListDisplay {
@@ -142,4 +142,15 @@ body {
 .modal-body p,
 .fullArticle {
     color: #272727;
+}
+
+#weatherDisplay{
+    font-size:3vmin;
+    color: white;
+    line-height:initial;
+    text-align: left;
+}
+
+#weatherList{
+    list-style: none;
 }
