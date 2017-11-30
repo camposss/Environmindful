@@ -106,7 +106,8 @@ function geocode(e) {
             console.log(geo_info_object);
             initMap(geo_info_object.lat, geo_info_object.lon);
             handleWeatherInfo(geo_info_object.lat, geo_info_object.lon, geo_info_object.city);
-
+            getStationsByKeyword(geo_info_object.city);
+            // getDataByLocation(geo_info_object.lat, geo_info_object.lon);
             pullFromCarma();
             pullFromPlanetOs();
             pieChart();
@@ -162,7 +163,7 @@ function getStationsByKeyword(keyword) {
         },
         method: 'GET',
         dataType: 'json',
-        url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword + ',USA',
+        url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword,
         success: function(result) {
             var aqi = result.data[0].aqi; //only grabbing the first element in the array
             determineAqiLevel(aqi);
@@ -263,6 +264,9 @@ function getDataByLocation(lat, lon) {
         dataType: 'json',
         url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
         success: function (result) {
+            var aqi = result.data[0].aqi; //only grabbing the first element in the array
+            determineAqiLevel(aqi);
+            return aqi;
             console.log('getDataByLocation call was successful', result);
         },
         error: function (result) {
