@@ -253,66 +253,6 @@ function getStationsByKeyword(keyword){
 */
 
 function getDataByLocation(lat, lon){
-/*
-{
-
-        "aqi": 31,
-        "idx": 317,
-        "attributions": [
-            {
-                "url": "http://www.arb.ca.gov/",
-                "name": "CARB - California Air Resources Board"
-            },
-            {
-                "url": "http://www.airnow.gov/",
-                "name": "Air Now - US EPA"
-            }
-        ],
-        "city": {
-            "geo": [
-                33.83061,
-                -117.9385
-            ],
-            "name": "Anaheim-Loara School, Orange, California",
-            "url": "http://aqicn.org/city/california/orange/anaheim-loara-school/"
-        },
-        "dominentpol": "pm10",
-        "iaqi": {
-            "co": {
-                "v": 10.2
-            },
-            "h": {
-                "v": 76
-            },
-            "no2": {
-                "v": 25.1
-            },
-            "o3": {
-                "v": 0.8
-            },
-            "p": {
-                "v": 961.19
-            },
-            "pm10": {
-                "v": 31
-            },
-            "pm25": {
-                "v": 91
-            },
-            "so2": {
-                "v": 1.5
-            },
-            "t": {
-                "v": 11.5
-            }
-        },
-        "time": {
-            "s": "2017-11-29 09:00:00",
-            "tz": "-08:00",
-            "v": 1511946000
-        }
-    }
-*/
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //not being used at the moment, it is hardcoded into the url
