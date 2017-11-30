@@ -381,12 +381,14 @@ function displayNewsData (data) {
         var newsLinkTag = $("<a>", {
            text: newsTitle,
            href: newsLink,
-            // "data-toggle": "modal",
-            // "data-target": "#newsModal",
             target: "_blank"
         });
         newsLinkTag.on('click', function(){
             $("#newsModal").modal('show');
+            // var img = data.articles[newsIndex]
+            $(".modal-title").text(newsTitle);
+            $(".modal-body p").text(newsTitle);
+            // $(".img-container").append();
         })
         var newsSourceDiv = $("<div>", {
             "class": "newsSourceLink",
