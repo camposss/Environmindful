@@ -147,6 +147,9 @@ function geocode(e) {
 }
 
 function initMap(lat, lng) {
+    if($('#location-input').val()===""){
+
+    }
     var center = {lat: lat, lng: lng};
     var map = new google.maps.Map(document.getElementById('map_display'), {
         zoom: 12,
@@ -158,6 +161,9 @@ function initMap(lat, lng) {
     });
 
 }
+// function setCurrentLocation(){
+//     console.log("Hello");
+// }
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
