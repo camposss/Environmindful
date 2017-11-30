@@ -14,30 +14,29 @@
 
 </head>
 <body>
+    <div class="title"><h1>GrassPlot</h1></div>
     <div class="container">
-        <div class="leftCol col-md-3 col-lg-3">
-            <div class="title">GlassPlot</div>
-            <div class="news">
-                <div class="row m-auto col-sm-12 text-center newsTitle">
-                    <h1>Recent News</h1>
-                </div>
-                <div class="newsListDisplay col-lg-12 m-auto"></div>
-            </div>
-        </div>
-        <div class="rightCol col-md-9 col-lg-9">
+        <div class="leftCol row">
             <div class="searchBox">
                 <form id="location-form">
                     <input type="text" id="location-input" class="form-control form-control-lg">
-                    <br>
                     <button id="submit_button" type="submit" class="btn btn-primary btn-block getNews">Submit</button>
                 </form>
             </div>
-            <div class="map_div">
-                <div id="map_display"></div>
+        </div>
+        <div class="rightCol row">
+            <div class="news col-md-4">
+                <div class="row m-auto text-center newsTitle">
+                    <h1>Recent News</h1>
+                </div>
+                <div class="newsListDisplay m-auto"></div>
             </div>
-            <div class="btnCol col-mg-12 col-lg-12">
-                <button class="air">AIR</button>
-                <button class="co2">CO2</button>
+            <div class="map_div col-md-7 col-md-offset-1">
+                <div class="btnCol">
+                    <button class="air">AIR</button>
+                    <button class="co2">CO2</button>
+                </div>
+                <div id="map_display"></div>
             </div>
             <!--<div class="dataChart">chart</div>-->
             <div class="data">
@@ -78,6 +77,11 @@
 
             </div>
         </div>
+        <div class="carouselContainer m-auto row col-md-12">
+
+
+
+        </div>
     </div>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy0-D5zCNe2d3E-wSsfbMSr3upkWsdRcA">
@@ -90,8 +94,9 @@
                     <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
-                    <p></p>
                     <div class="img-container"></div>
+                    <p></p>
+                    <div class="fullArticle"></div>
                 </div>
             </div>
         </div>
