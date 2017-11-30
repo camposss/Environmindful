@@ -9,7 +9,7 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
-    <title>GlassPlot</title>
+    <title>GrassPlot</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="script.js"></script>
 
@@ -18,11 +18,12 @@
 <div class="container">
     <div class="row title-search-container">
         <div class="title col-md-7 row">
+           <img src="images/logo.png" alt="">
             <h1>GrassPlot</h1>
         </div>
         <div class="searchContainer col-md-5 row">
                 <form id="location-form" class="form-inline">
-                    <input type="text" id="location-input" class="form-control" placeholder="Enter location...">
+                    <input type="text" id="location-input" class="form-control" placeholder="Enter a city...">
                     <button id="submit_button" type="submit" class="btn btn-primary getNews">Submit</button>
                 </form>
         </div>
@@ -36,6 +37,7 @@
                 <div class="newsListDisplay"></div>
             </div>
         </div>
+        
         <div class="rightCol col-sm-7 row">
             <div class="carouselContainer m-auto row col-md-12">
                 <div id="piechart"></div>
@@ -52,10 +54,13 @@
     </div>
     <div class="row">
         <div class="map_div col-md-12">
-            <!--<div class="btnCol">-->
-                <!--<button class="air">AIR</button>-->
-                <!--<button class="co2">CO2</button>-->
-            <!--</div>-->
+
+<!--
+            <div class="btnCol">
+                <button class="air">AIR</button>
+                <button class="co2">CO2</button>
+            </div>
+-->
             <div id="map_display"></div>
 
         <!--<div class="carouselContainer m-auto row col-md-12">-->

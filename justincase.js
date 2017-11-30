@@ -1,17 +1,17 @@
-//GOOGLE FUSION TABLE API: AIzaSyBWgR4nfF3j9TO6kvtsSkTwxeqNu10M60Q
-//URL:
+var dataPlanet = {};
+var dataCarma = {};
+
 $(document).ready(initializeApp);
 var geo_info_object = null;
 
 function initializeApp() {
+    $(".getNews").click(getNewsData);
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
     $("#myModal").show("modal");
-    google.charts.load('current', {'packages':['corechart']});
 }
 
-// *********************** open weather api *************************
-
+///////open weather api
 
 function handleWeatherInfo() {
     $.ajax({
@@ -19,7 +19,7 @@ function handleWeatherInfo() {
         data: {
             api_key: '262d0228050ee6334c5273af092b068c',
             latitude: geo_info_object.lat,
-            longitude: geo_info_object.lon
+            longitude: geo_info_object.lon,
         },
         url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
         geo_info_object.lat + '&lon=' +
@@ -27,20 +27,11 @@ function handleWeatherInfo() {
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            var dataMain = data['main'];
             var cityName = geo_info_object.city;
-            var temperature = dataMain['temp'];
-            var humidity = dataMain['humidity'];
-            var minTemp = dataMain['temp_min'];
-            var maxTemp = dataMain['temp_max'];
-            $('#weatherCity').empty();
-            $('#weatherCurrent').empty();
-            $('#weatherTemp').empty();
-            $('#weatherHumidity').empty();
-            $('#weatherCity').append('City: ' + cityName);
-            $('#weatherCurrent').append('Current Temperature: ' + temperature + '&deg;');
-            $('#weatherTemp').append('Temperature: ' + minTemp + '&deg;'+ '- ' + maxTemp + '&deg;');
-            $('#weatherHumidity').append('Humidity: ' + humidity + '%');
+            var temperature = data['main']['temp'];
+            var humidity = data['main']['humidity'];
+            $('.data').empty();
+            $('.data').append('City: ' + cityName, '<br>', 'Current Temperature: ' + temperature + '&deg;', '<br>', 'Humidity: ' + humidity);
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
@@ -48,18 +39,7 @@ function handleWeatherInfo() {
     })
 }
 
-
-/*
-*   url: http://carma.org/api/  
-*   key/token: NA
-*   Calls successfulCarmaPull upon successful ajax call 
-*   @parameter - none
-*   @callback chart - calls drawChart function
-*   @returns - none
-*
-*/
 function pullFromCarma() {
-
     var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
@@ -71,20 +51,35 @@ function pullFromCarma() {
 
 }
 
-/*
-Pulls Carma data, adds data to geo info object and calls drawChart
-*/
 function successfulCarmaPull(data) {
-    geo_info_object.fossil = parseFloat(data[0].fossil.present);
-    geo_info_object.hydro = parseFloat(data[0].hydro.present);
-    geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
-    geo_info_object.renewable = parseFloat(data[0].renewable.present);
-    
-    google.charts.setOnLoadCallback(drawChart);
+    console.log(data);
+    dataCarma = data;
 }
 
 function errorPull(data) {
     console.log('something went wrong :(', data);
+}
+
+function pullFromPlanetOs() {
+    var proxy = 'http://cors-anywhere.herokuapp.com/'
+    $.ajax({
+        dataType: 'json',
+        url: proxy+'https://api.planetos.com/v1/datasets/fmi_silam_global05/point?',
+        method: 'get',
+        data: {
+            origin: 'dataset-details',
+            lat: geo_info_object.lat,
+            lon: geo_info_object.lon,
+            apikey: 'bdbcb059658f4b788838a5d957bf6ba8'
+        },
+        success: successfulPlanetPull,
+        error: errorPull
+    });
+}
+
+function successfulPlanetPull(data) {
+    console.log("PlanetOS Data: " + data.entries);
+    dataPlanet = data.entries['0'].data;
 }
 
 function geocode(e) {
@@ -101,51 +96,26 @@ function geocode(e) {
         success: function (data) {
             console.log(data);
             //geometry
-            var city;
-            var state;
-            var addressComponentArray= data.results[0].address_components;
-            if(addressComponentArray[0].types[0]==="locality"){
-                city= addressComponentArray[0].long_name;
-            }
-            if(addressComponentArray.length===4){
-                state=addressComponentArray[2].long_name;
-            }else if(addressComponentArray.length===3){
-                state=addressComponentArray[1].long_name;
-            }
-            // if((data.results[0].address_components[2].types[0]==="administrative_area_level_1")){
-            //     state= (data.results[0].address_components[2].long_name);
-            // }
             geo_info_object = {
                 lat: (data.results[0].geometry.location.lat),
                 lon: (data.results[0].geometry.location.lng),
-                city: city,
-                state: state
-                // city: (data.results[0].address_components[0].long_name),
-                // state: (data.results[0].address_components[1].long_name),
-                // country: (data.results[0].address_components[2].long_name)
+                city: (data.results[0].address_components[0].long_name),
+                state: (data.results[0].address_components[1].long_name),
+                country: (data.results[0].address_components[2].long_name)
             };
-
             console.log('GeoInfoObj: ' +geo_info_object);
-
-            callApi();
+            initMap(geo_info_object.lat, geo_info_object.lon);
+            getStationsByKeyword(geo_info_object.state);
+            // getDataByLocation(geo_info_object.lat, geo_info_object.lon);
+            handleWeatherInfo();
+            pullFromCarma();
+            pullFromPlanetOs();          
+            pieChart();
         }
     });
 }
 
-function callApi() {
-        initMap(geo_info_object.lat, geo_info_object.lon);
-        $(".newsListDisplay").text("");
-        getNewsData();
-        handleWeatherInfo();
-        pullFromCarma();
-        getStationsByKeyword(geo_info_object.state);
-    
-}
-
 function initMap(lat, lng) {
-    if($('#location-input').val()===""){
-
-    }
     var center = {lat: lat, lng: lng};
     var map = new google.maps.Map(document.getElementById('map_display'), {
         zoom: 12,
@@ -156,10 +126,23 @@ function initMap(lat, lng) {
         map: map
     });
 
+    
+//    var layer = new google.maps.FusionTablesLayer({
+//      query: {
+//        select: 'geometry',
+//        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
+//      },
+//        styles: [{
+//            polygon: 'color'
+//        }],
+//      map: map
+//       
+//    });
+//     layer.setMap(map);
+
 }
-// function setCurrentLocation(){
-//     console.log("Hello");
-// }
+
+
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
@@ -167,14 +150,13 @@ function initMap(lat, lng) {
 *   key/token: 1af10262d0228050ee6334c5273af092b068ca53
 *   Create a function called getStationsByKeyword 
 *   Takes in 1 parameter
-*   @param keyword - STATE??
+*   @param keyword - city, state, country
 *   @callback determineAqiLevel - takes in aqi as a param, see function for further info
-*   @returns aqi - {string} number
+*   @returns aqi - number
 *
 */
 
 function getStationsByKeyword(keyword) {
-    console.log('*************************GET STATIONS BY KEYWORD FUNCTION IS BEING CALLED*************************');
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
@@ -183,19 +165,9 @@ function getStationsByKeyword(keyword) {
         dataType: 'json',
         url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword + ',USA',
         success: function(result) {
-            if (result.data.length === 0) {
-                console.log('************** NO STATIONS EXIST IN ' + keyword);
-            }
-            // if the first station in the array does not have an aqi available, it will check until it finds one
-            for (var i=0; i<result.data.length; i++) {
-                var checkAqi = result.data[i].aqi;
-                if (checkAqi === '' || checkAqi === '-') {
-                    console.log('**************NO AQI AVAILABLE FOR ' + keyword);
-                    return;
-                }  
-                determineAqiLevel(checkAqi, keyword);
-                return checkAqi;
-            }
+            var aqi = result.data[0].aqi; //only grabbing the first element in the array
+            determineAqiLevel(aqi, keyword);
+            return aqi;
         },
         error: function (result) {
             console.log('handleAirQuality ajax call resulted in error', result);
@@ -208,16 +180,14 @@ function getStationsByKeyword(keyword) {
 *   Create a function called determineAqiLevel
 *   This function will determine where the aqi falls on the air quality index scale (color coded)
 *   Possibly append health implications and cautionary statement somewhere on DOM
-*   Takes in 2 parameters
-*   @param aqi - {string} number 
-*   @param keyword - state (will work with city or country too)
+*   Takes in 1 parameter
+*   @param aqi - number 
 *   @returns {currently unknown, if any}
-*   @calls renderAqiInfoOnDom
 *   
 */
 
 function determineAqiLevel(aqi, keyword) {
-    console.log('*****Air Quality Level: ', aqi);
+    console.log('Air Quality Level: ', aqi);
     var airPollutionLvl;
     var healthImplications;
     var cautionaryStmt;
@@ -229,63 +199,56 @@ function determineAqiLevel(aqi, keyword) {
         healthImplications = 'Air quality is considered satisfactory, and air pollution poses little or no risk';
         cautionaryStmt = 'None';
 
+        $('.aqi-city').text(keyword);
+        $('#aqiNum').text(aqi);
+        $('#h_implications').text(healthImplications);
+        $('#c_statement').text(cautionaryStmt);
+        $('#aqi-number-container').css('background-color', colorLvl);
+
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
     } else if (aqi > 50 && aqi < 100) {
         colorLvl = '#ffde33'; //yellow
         airPollutionLvl = 'Moderate';
         healthImplications = 'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.';
         cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
-
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
     } else if (aqi > 100 && aqi < 150) {
         colorLvl = '#ff9933'; //orange
         airPollutionLvl = 'Unhealthy for Sensitive Groups';
         healthImplications = 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.';
         cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.';
-
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
     } else if (aqi > 151 && aqi < 200) {
         colorLvl = '#cc0033'; //red
         airPollutionLvl = 'Unhealthy';
         healthImplications = 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects';
         cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion';
-
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
     } else if (aqi > 201 && aqi < 300) {
         colorLvl = '#660099'; //purple
         airPollutionLvl = 'Very Unhealthy';
         healthImplications = 'Health warnings of emergency conditions. The entire population is more likely to be affected.';
         cautionaryStmt = 'Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.';
-    
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
     } else if (aqi > 300) {
         colorLvl = '#7e0023'; //dark red
         airPollutionLvl = 'Hazardous';
         healthImplications = 'Health alert: everyone may experience more serious health effects';
         cautionaryStmt = 'Everyone should avoid all outdoor exertion';
-    } else {
-        console.log('*****NO AQI AVAILABLE*****');
+        console.log('Air Pollution Level: ' + airPollutionLvl);
+        console.log('Health Implications: ' + healthImplications);
+        console.log('Cautionary Statement: ' + cautionaryStmt);
     }
-    console.log('---' + keyword + '---');
-    console.log('*****Air Pollution Level: ' + airPollutionLvl);
-    console.log('*****Health Implications: ' + healthImplications);
-    console.log('*****Cautionary Statement: ' + cautionaryStmt);
-    renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl)
-}
-
-/*
-*   Create a function called renderAqiInfoOnDom
-*   Takes in 5 parameters
-*   @param keyword - state (will work with city or country too)
-*   @param aqi - {string} number
-*   @param healthImplications 
-*   @param cautionaryStmt 
-*   @param  colorLvl 
-*   @returns closest station to the lat and lon
-*
-*/
-
-function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl) {
-    $('.aqi-city').text(keyword);
-    $('#aqiNum').text(aqi);
-    $('#h_implications').text(healthImplications);
-    $('#c_statement').text(cautionaryStmt);
-    $('#aqi-number-container').css('background-color', colorLvl);
 }
 
 /*
@@ -299,7 +262,6 @@ function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorL
 *
 */
 
-//HELLO THERE! I HAVE NO IDEA IF THIS FUNCTION IS WORKING :) PLEASE LET ME KNOW IF YOU DECIDE TO USE IT.
 function getDataByLocation(lat, lon) {
     $.ajax({
         data: {
@@ -378,7 +340,6 @@ function displayNewsData(data) {
     var newsModalLink;
     var newsSourceDiv;
     var image;
-    var newsItems;
     for (var newsIndex = 0; newsIndex < data.articles.length; newsIndex++) {
         newsInfo = {
             newsTitle: data.articles[newsIndex].title,
@@ -386,89 +347,76 @@ function displayNewsData(data) {
             newsAuthor: data.articles[newsIndex].author,
             description: data.articles[newsIndex].description,
             newsLink: data.articles[newsIndex].url,
-            imgSource: data.articles[newsIndex].urlToImage,
-            newsSourceID: data.articles[newsIndex].source.id
+            imgSource: data.articles[newsIndex].urlToImage
         };
         newsInfoArray.push(newsInfo);
     }
-    for (var newsInfoArrayIndex = 0; newsInfoArrayIndex < newsInfoArray.length; newsInfoArrayIndex++) {
+    console.log(newsInfoArray);
+    for (var i = 0; i < newsInfoArray.length; i++) {
         newsAuthorDiv = $("<div>", {
             "class": "newsAuthor",
-            text: "By: " + newsInfoArray[newsInfoArrayIndex].newsAuthor
+            text: "By: " + newsInfoArray[i].newsAuthor
         });
         newsLinkTag = $("<a>", {
-            text: newsInfoArray[newsInfoArrayIndex].newsTitle
-        }).addClass("newsLink");
-        newsLinkTag.click(displayModal);
+            text: newsInfoArray[i].newsTitle
+        }).addClass("newsSourceLink");
         newsModalLink = $("<a>", {
             text: "here",
-            href: newsInfoArray[newsInfoArrayIndex].newsLink
+            href: newsInfoArray[i].newsLink
         });
         image = $("<img>", {
-            src: newsInfoArray[newsInfoArrayIndex].imgSource,
+            src: newsInfoArray[i].imgSource,
             class: "newsModalImage"
+        });
+        newsLinkTag.on('click', function () {
+            $("#newsModal").modal('show');
+            $(".modal-title").text(newsInfoArray[i].newsTitle);
+            $(".modal-body p").text(newsInfoArray[i].description);
+            $(".img-container").append(newsInfoArray[i].image);
+            $(".fullArticle").text("See full article here: ").append(newsInfoArray[i].newsLink);
         });
         newsSourceDiv = $("<div>", {
             "class": "newsSourceLink",
-            text: "Source: " + newsInfoArray[newsInfoArrayIndex].newsSource
+            text: "Source: " + newsInfoArray[i].newsSource
         });
-        newsItems = $("<div>").addClass("newsItem").append(newsLinkTag, newsAuthorDiv, newsSourceDiv);
+        var newsItems = $("<div>").addClass("newsItem").append(newsLinkTag, newsAuthorDiv, newsSourceDiv);
         $(".newsListDisplay").append(newsItems);
-        newsItems[0].indexPosition = newsInfoArrayIndex;
-        newsItems[0].newsSource = data.articles[newsInfoArrayIndex].source.id;
-        console.log("Here is a news item: ", newsItems);
-    }
-    function displayModal () {
-            var fullArticleLink;
-            (function () {
-            for (var newsClickIndex = 0; newsClickIndex < newsInfoArray.length; newsClickIndex++) {
-                fullArticleLink = $("<a>", {
-                    href: newsInfoArray[newsClickIndex].newsLink,
-                    text: "here",
-                    target: "_blank"
-                })
-                if ($(event.target).parent()[0].indexPosition === newsClickIndex && $(event.target).parent()[0].newsSource === newsInfoArray[newsClickIndex].newsSourceID) {
-                    $(".modal-title").text(newsInfoArray[newsClickIndex].newsTitle);
-                    $(".img-container").text("");
-                    $(".img-container").append($("<img>", {
-                        src: newsInfoArray[newsClickIndex].imgSource,
-                        "class": "newsModalImage"
-                    }));
-                    $(".modal-body p").text(newsInfoArray[newsClickIndex].description);
-                    $(".fullArticle").text("See full article: ").append(fullArticleLink);
-                    $("#newsModal").modal("show");
-                }
-            }
-        })()
-        // console.log(newsInfoArray);
-        // console.log($(this).parent()[0].indexPosition);
-        // console.log($(this).parent()[0].newsSource);
     }
 }
 
 function formatTextArea() {
-    //var enteredText = $("#location-input").val().split(" ").join("+");
-    var enteredText = geo_info_object.city.split(" ").join('+');
+    var enteredText = $("#location-input").val().split(" ").join("+");
     return enteredText;
 }
 
+// pie chart
+function pieChart(){
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
 
-function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Element', 'Presentage'],
+            ['idhfi',     45],
+            ['Eat',      2],
+            ['Commute',  2],
+            ['Watch TV', 2],
+            ['Sleep',    7]
+            // ['Fossil',parseFloat($(dataCarma)[0].fossil.present)],
+            // ['Hydro',parseFloat($(dataCarma)[0].hydro.present)],
+            // ['Nuclear',parseFloat($(dataCarma)[0].nuclear.present)],
+            // ['Renewable',parseFloat($(dataCarma)[0].renewable.present)]
+        ]);
 
-    var data = google.visualization.arrayToDataTable([
-        ['Element', 'Presentage'],
-        ['Fossil',geo_info_object.fossil],
-        ['Hydro',geo_info_object.hydro],
-        ['Nuclear',geo_info_object.nuclear],
-        ['Renewable',geo_info_object.renewable]
-    ]);
+        var options = {
+            title: 'title'
+        };
 
-    var options = {
-        title: geo_info_object.state +' Energy Production'
-    };
+        var chart = new google.visualization.PieChart(document.getElementsByClassName('pieChart'));
 
-    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-    chart.draw(data, options);
+        chart.draw(data, options);
+    }
 }
+
+
 
