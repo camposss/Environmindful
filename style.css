@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Montserrat-Alt';
+    src: url(MontserratAlternates-Bold.otf);
+}
+
 /* General Styles */
 *{
     box-sizing: border-box;
@@ -5,6 +10,19 @@
 body {
     background-color: #222629;
     color: #86c232;
+}
+
+.title > img{
+    border: 2px solid #ff652f;
+    border-radius: 5px;
+    width: 20%;
+    display: inline-block;
+    margin-left: 5%;
+}
+
+.title> h1 {
+    font-family: Montserrat-Alt;
+    display: inline-block;
 }
 /* Main content */
 .inputBox{
