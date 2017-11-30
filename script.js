@@ -1,7 +1,6 @@
 var dataPlanet = {};
 
 $(document).ready(initializeApp);
-
 var geo_info_object= null;
 function initializeApp () {
     $(".getNews").click(getNewsData);
