@@ -56,7 +56,13 @@ function pullFromCarma() {
 
 function successfulCarmaPull(data) {
     console.log(data);
-    dataCarma = data;
+    debugger
+    // dataCarma = data;
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(function() {
+        drawChart(data);
+    });
 }
 
 function errorPull(data) {
@@ -102,7 +108,7 @@ function geocode(e) {
                 lat: (data.results[0].geometry.location.lat),
                 lon: (data.results[0].geometry.location.lng),
                 city: (data.results[0].address_components[0].long_name),
-                state: (data.results[0].address_components[2].long_name),
+                state: (data.results[0].address_components[1].long_name),
                 country: (data.results[0].address_components[2].long_name)
             };
             console.log(geo_info_object);
@@ -111,7 +117,8 @@ function geocode(e) {
 
             pullFromCarma();
             pullFromPlanetOs();
-            pieChart();
+
+            // pieChart();
         }
     });
 }
@@ -127,22 +134,7 @@ function initMap(lat, lng) {
         map: map
     });
 
-//    var layer = new google.maps.FusionTablesLayer({
-//      query: {
-//        select: 'geometry',
-//        from: '1v0CLpq3lhAjsbG3_kgBRdCf4oKtl-3Z3wYIPgA6y'
-//      },
-//        styles: [{
-//            polygon: 'color'
-//        }],
-//      map: map
-//       
-//    });
-//     layer.setMap(map);
-
 }
-
-
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
@@ -380,31 +372,23 @@ function formatTextArea() {
 }
 
 
-// pie chart
-function pieChart(){
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
+function drawChart(carma) {
+    console.log("draw the chart", carma);
+    var airQuality = carma[0];
 
-        var data = google.visualization.arrayToDataTable([
-            ['Element', 'Presentage'],
-            ['idhfi',     45],
-            ['Eat',      2],
-            ['Commute',  2],
-            ['Watch TV', 2],
-            ['Sleep',    7]
-            // ['Fossil',parseFloat($(dataCarma)[0].fossil.present)],
-            // ['Hydro',parseFloat($(dataCarma)[0].hydro.present)],
-            // ['Nuclear',parseFloat($(dataCarma)[0].nuclear.present)],
-            // ['Renewable',parseFloat($(dataCarma)[0].renewable.present)]
-        ]);
+    var data = google.visualization.arrayToDataTable([
+        ['Element', 'Presentage'],
+        ['Fossil',parseFloat(airQuality.fossil.present)],
+        ['Hydro',parseFloat(airQuality.hydro.present)],
+        ['Nuclear',parseFloat(airQuality.nuclear.present)],
+        ['Renewable',parseFloat(airQuality.renewable.present)]
+    ]);
 
-        var options = {
-            title: 'title'
-        };
+    var options = {
+        title: geo_info_object.state +' Energy Production'
+    };
 
-        var chart = new google.visualization.PieChart(document.getElementsByClassName('pieChart'));
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-        chart.draw(data, options);
-    }
+    chart.draw(data, options);
 }
