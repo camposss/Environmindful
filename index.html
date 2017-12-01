@@ -9,7 +9,7 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
-    <title>GrassPlot</title>
+    <title>Environmindful</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="script.js"></script>
 
@@ -19,7 +19,7 @@
     <div class="row title-search-container col-md-12">
         <div class="title col-md-7 row">
             <img src="images/logo.png" alt="">
-            <h1>GrassPlot</h1>
+            <h1>Environmindful</h1>
         </div>
         <div class="searchContainer col-md-5 row">
             <form id="location-form" class="form-inline">
@@ -134,22 +134,25 @@
                             </div>
                             <div class="item">
                                 <div id="aqi-number-container">
-                                    <span id="aqi-city">#####</span>'s Air Pollution Level:
-                                    <span id="aqiNum">00</span>
+                                    <span id="aqi-city">Your City's</span>'s Air Pollution Level:
+                                    <span id="aqiNum">N/A</span>
                                 </div>
                                 <div>
-                                    <strong>Health Implications: </strong><p id="h_implications">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, cum ut inventore qui ducimus quod, nam velit delectus ad harum aliquam cupiditate architecto tempore nulla, dolor rerum quasi repellendus hic!</p>
+                                    <strong>Health Implications: </strong><p id="h_implications">No health implications at this time, please try again later.</p>
                                 </div>
 
                                 <div>
-                                    <strong>Cautionary Statement: </strong><p id="c_statement">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum dolore minus est impedit corporis, illo vitae non reprehenderit veniam! Qui, dignissimos? Explicabo, dolor, nihil. Maxime iure ullam adipisci quasi vel!</p>
+                                    <strong>Cautionary Statement: </strong><p id="c_statement">No cautionary statements at this time, please try again later.</p>
                                 </div>
                             </div>
-                            <div class="item pieChartPage">
-                                <div id="piechart"></div>
+                            <div class="item">
+                               <div class="pieChartPage">
+                                  <div id="piechart"></div>  
+                               </div>
                             </div>
                             <div class="item">
                                 <div id="weatherDisplay">
+                                    <img id="weatherIcon" src="">
                                     <ul id="weatherList">
                                         <li id="weatherCity"></li>
                                         <li id="weatherCurrent"></li>
