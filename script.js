@@ -189,26 +189,32 @@ function getAqiData(keyword) {
                 console.log('************** NO STATIONS EXIST IN ' + keyword);
                 $('#aqi-city').text(keyword);
                 $('#aqiNum').text('N/A');
-                $('#h_implications').text('No health implications at this time, please try again later...');
-                $('#c_statement').text('No cautionary statements at this time, please try again later...');
-                $('#aqi-number-container').css('background-color', '#80d6f9');
+                $('#h_implications').text('No health implications at this time, please try again later.');
+                $('#c_statement').text('No cautionary statements at this time, please try again later.');
+                $('#aqi-number-container').css({
+                    'background-color':'#80d6f9',
+                    'font-size':'2vmin'
+                });
                 return;
             }
             // if the first station in the array does not have an aqi available, it will check until it finds one
             for (var i=0; i<result.data.length; i++) {
-                var checkAqi = result.data[i].aqi;
-                if (checkAqi !== '' && checkAqi !== '-') {
-                    determineAqiLevel(checkAqi, keyword);
+                geo_info_object.aqi = result.data[i].aqi;
+                if (geo_info_object.aqi !== '' && geo_info_object.aqi !== '-') {
+                    determineAqiLevel(geo_info_object.aqi, keyword);
                     return;
                 }  
-                // determineAqiLevel(checkAqi, keyword);
+                // determineAqiLevel(geo_info_object.aqi, keyword);
             }
             console.log('**************NO AQI AVAILABLE FOR ' + keyword);
             $('#aqi-city').text(keyword);
             $('#aqiNum').text('N/A');
             $('#h_implications').text('No health implications at this time, please try again later.');
             $('#c_statement').text('No cautionary statements at this time, please try again later.');
-            $('#aqi-number-container').css('background-color', '#80d6f9');
+            $('#aqi-number-container').css({
+                'background-color':'#80d6f9',
+                'font-size':'2vmin'
+            });
         },
         error: function (result) {
             console.log('handleAirQuality ajax call resulted in error', result);
@@ -294,11 +300,15 @@ function determineAqiLevel(aqi, keyword) {
 */
 
 function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl) {
-    $('.aqi-city').text(keyword);
+    debugger;
+    $('#aqi-city').text(keyword);
     $('#aqiNum').text(aqi);
     $('#h_implications').text(healthImplications);
     $('#c_statement').text(cautionaryStmt);
-    $('#aqi-number-container').css('background-color', colorLvl);
+    $('#aqi-number-container').css({
+        'background-color': colorLvl,
+        'font-size':'2vmin'
+    });
 }
 
 /*
