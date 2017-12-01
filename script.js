@@ -1,6 +1,7 @@
-//GOOGLE FUSION TABLE API: AIzaSyBWgR4nfF3j9TO6kvtsSkTwxeqNu10M60Q
-//URL:
 $(document).ready(initializeApp);
+/* Upon loading page default location is set to Los Angeles
+Accompanying data will reflect this
+ */
 var geo_info_object = {
     lat: 34.0522 ,
     lon: -118.2437,
@@ -8,10 +9,14 @@ var geo_info_object = {
     state: "California"
 };
 
+/*
+Set click handler for submit button; call geocode function
+load pie chart for future use using google source link found in head of index.html
+callApi function to coordinate api calls.
+ */
 function initializeApp() {
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
-    $("#myModal").show("modal");
     google.charts.load('current', {'packages':['corechart']});
     callApi();
 
@@ -19,7 +24,13 @@ function initializeApp() {
 
 //*********************** open weather api *************************
 /*
-
+url:http://api.openweathermap.org/data/2.5/weather?lat=' +
+        geo_info_object.lat + '&lon=' +
+        geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3
+api-key: 262d0228050ee6334c5273af092b068c
+@param: none
+@return: none
+Call function weatherOutput
  */
 
 function handleWeatherInfo() {
@@ -43,6 +54,24 @@ function handleWeatherInfo() {
             geo_info_object.minTemp = dataMain['temp_min'];
             geo_info_object.maxTemp = dataMain['temp_max'];
             weatherOutput();
+            console.log('weather description: '+ data['weather'][0]['description']);
+            if(data['weather'][0]['description'] === 'broken clouds'){
+              $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
+            }else if(data['weather'][0]['description'] === 'clear sky'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+            }else if(data['weather'][0]['description'] === 'scattered clouds'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
+            }else if(data['weather'][0]['description'] === 'shower rain'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+            }else if(data['weather'][0]['description'] === 'rain'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+            }else if(data['weather'][0]['description'] === 'thunderstorm'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
+            }else if(data['weather'][0]['description'] === 'snow'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
+            }else if(data['weather'][0]['description'] === 'mist'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
+            }
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
@@ -50,15 +79,21 @@ function handleWeatherInfo() {
     })
 }
 
+/*
+Called by handleWeatherInfo
+return: none
+param: none
+ */
 function weatherOutput() {
     $('#weatherCity').empty();
     $('#weatherCurrent').empty();
     $('#weatherTemp').empty();
     $('#weatherHumidity').empty();
     $('#weatherCity').append('City: ' + geo_info_object.city);
-    $('#weatherCurrent').append('Current Temperature: ' + geo_info_object.temperature + '&deg;');
-    $('#weatherTemp').append('Temperature: ' + geo_info_object.minTemp + '&deg;'+ '- ' + geo_info_object.maxTemp + '&deg;');
+    $('#weatherCurrent').append('Current Temperature: ' + geo_info_object.temperature + '&deg; C');
+    $('#weatherTemp').append('Temperature: ' + geo_info_object.minTemp + '&deg; C'+ ' - ' + geo_info_object.maxTemp + '&deg; C');
     $('#weatherHumidity').append('Humidity: ' + geo_info_object.humidity + '%');
+
 }
 
 
@@ -90,7 +125,6 @@ function pullFromCarma() {
     });
 
 }
-
 /*
 Pulls Carma data, adds data to geo info object and calls drawChart
 */
@@ -99,14 +133,16 @@ function successfulCarmaPull(data) {
     geo_info_object.hydro = parseFloat(data[0].hydro.present);
     geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
     geo_info_object.renewable = parseFloat(data[0].renewable.present);
-    
     google.charts.setOnLoadCallback(drawChart);
 }
-
 function errorPull(data) {
     console.log('something went wrong :(', data);
 }
-
+/* geocode function takes the click event as a parameter in order to prevent its default behavior
+    -grabs value of input and makes ajax call to google maps geocode API
+    -gather geolocation data from the API and call the callApi.
+    -Function skeleton taken from google maps geocode documentation.
+ */
 function geocode(e) {
     console.log("hello");
     //prevent actual submit
@@ -132,21 +168,13 @@ function geocode(e) {
             }else if(addressComponentArray.length===3){
                 state=addressComponentArray[1].long_name;
             }
-            // if((data.results[0].address_components[2].types[0]==="administrative_area_level_1")){
-            //     state= (data.results[0].address_components[2].long_name);
-            // }
             geo_info_object = {
                 lat: (data.results[0].geometry.location.lat),
                 lon: (data.results[0].geometry.location.lng),
                 city: city,
                 state: state
-                // city: (data.results[0].address_components[0].long_name),
-                // state: (data.results[0].address_components[1].long_name),
-                // country: (data.results[0].address_components[2].long_name)
             };
-
             console.log('GeoInfoObj: ' +geo_info_object);
-
             callApi();
         }
     });
@@ -160,9 +188,12 @@ function callApi() {
         pullFromCarma();
         getAqiData(geo_info_object.state);
 }
-
+/*
+function takes 2 params: latitude and longitude found in geocode function
+map location is centered on the these params
+function skeleton taken from google maps API documentation
+ */
 function initMap(lat, lng) {
-
     var center = {lat: lat, lng: lng};
     var map = new google.maps.Map(document.getElementById('map_display'), {
         zoom: 12,
@@ -359,10 +390,24 @@ function getDataByLocation(lat, lon) {
 
 // News API Functionality
 
+/*
+*   url: https://newsapi.org/v2/everything?sources=national-geographic&&apiKey=API_key
+*   key: 626bed419f824271a515c974d606275b
+*   Create a function called getDataByLocation
+*   Takes in 2 parameters
+*   @param q - keywords
+*   @param source - news sources
+*   @returns Object of status and array of articles container article info
+*
+*/
 
+// Function for news data retrieval
 function getNewsData() {
+    // Calling format text area function to retrieve data from input, formats string to pass api param properly
     var cityName= formatTextArea();
+    // Clears news list display to repopulate updated search
     $(".newsListDisplay").text("");
+    // Different news sources pulled from National Geo, Google News, New Scientist, and The Huffington Post through News API
     var nationalGeoAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=national-geographic&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
@@ -373,11 +418,11 @@ function getNewsData() {
             console.log("The data was not received.");
         }
     };
-    var abcAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=abc-news&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
+    var googleAPIajaxOptions = {
+        url: "https://newsapi.org/v2/everything?sources=google-news&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             displayNewsData(data);
-            console.log("Data received from ABC news: ", data);
+            console.log("Data received from Google news: ", data);
         },
         error: function () {
             console.log("The data was not received.");
@@ -386,25 +431,33 @@ function getNewsData() {
     var scienceAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=new-scientist&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
-            console.log("Data received from CNN news: ", data);
+            console.log("Data received from New Scientist news: ", data);
             displayNewsData(data);
         },
         error: function () {
             console.log("The data was not received.");
         }
     };
+    var huffingtonAPIajaxOptions = {
+        url: "https://newsapi.org/v2/everything?sources=the-huffington-post&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
+        success: function (data) {
+            console.log("Data received from Huffington news: ", data);
+            displayNewsData(data);
+        },
+        error: function () {
+            console.log("The data was not received.");
+        }
+    };
+    // Ajax calls from news sources
     $.ajax(nationalGeoAPIajaxOptions);
-    $.ajax(abcAPIajaxOptions);
+    $.ajax(googleAPIajaxOptions);
     $.ajax(scienceAPIajaxOptions);
+    $.ajax(huffingtonAPIajaxOptions);
 }
 
+// Function to display proper news data to div
 function displayNewsData(data) {
-    // if ($("#location-input").val() === "") {
-    //     $("#location-input").attr({
-    //         placeholder: "Please enter keywords to search."
-    //     });
-    //     return;
-    // }
+    // Declare variables to use when storing data from News API and displaying on DOM
     var newsInfoArray = [];
     var newsInfo;
     var newsTitleDiv;
@@ -414,6 +467,7 @@ function displayNewsData(data) {
     var newsSourceDiv;
     var image;
     var newsItems;
+    // Loops through data retrieved from news API to store data in object needed for app
     for (var newsIndex = 0; newsIndex < data.articles.length; newsIndex++) {
         newsInfo = {
             newsTitle: data.articles[newsIndex].title,
@@ -424,8 +478,10 @@ function displayNewsData(data) {
             imgSource: data.articles[newsIndex].urlToImage,
             newsSourceID: data.articles[newsIndex].source.id
         };
+        // Create on object of necessary values from API and push into array for later use
         newsInfoArray.push(newsInfo);
     }
+    // Loop to create dom element for each news article pulled from News API
     for (var newsInfoArrayIndex = 0; newsInfoArrayIndex < newsInfoArray.length; newsInfoArrayIndex++) {
         newsAuthorDiv = $("<div>", {
             "class": "newsAuthor",
@@ -453,8 +509,11 @@ function displayNewsData(data) {
         newsItems[0].newsSource = data.articles[newsInfoArrayIndex].source.id;
         console.log("Here is a news item: ", newsItems);
     }
+    // Function to display detailed info of article on modal
     function displayModal () {
+            // Declare variable to store news article link
             var fullArticleLink;
+            // Created function to loop through array and pull up the correct info according what was clicked. Used closure to get snapshot of what is being clicked to populate modal with correct data
             (function () {
             for (var newsClickIndex = 0; newsClickIndex < newsInfoArray.length; newsClickIndex++) {
                 fullArticleLink = $("<a>", {
@@ -462,7 +521,9 @@ function displayNewsData(data) {
                     text: "here",
                     target: "_blank"
                 })
+                // Compares the index position property with the index of the current iterated item and clicked items news source property and the current iterated items news source
                 if ($(event.target).parent()[0].indexPosition === newsClickIndex && $(event.target).parent()[0].newsSource === newsInfoArray[newsClickIndex].newsSourceID) {
+                    // If so, populate info on modal with corresponding info
                     $(".modal-title").text(newsInfoArray[newsClickIndex].newsTitle);
                     $(".img-container").text("");
                     $(".img-container").append($("<img>", {
@@ -475,21 +536,22 @@ function displayNewsData(data) {
                 }
             }
         })()
-        // console.log(newsInfoArray);
-        // console.log($(this).parent()[0].indexPosition);
-        // console.log($(this).parent()[0].newsSource);
     }
 }
-
+// Function to format value from user input to send as param to ajax api request
 function formatTextArea() {
-    //var enteredText = $("#location-input").val().split(" ").join("+");
     var enteredText = geo_info_object.city.split(" ").join('+');
     return enteredText;
 }
 
+// Drawing Pie Chart
+/*
+function drawChart updates the initial chart that was loaded earlier (on page load) with data collected after Carma ajax call
+returns a pie chart that shows various forms of energy production in the given state that was inputted
+function skeleton taken from google pie chart documentation
+ */
 
 function drawChart() {
-
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
         ['Fossil',geo_info_object.fossil],
@@ -497,13 +559,9 @@ function drawChart() {
         ['Nuclear',geo_info_object.nuclear],
         ['Renewable',geo_info_object.renewable]
     ]);
-
     var options = {
         title: geo_info_object.state +' Energy Production'
     };
-
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
     chart.draw(data, options);
 }
-
