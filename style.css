@@ -239,11 +239,11 @@ body {
     text-align: center;
     padding: 3%;
     border-radius: 20px;
-    background-color: #009966;
+    background-color: #80d6f9;
 }
 
 #aqiNum {
-    font-size: 15vmin;
+    font-size: 10vmin;
 }
 thead {
     background-color: #fff;
