@@ -1,6 +1,7 @@
-//GOOGLE FUSION TABLE API: AIzaSyBWgR4nfF3j9TO6kvtsSkTwxeqNu10M60Q
-//URL:
 $(document).ready(initializeApp);
+/* Upon loading page default location is set to Los Angeles
+Accompanying data will reflect this
+ */
 var geo_info_object = {
     lat: 34.0522 ,
     lon: -118.2437,
@@ -8,6 +9,11 @@ var geo_info_object = {
     state: "California"
 };
 
+/*
+Set click handler for submit button; call geocode function
+load pie chart for future use using google source link found in head of index.html
+callApi function to coordinate api calls.
+ */
 function initializeApp() {
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
@@ -90,7 +96,6 @@ function pullFromCarma() {
     });
 
 }
-
 /*
 Pulls Carma data, adds data to geo info object and calls drawChart
 */
@@ -99,14 +104,16 @@ function successfulCarmaPull(data) {
     geo_info_object.hydro = parseFloat(data[0].hydro.present);
     geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
     geo_info_object.renewable = parseFloat(data[0].renewable.present);
-    
     google.charts.setOnLoadCallback(drawChart);
 }
-
 function errorPull(data) {
     console.log('something went wrong :(', data);
 }
-
+/* geocode function takes the click event as a parameter in order to prevent its default behavior
+    -grabs value of input and makes ajax call to google maps geocode API
+    -gather geolocation data from the API and call the callApi.
+    -Function skeleton taken from google maps geocode documentation.
+ */
 function geocode(e) {
     console.log("hello");
     //prevent actual submit
@@ -132,21 +139,13 @@ function geocode(e) {
             }else if(addressComponentArray.length===3){
                 state=addressComponentArray[1].long_name;
             }
-            // if((data.results[0].address_components[2].types[0]==="administrative_area_level_1")){
-            //     state= (data.results[0].address_components[2].long_name);
-            // }
             geo_info_object = {
                 lat: (data.results[0].geometry.location.lat),
                 lon: (data.results[0].geometry.location.lng),
                 city: city,
                 state: state
-                // city: (data.results[0].address_components[0].long_name),
-                // state: (data.results[0].address_components[1].long_name),
-                // country: (data.results[0].address_components[2].long_name)
             };
-
             console.log('GeoInfoObj: ' +geo_info_object);
-
             callApi();
         }
     });
@@ -160,9 +159,12 @@ function callApi() {
         pullFromCarma();
         getAqiData(geo_info_object.state);
 }
-
+/*
+function takes 2 params: latitude and longitude found in geocode function
+map location is centered on the these params
+function skeleton taken from google maps API documentation
+ */
 function initMap(lat, lng) {
-
     var center = {lat: lat, lng: lng};
     var map = new google.maps.Map(document.getElementById('map_display'), {
         zoom: 12,
@@ -173,7 +175,6 @@ function initMap(lat, lng) {
         map: map
     });
 }
-
 
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
@@ -463,16 +464,17 @@ function displayNewsData(data) {
         // console.log($(this).parent()[0].newsSource);
     }
 }
-
 function formatTextArea() {
     //var enteredText = $("#location-input").val().split(" ").join("+");
     var enteredText = geo_info_object.city.split(" ").join('+');
     return enteredText;
 }
-
-
+/*
+function drawChart updates the initial chart that was loaded earlier (on page load) with data collected after Carma ajax call
+returns a pie chart that shows various forms of energy production in the given state that was inputted
+function skeleton taken from google pie chart documentation
+ */
 function drawChart() {
-
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
         ['Fossil',geo_info_object.fossil],
@@ -480,13 +482,9 @@ function drawChart() {
         ['Nuclear',geo_info_object.nuclear],
         ['Renewable',geo_info_object.renewable]
     ]);
-
     var options = {
         title: geo_info_object.state +' Energy Production'
     };
-
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
     chart.draw(data, options);
 }
-
