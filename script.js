@@ -161,10 +161,6 @@ function initMap(lat, lng) {
         map: map
     });
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> a45843d2de9ec1df114905922acf55360bcc6aa1
 
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
