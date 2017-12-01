@@ -250,7 +250,8 @@ thead {
 }
 
 #weatherIcon{
-    height:30%;
-    width: 25%;
-    border: 1px solid black;
+    height:20%;
+    width: 15%;
+    float: right;
+    margin-right: 10%;
 }

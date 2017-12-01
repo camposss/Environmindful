@@ -19,7 +19,13 @@ function initializeApp() {
 
 //*********************** open weather api *************************
 /*
-
+url:http://api.openweathermap.org/data/2.5/weather?lat=' +
+        geo_info_object.lat + '&lon=' +
+        geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3
+api-key: 262d0228050ee6334c5273af092b068c
+@param: none
+@return: none
+Call function weatherOutput
  */
 
 function handleWeatherInfo() {
@@ -43,6 +49,24 @@ function handleWeatherInfo() {
             geo_info_object.minTemp = dataMain['temp_min'];
             geo_info_object.maxTemp = dataMain['temp_max'];
             weatherOutput();
+            console.log('weather description: '+ data['weather'][0]['description']);
+            if(data['weather'][0]['description'] === 'broken clouds'){
+              $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
+            }else if(data['weather'][0]['description'] === 'clear sky'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+            }else if(data['weather'][0]['description'] === 'scattered clouds'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
+            }else if(data['weather'][0]['description'] === 'shower rain'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+            }else if(data['weather'][0]['description'] === 'rain'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+            }else if(data['weather'][0]['description'] === 'thunderstorm'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
+            }else if(data['weather'][0]['description'] === 'snow'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
+            }else if(data['weather'][0]['description'] === 'mist'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
+            }
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
@@ -50,15 +74,21 @@ function handleWeatherInfo() {
     })
 }
 
+/*
+Called by handleWeatherInfo
+return: none
+param: none
+ */
 function weatherOutput() {
     $('#weatherCity').empty();
     $('#weatherCurrent').empty();
     $('#weatherTemp').empty();
     $('#weatherHumidity').empty();
     $('#weatherCity').append('City: ' + geo_info_object.city);
-    $('#weatherCurrent').append('Current Temperature: ' + geo_info_object.temperature + '&deg;');
-    $('#weatherTemp').append('Temperature: ' + geo_info_object.minTemp + '&deg;'+ '- ' + geo_info_object.maxTemp + '&deg;');
+    $('#weatherCurrent').append('Current Temperature: ' + geo_info_object.temperature + '&deg; C');
+    $('#weatherTemp').append('Temperature: ' + geo_info_object.minTemp + '&deg; C'+ ' - ' + geo_info_object.maxTemp + '&deg; C');
     $('#weatherHumidity').append('Humidity: ' + geo_info_object.humidity + '%');
+
 }
 
 
