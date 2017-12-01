@@ -539,24 +539,19 @@ function displayNewsData(data) {
         })()
     }
 }
-<<<<<<< HEAD
 // Function to format value from user input to send as param to ajax api request
-=======
->>>>>>> 6e950abd2af8019df8f6f6687e05246e142a8697
 function formatTextArea() {
     var enteredText = geo_info_object.city.split(" ").join('+');
     return enteredText;
 }
-<<<<<<< HEAD
 
 // Drawing Pie Chart
-=======
 /*
 function drawChart updates the initial chart that was loaded earlier (on page load) with data collected after Carma ajax call
 returns a pie chart that shows various forms of energy production in the given state that was inputted
 function skeleton taken from google pie chart documentation
  */
->>>>>>> 6e950abd2af8019df8f6f6687e05246e142a8697
+
 function drawChart() {
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
