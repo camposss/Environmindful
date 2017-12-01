@@ -242,6 +242,10 @@ body {
     background-color: #80d6f9;
 }
 
+.message, p#h_implications, p#c_statement {
+    font-size: 15px;
+}
+
 #aqiNum {
     font-size: 10vmin;
 }
