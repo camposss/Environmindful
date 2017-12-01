@@ -95,14 +95,6 @@ function weatherOutput() {
 
 }
 
-
-
-
-
-
-
-
-
 /*
 *   url: http://carma.org/api/  
 *   key/token: NA
