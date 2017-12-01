@@ -184,8 +184,9 @@ h1 {
 #weatherList{
     list-style: none;
     position: relative;
-    top: 5vh;
+    top: 3vh;
     height: 50vh;
+    margin-left:3vh;
 }
 #weatherList li {
     line-height: 5vh;
