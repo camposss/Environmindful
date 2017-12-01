@@ -148,7 +148,6 @@ h1 {
 }
 
 .pieChartPage{
-    border: 1px solid red;
     height: 100%;
     width: 100%;
 }
@@ -265,6 +264,10 @@ h1 {
     padding: 3%;
     border-radius: 20px;
     background-color: #80d6f9;
+}
+
+.message, p#h_implications, p#c_statement {
+    font-size: 15px;
 }
 
 #aqiNum {

@@ -100,14 +100,6 @@ function weatherOutput() {
 
 }
 
-
-
-
-
-
-
-
-
 /*
 *   url: http://carma.org/api/  
 *   key/token: NA
@@ -347,7 +339,6 @@ function determineAqiLevel(aqi, keyword) {
 */
 
 function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl) {
-    debugger;
     $('#aqi-city').text(keyword);
     $('#aqiNum').text(aqi);
     $('#h_implications').text(healthImplications);
