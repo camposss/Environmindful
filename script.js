@@ -54,9 +54,8 @@ function handleWeatherInfo() {
             geo_info_object.minTemp = dataMain['temp_min'];
             geo_info_object.maxTemp = dataMain['temp_max'];
             weatherOutput();
-            console.log('weather description: '+ data['weather'][0]['description']);
             if(data['weather'][0]['description'] === 'broken clouds'){
-              $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
+                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
             }else if(data['weather'][0]['description'] === 'clear sky'){
                 $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
             }else if(data['weather'][0]['description'] === 'scattered clouds'){
@@ -90,7 +89,7 @@ function weatherOutput() {
     $('#weatherTemp').empty();
     $('#weatherHumidity').empty();
     $('#weatherCity').append('City: ' + geo_info_object.city);
-    $('#weatherCurrent').append('Current Temperature: ' + geo_info_object.temperature + '&deg; C');
+    $('#weatherCurrent').append('Current Temperature: ' + parseInt(geo_info_object.temperature) + '&deg; C');
     $('#weatherTemp').append('Temperature: ' + geo_info_object.minTemp + '&deg; C'+ ' - ' + geo_info_object.maxTemp + '&deg; C');
     $('#weatherHumidity').append('Humidity: ' + geo_info_object.humidity + '%');
 
