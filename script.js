@@ -25,7 +25,13 @@ function initializeApp() {
 
 //*********************** open weather api *************************
 /*
-
+url:http://api.openweathermap.org/data/2.5/weather?lat=' +
+        geo_info_object.lat + '&lon=' +
+        geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3
+api-key: 262d0228050ee6334c5273af092b068c
+@param: none
+@return: none
+Call function weatherOutput
  */
 
 function handleWeatherInfo() {
@@ -49,6 +55,24 @@ function handleWeatherInfo() {
             geo_info_object.minTemp = dataMain['temp_min'];
             geo_info_object.maxTemp = dataMain['temp_max'];
             weatherOutput();
+            console.log('weather description: '+ data['weather'][0]['description']);
+            if(data['weather'][0]['description'] === 'broken clouds'){
+              $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
+            }else if(data['weather'][0]['description'] === 'clear sky'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+            }else if(data['weather'][0]['description'] === 'scattered clouds'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
+            }else if(data['weather'][0]['description'] === 'shower rain'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+            }else if(data['weather'][0]['description'] === 'rain'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+            }else if(data['weather'][0]['description'] === 'thunderstorm'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
+            }else if(data['weather'][0]['description'] === 'snow'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
+            }else if(data['weather'][0]['description'] === 'mist'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
+            }
         },
         error: function () {
             $('.data').text('Sorry, your temperature info is missing!')
@@ -56,15 +80,21 @@ function handleWeatherInfo() {
     })
 }
 
+/*
+Called by handleWeatherInfo
+return: none
+param: none
+ */
 function weatherOutput() {
     $('#weatherCity').empty();
     $('#weatherCurrent').empty();
     $('#weatherTemp').empty();
     $('#weatherHumidity').empty();
     $('#weatherCity').append('City: ' + geo_info_object.city);
-    $('#weatherCurrent').append('Current Temperature: ' + geo_info_object.temperature + '&deg;');
-    $('#weatherTemp').append('Temperature: ' + geo_info_object.minTemp + '&deg;'+ '- ' + geo_info_object.maxTemp + '&deg;');
+    $('#weatherCurrent').append('Current Temperature: ' + geo_info_object.temperature + '&deg; C');
+    $('#weatherTemp').append('Temperature: ' + geo_info_object.minTemp + '&deg; C'+ ' - ' + geo_info_object.maxTemp + '&deg; C');
     $('#weatherHumidity').append('Humidity: ' + geo_info_object.humidity + '%');
+
 }
 
 
@@ -201,19 +231,34 @@ function getAqiData(keyword) {
         success: function(result) {
             if (result.data.length === 0) {
                 console.log('************** NO STATIONS EXIST IN ' + keyword);
+                $('#aqi-city').text(keyword);
+                $('#aqiNum').text('N/A');
+                $('#h_implications').text('No health implications at this time, please try again later.');
+                $('#c_statement').text('No cautionary statements at this time, please try again later.');
+                $('#aqi-number-container').css({
+                    'background-color':'#80d6f9',
+                    'font-size':'2vmin'
+                });
                 return;
             }
             // if the first station in the array does not have an aqi available, it will check until it finds one
             for (var i=0; i<result.data.length; i++) {
-                var checkAqi = result.data[i].aqi;
-                if (checkAqi !== '' && checkAqi !== '-') {
-                    determineAqiLevel(checkAqi, keyword);
+                geo_info_object.aqi = result.data[i].aqi;
+                if (geo_info_object.aqi !== '' && geo_info_object.aqi !== '-') {
+                    determineAqiLevel(geo_info_object.aqi, keyword);
                     return;
                 }  
-                // determineAqiLevel(checkAqi, keyword);
+                // determineAqiLevel(geo_info_object.aqi, keyword);
             }
             console.log('**************NO AQI AVAILABLE FOR ' + keyword);
-            // return checkAqi;
+            $('#aqi-city').text(keyword);
+            $('#aqiNum').text('N/A');
+            $('#h_implications').text('No health implications at this time, please try again later.');
+            $('#c_statement').text('No cautionary statements at this time, please try again later.');
+            $('#aqi-number-container').css({
+                'background-color':'#80d6f9',
+                'font-size':'2vmin'
+            });
         },
         error: function (result) {
             console.log('handleAirQuality ajax call resulted in error', result);
@@ -283,7 +328,7 @@ function determineAqiLevel(aqi, keyword) {
     console.log('*****Air Pollution Level: ' + airPollutionLvl);
     console.log('*****Health Implications: ' + healthImplications);
     console.log('*****Cautionary Statement: ' + cautionaryStmt);
-    renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl)
+    renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl);
 }
 
 /*
@@ -299,11 +344,15 @@ function determineAqiLevel(aqi, keyword) {
 */
 
 function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl) {
-    $('.aqi-city').text(keyword);
+    debugger;
+    $('#aqi-city').text(keyword);
     $('#aqiNum').text(aqi);
     $('#h_implications').text(healthImplications);
     $('#c_statement').text(cautionaryStmt);
-    $('#aqi-number-container').css('background-color', colorLvl);
+    $('#aqi-number-container').css({
+        'background-color': colorLvl,
+        'font-size':'2vmin'
+    });
 }
 
 /*
