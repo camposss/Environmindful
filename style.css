@@ -67,7 +67,7 @@ h1 {
     margin-bottom: 2vh;
     position: relative;
     left: 3vmin;
-    top: 10vh;
+    top: 6vh;
 }
 .carousel-inner {
     position:relative;
@@ -77,16 +77,17 @@ h1 {
 .map_div{
     height: 35vh;
     /*margin-bottom: 2vh;*/
-    border-radius: 5px;
     position: relative;
-    top: 10vh;
+    top: 6vh;
     margin-left: 1%;
+    padding-bottom: 18px;
 }
 #map_display{
     width: 99%;
     height: 100%;
     border: 5px #ff652f ridge;
     box-shadow: 3px 2px 3px #888888;
+    border-radius: 5px;
 }
 .btnCol{
     /*margin-bottom: 1vh;*/
@@ -107,7 +108,7 @@ h1 {
     text-align: center;
     color: #000;
     font-size: 1vmin;
-    box-shadow: 4px 4px 3px #888888;
+    box-shadow: 4px 3px 9px 3px #888888;
 }
 
 /*.data{*/
@@ -119,7 +120,7 @@ h1 {
     height: 50vh;
     background-color: #61982f;
     border-radius: 1%;
-    box-shadow: 3px 3px 2px #888888;
+    box-shadow: 4px 3px 9px 3px #888888;
 }
 .newsTitle {
     margin: 0 auto;

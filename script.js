@@ -232,7 +232,7 @@ function getAqiData(keyword) {
                 $('#c_statement').text('No cautionary statements at this time, please try again later.');
                 $('#aqi-number-container').css({
                     'background-color':'#80d6f9',
-                    'font-size':'2vmin'
+                    'font-size':'155%'
                 });
                 return;
             }
@@ -252,7 +252,7 @@ function getAqiData(keyword) {
             $('#c_statement').text('No cautionary statements at this time, please try again later.');
             $('#aqi-number-container').css({
                 'background-color':'#80d6f9',
-                'font-size':'2vmin'
+                'font-size':'155%'
             });
         },
         error: function (result) {
@@ -345,7 +345,7 @@ function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorL
     $('#c_statement').text(cautionaryStmt);
     $('#aqi-number-container').css({
         'background-color': colorLvl,
-        'font-size':'2vmin'
+        'font-size':'155%'
     });
 }
 
