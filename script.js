@@ -161,10 +161,6 @@ function initMap(lat, lng) {
         map: map
     });
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> a45843d2de9ec1df114905922acf55360bcc6aa1
 
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
@@ -191,6 +187,11 @@ function getAqiData(keyword) {
         success: function(result) {
             if (result.data.length === 0) {
                 console.log('************** NO STATIONS EXIST IN ' + keyword);
+                $('#aqi-city').text(keyword);
+                $('#aqiNum').text('N/A');
+                $('#h_implications').text('No health implications at this time, please try again later...');
+                $('#c_statement').text('No cautionary statements at this time, please try again later...');
+                $('#aqi-number-container').css('background-color', '#80d6f9');
                 return;
             }
             // if the first station in the array does not have an aqi available, it will check until it finds one
@@ -203,7 +204,11 @@ function getAqiData(keyword) {
                 // determineAqiLevel(checkAqi, keyword);
             }
             console.log('**************NO AQI AVAILABLE FOR ' + keyword);
-            // return checkAqi;
+            $('#aqi-city').text(keyword);
+            $('#aqiNum').text('N/A');
+            $('#h_implications').text('No health implications at this time, please try again later.');
+            $('#c_statement').text('No cautionary statements at this time, please try again later.');
+            $('#aqi-number-container').css('background-color', '#80d6f9');
         },
         error: function (result) {
             console.log('handleAirQuality ajax call resulted in error', result);
@@ -273,7 +278,7 @@ function determineAqiLevel(aqi, keyword) {
     console.log('*****Air Pollution Level: ' + airPollutionLvl);
     console.log('*****Health Implications: ' + healthImplications);
     console.log('*****Cautionary Statement: ' + cautionaryStmt);
-    renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl)
+    renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorLvl);
 }
 
 /*
