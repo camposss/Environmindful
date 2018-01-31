@@ -553,6 +553,13 @@ function displayNewsData(data, newsAvailability) {
 }
 // Function to format value from user input to send as param to ajax api request
 function formatTextArea() {
+    debugger;
+    if (!geo_info_object.city) {
+        $("#location-input").attr({
+            "placeholder": "Please enter a city name.",
+        }).val("");
+        return;
+    }
     var enteredText = geo_info_object.city.split(" ").join('+');
     return enteredText;
 }
