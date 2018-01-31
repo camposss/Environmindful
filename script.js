@@ -38,8 +38,8 @@ function handleWeatherInfo() {
         method: 'get',
         data: {
             api_key: '262d0228050ee6334c5273af092b068c',
-            latitude: geo_info_object.lat,
-            longitude: geo_info_object.lon
+        latitude: geo_info_object.lat,
+        longitude: geo_info_object.lon
         },
         url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
         geo_info_object.lat + '&lon=' +
