@@ -595,12 +595,30 @@ function drawChart() {
         ['Renewable',geo_info_object.renewable]
     ]);
     var options = {
+        backgroundColor: '#61982f',
         title: geo_info_object.state +' Energy Production',
+        titleTextStyle: {
+            color: 'white',
+            fontSize: 28,
+            bold: true,
+            fontName: 'Montserrat Alternates'
+            
+        },
+        slices: [{color: 'red', offset: 0.2}, {color: 'blue', offset: 0.2},{color: 'orange', offset: 0.2}, {color: 'magenta', offset: 0.2}],
+        fontSize: 24,
         width: 500,
         height: 450,
+        legend: {
+            textStyle: {
+            bold: true,
+            color: 'white',
+            fontSize: 20
+        }
+        
+        },
         chartArea: {
             left: "10%",
-            top: "5%",
+            top: "10%",
             height: "95%",
             width: "95%"
         }    
