@@ -9,13 +9,15 @@ Set click handler for submit button; call geocode function
 load pie chart for future use using google source link found in head of index.html
 callApi function to coordinate api calls.
  */
-function initializeApp() {
     var geo_info_object = {
         lat: 34.0522 ,
         lon: -118.2437,
         city: "Los Angeles",
         state: "California"
     };
+
+function initializeApp() {
+
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
     google.charts.load('current', {'packages':['corechart']});
