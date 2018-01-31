@@ -20,29 +20,7 @@ function initializeApp() {
     submit_button.on('click', geocode);
     google.charts.load('current', {'packages':['corechart']});
     callApi();
-    var environModel = new ModelObject();
-    var environView = new ViewObject(environModel);
-    var environCtrl = new CtrlObject(environModel, environView);
 
-}
-
-class ModelObject{
-    constructor(){
-        
-    }
-}
-
-class ViewObject{
-    constructor(model){
-        this.model = model;
-    }
-}
-
-class CtrlObject{
-    constructor(model, view){
-        this.model = model;
-        this.view = view;
-    }
 }
 
 //*********************** open weather api *************************
