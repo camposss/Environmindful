@@ -39,43 +39,50 @@ function handleWeatherInfo() {
         method: 'get',
         data: {
             api_key: '262d0228050ee6334c5273af092b068c',
-            latitude: geo_info_object.lat,
-            longitude: geo_info_object.lon
+        latitude: geo_info_object.lat,
+        longitude: geo_info_object.lon
         },
         url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
         geo_info_object.lat + '&lon=' +
         geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             var dataMain = data['main'];
-            // var cityName = geo_info_object.city;
             geo_info_object.temperature = dataMain['temp'];
             geo_info_object.humidity = dataMain['humidity'];
             geo_info_object.minTemp = dataMain['temp_min'];
             geo_info_object.maxTemp = dataMain['temp_max'];
             weatherOutput();
-            console.log(data['weather'][0]['description']);
-            if(data['weather'][0]['description'] === 'broken clouds'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
-            }else if(data['weather'][0]['description'] === 'clear sky'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-            }else if(data['weather'][0]['description'] === 'scattered clouds'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');}
-            else if(data['weather'][0]['description'] === 'few clouds'){
+            switch(data['weather'][0]['description']) {
+                case 'broken clouds':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
+                    break;
+                case 'clear sky':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+                    break;
+                case 'scattered clouds':
                     $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
-            }else if(data['weather'][0]['description'] === 'shower rain'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-            }else if(data['weather'][0]['description'] === 'rain'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-            }else if(data['weather'][0]['description'] === 'thunderstorm'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
-            }else if(data['weather'][0]['description'] === 'snow'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
-            }else if(data['weather'][0]['description'] === 'mist'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
-            }else{
-                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+                    break;
+                case 'few clouds':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
+                    break;
+                case 'shower rain':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+                    break;
+                case 'rain':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+                    break;
+                case 'thunderstorm':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
+                    break;
+                case 'snow':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
+                    break;
+                case 'mist':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
+                    break;
+                default:
+                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
             }
         },
         error: function () {
