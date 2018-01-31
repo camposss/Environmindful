@@ -19,7 +19,29 @@ function initializeApp() {
     submit_button.on('click', geocode);
     google.charts.load('current', {'packages':['corechart']});
     callApi();
+    var environModel = new ModelObject();
+    var environView = new ViewObject(environModel);
+    var environCtrl = new CtrlObject(environModel, environView);
 
+}
+
+class ModelObject{
+    constructor(){
+        
+    }
+}
+
+class ViewObject{
+    constructor(model){
+        this.model = model;
+    }
+}
+
+class CtrlObject{
+    constructor(model, view){
+        this.model = model;
+        this.view = view;
+    }
 }
 
 //*********************** open weather api *************************
@@ -199,6 +221,15 @@ function initMap(lat, lng) {
         position: center,
         map: map
     });
+    
+    var  waqiMapOverlay  =  new  google.maps.ImageMapType({  
+                  getTileUrl:  function(coord,  zoom)  {  
+                            return  'https://tiles.waqi.info/tiles/usepa-aqi/'  +  zoom  +  "/"  +  coord.x  +  "/"  +  coord.y  +  ".png?token=_TOKEN_ID_";  
+                  },  
+                  name:  "Air  Quality",  
+        });  
+  
+      map.overlayMapTypes.insertAt(0,waqiMapOverlay);  
 }
 
 // **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
