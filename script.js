@@ -565,15 +565,24 @@ function skeleton taken from google pie chart documentation
 
 function drawChart() {
     var data = google.visualization.arrayToDataTable([
-        ['Element', 'Presentage'],
+        ['Element', 'Percentage'],
         ['Fossil',geo_info_object.fossil],
         ['Hydro',geo_info_object.hydro],
         ['Nuclear',geo_info_object.nuclear],
         ['Renewable',geo_info_object.renewable]
     ]);
     var options = {
-        title: geo_info_object.state +' Energy Production'
+        title: geo_info_object.state +' Energy Production',
+        width: 500,
+        height: 450,
+        chartArea: {
+            left: "10%",
+            top: "5%",
+            height: "95%",
+            width: "95%"
+        }    
     };
+    
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
 }
