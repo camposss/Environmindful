@@ -2,7 +2,12 @@ $(document).ready(initializeApp);
 /* Upon loading page default location is set to Los Angeles
 Accompanying data will reflect this
  */
-
+var geo_info_object = {
+    lat: 34.0522 ,
+    lon: -118.2437,
+    city: "Los Angeles",
+    state: "California",
+};
 
 /*
 Set click handler for submit button; call geocode function
@@ -10,19 +15,11 @@ load pie chart for future use using google source link found in head of index.ht
 callApi function to coordinate api calls.
  */
 function initializeApp() {
-    var geo_info_object = {
-        lat: 34.0522 ,
-        lon: -118.2437,
-        city: "Los Angeles",
-        state: "California"
-    };
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
     google.charts.load('current', {'packages':['corechart']});
     callApi();
-
 }
-
 //*********************** open weather api *************************
 /*
 url:http://api.openweathermap.org/data/2.5/weather?lat=' +
@@ -408,6 +405,7 @@ function getDataByLocation(lat, lon) {
 
 // Function for news data retrieval
 function getNewsData() {
+    var checkNewsAvailability = 0;
     // Calling format text area function to retrieve data from input, formats string to pass api param properly
     var cityName= formatTextArea();
     // Clears news list display to repopulate updated search
@@ -416,8 +414,10 @@ function getNewsData() {
     var nationalGeoAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=national-geographic&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
-            displayNewsData(data);
-            console.log("Data received from National Geo: ", data);
+            if (!data.articles.length) {
+                checkNewsAvailability++;
+            }
+            displayNewsData(data, checkNewsAvailability);
         },
         error: function () {
             console.log("The data was not received.");
@@ -426,8 +426,10 @@ function getNewsData() {
     var googleAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=google-news&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
-            displayNewsData(data);
-            console.log("Data received from Google news: ", data);
+            if (!data.articles.length) {
+                checkNewsAvailability++;
+            }
+            displayNewsData(data, checkNewsAvailability);
         },
         error: function () {
             console.log("The data was not received.");
@@ -436,8 +438,10 @@ function getNewsData() {
     var scienceAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=new-scientist&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
-            console.log("Data received from New Scientist news: ", data);
-            displayNewsData(data);
+            if (!data.articles.length) {
+                checkNewsAvailability++;
+            }
+            displayNewsData(data, checkNewsAvailability);
         },
         error: function () {
             console.log("The data was not received.");
@@ -446,22 +450,28 @@ function getNewsData() {
     var huffingtonAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=the-huffington-post&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
-            console.log("Data received from Huffington news: ", data);
-            displayNewsData(data);
+            if (!data.articles.length) {
+                checkNewsAvailability++;
+            }
+            displayNewsData(data, checkNewsAvailability);
         },
         error: function () {
             console.log("The data was not received.");
         }
     };
     // Ajax calls from news sources
-    $.ajax(nationalGeoAPIajaxOptions);
-    $.ajax(googleAPIajaxOptions);
-    $.ajax(scienceAPIajaxOptions);
-    $.ajax(huffingtonAPIajaxOptions);
+    $.ajax(nationalGeoAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });
+    $.ajax(googleAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });;
+    $.ajax(scienceAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });;
+    $.ajax(huffingtonAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });;
 }
 
 // Function to display proper news data to div
-function displayNewsData(data) {
+function displayNewsData(data, newsAvailability) {
+    if (newsAvailability === 4) {
+        $(".newsListDisplay").text("Sorry, no articles available for entered location.");
+        return;
+    }
     // Declare variables to use when storing data from News API and displaying on DOM
     var newsInfoArray = [];
     var newsInfo;
@@ -512,16 +522,14 @@ function displayNewsData(data) {
         $(".newsListDisplay").append(newsItems);
         newsItems[0].indexPosition = newsInfoArrayIndex;
         newsItems[0].newsSource = data.articles[newsInfoArrayIndex].source.id;
-        console.log("Here is a news item: ", newsItems);
     }
     // Function to display detailed info of article on modal
     function displayModal () {
             // Declare variable to store news article link
-            var fullArticleLink;
             // Created function to loop through array and pull up the correct info according what was clicked. Used closure to get snapshot of what is being clicked to populate modal with correct data
             (function () {
             for (var newsClickIndex = 0; newsClickIndex < newsInfoArray.length; newsClickIndex++) {
-                fullArticleLink = $("<a>", {
+                var fullArticleLink = $("<a>", {
                     href: newsInfoArray[newsClickIndex].newsLink,
                     text: "here",
                     target: "_blank"
