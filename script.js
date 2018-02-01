@@ -157,7 +157,7 @@ function geocode(e) {
             key: "AIzaSyD2vYz71KVg4PUiyae7M21lCA1Wkh0b8RY"
         },
         success: function (data) {
-            console.log(data);
+            console.log('geocodesuccess: ',data);
             //geometry
             var city;
             var state;
@@ -176,7 +176,7 @@ function geocode(e) {
                 city: city,
                 state: state
             };
-            console.log('GeoInfoObj: ' +geo_info_object);
+            console.log('GeoInfoObj: ' + geo_info_object);
             callApi();
         }
     });
@@ -588,7 +588,7 @@ function drawChart() {
     ]);
     var options = {
         backgroundColor: '#61982f',
-        title: geo_info_object.state +' Energy Production',
+        title: "  "+geo_info_object.state +' Energy Production',
         titleTextStyle: {
             color: 'white',
             fontSize: 24,
@@ -596,11 +596,12 @@ function drawChart() {
             fontName: 'Montserrat Alternates'
             
         },
-        slices: [{color: 'red', offset: 0.1}, {color: 'blue', offset: 0.1},{color: 'orange', offset: 0.1}, {color: 'magenta', offset: 0.1}],
+        slices: [{color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0.4}],
         fontSize: 20,
         width: 550,
         height: 450,
-        pieStartAngle: 0,
+        pieStartAngle: 90,
+        pieHole: 0.4,
         legend: {
             textStyle: {
             bold: true,
@@ -612,10 +613,10 @@ function drawChart() {
         
         },
         chartArea: {
-            left: "15%",
+            left: "10%",
             top: "10%",
-            height: "75%",
-            width: "75%"
+            height: "70%",
+            width: "70%"
         }    
     };
     
