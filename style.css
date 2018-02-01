@@ -149,7 +149,6 @@ h1 {
 }
 
 .pieChartPage{
-    margin-left: 10%;
     width: 100%;
 }
 #pieChart{
@@ -174,6 +173,7 @@ h1 {
 }
 
 #weatherDisplay{
+    margin-top: 10%;
     font-size:3vmin;
     color: white;
     line-height:initial;
