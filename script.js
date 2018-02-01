@@ -182,8 +182,10 @@ function callApi() {
         getNewsData();
         handleWeatherInfo();
         pullFromCarma();
-        //getAqiData(geo_info_object.state);
-        getDataByLocation(geo_info_object.lat, geo_info_object.lon)
+        getAqiData(geo_info_object.state);
+    
+        setTimeout(function(){ google.charts.setOnLoadCallback(drawChart); }, 2500);
+
 }
 /*
 function takes 2 params: latitude and longitude found in geocode function
@@ -559,6 +561,14 @@ function skeleton taken from google pie chart documentation
  */
 
 function drawChart() {
+    var name = '';
+        
+    if(geo_info_object.state === undefined){
+        name = 'No Energy Production Data';        
+    } else {
+        name = geo_info_object.state + ' Energy Production';
+    }
+
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
         ['Fossil',geo_info_object.fossil],
@@ -566,8 +576,39 @@ function drawChart() {
         ['Nuclear',geo_info_object.nuclear],
         ['Renewable',geo_info_object.renewable]
     ]);
+
+
     var options = {
-        title: geo_info_object.state +' Energy Production'
+        backgroundColor: '#61982f',
+        title: name,
+        titleTextStyle: {
+            color: 'white',
+            fontSize: 24,
+            bold: true,
+            fontName: 'Montserrat Alternates'
+        },
+        slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0.4}],
+        fontSize: 20,
+        width: 650,
+        height: 350,
+        pieStartAngle: 90,
+        pieHole: 0.4,
+        legend: {
+            textStyle: {
+            bold: true,
+            color: 'white',
+            fontSize: 20
+        },
+            position: 'left',
+            alignment: 'center'
+
+        },
+        chartArea: {
+            left: "5%",
+            top: "15%",
+            height: "80%",
+            width: "80%"
+        }    
     };
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
