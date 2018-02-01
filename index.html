@@ -8,38 +8,39 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="style2.css">
     <title>Environmindful</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="script.js"></script>
 
 </head>
 <body>
 <div class="container">
-    <div class="row title-search-container col-md-12">
-        <div class="title col-md-7 row">
+    <div class="title-search-container row">
+        <div class="title col-xs-12 col-md-3">
             <img src="images/logo.png" alt="">
             <h1>Environmindful</h1>
         </div>
-        <div class="searchContainer col-md-5 row">
+        <div class="searchContainer col-xs-12 col-md-3 pull-right">
             <form id="location-form" class="form-inline">
                 <input type="text" id="location-input" class="form-control" placeholder="Enter a city...">
                 <button id="submit_button" type="submit" class="btn btn-primary getNews">Submit</button>
             </form>
         </div>
     </div>
-    <div class="row news-carousel">
-        <div class="leftCol col-sm-5 row">
-            <div class="news">
-                <div class="row m-auto text-center newsTitle">
+    <div class="news-carousel">
+        <div class="news-carousel">
+            <div class="news col-md-5">
+                <div class="newsTitle">
                     <h1>Recent News</h1>
                 </div>
                 <div class="newsListDisplay"></div>
             </div>
         </div>
-
-        <div class="rightCol col-sm-7 row">
-            <div class="carouselContainer m-auto row col-md-12">
+        <div class="news-carousel">
+            <div class="carouselContainer col-md-7">
                 <div class="data">
                     <!--dataCarousel-->
                     <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="2800">
@@ -53,13 +54,13 @@
                         <div class="carousel-inner">
                             <div class="item active">
                                 <div class="aqi-container">
-                                    <table>
+                                <img src="images/aqi-table2.png" alt="">
+<!--
+                                    <table id="aqi-table">
                                         <thead>
                                         <tr id="head-col">
                                             <td id="aqi-col">AQI</td>
                                             <td id="poll-col">Air Pollution Level</td>
-                                            <td>Health Implications</td>
-                                            <td>Cautionary Statement (for PM2.5)</td>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -67,69 +68,41 @@
                                         <tr class="good">
                                             <td>0-50</td>
                                             <td>Good</td>
-                                            <td>
-                                                Air quality is considered satisfactory, and air pollution poses little or no risk
-                                            </td>
-                                            <td>None</td>
-                                        </tr>
+                                            
+                                          </tr>
 
                                         <tr class="moderate">
                                             <td>51-100</td>
                                             <td>Moderate</td>
-                                            <td>
-                                                Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.
-                                            </td>
-                                            <td>
-                                                Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.
-                                            </td>
+   
                                         </tr>
 
                                         <tr class="sensitive">
                                             <td>101-150</td>
                                             <td>Unhealthy for Sensitive Groups</td>
-                                            <td>
-                                                Members of sensitive groups may experience health effects. The general public is not likely to be affected.
-                                            </td>
-                                            <td>
-                                                Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.
-                                            </td>
+  
                                         </tr>
 
                                         <tr class="unhealthy">
                                             <td>151-200</td>
                                             <td>Unhealthy</td>
-                                            <td>
-                                                Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects
-                                            </td>
-                                            <td>
-                                                Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion
-                                            </td>
+  
                                         </tr>
 
                                         <tr class="very-unhealthy">
                                             <td>201-300</td>
                                             <td>Very Unhealthy</td>
-                                            <td>
-                                                Health warnings of emergency conditions. The entire population is more likely to be affected.
-                                            </td>
-                                            <td>
-                                                Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.
-                                            </td>
+   
                                         </tr>
 
                                         <tr class="hazard">
                                             <td>300+</td>
                                             <td>Hazardous</td>
-                                            <td>
-                                                Health alert: everyone may experience more serious health effects
-                                            </td>
-                                            <td>
-                                                Everyone should avoid all outdoor exertion
-                                            </td>
                                         </tr>
 
                                         </tbody>
                                     </table>
+-->
                                 </div>
                             </div>
                             <div class="item">
@@ -176,9 +149,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="map_div col-md-12">
+            <div class="map_div col-xs-12">
 
                 <!--
                             <div class="btnCol">
@@ -187,7 +158,6 @@
                             </div>
                 -->
                 <div id="map_display"></div>
-
                 <!--<div class="carouselContainer m-auto row col-md-12">-->
                 <!--<div id="piechart" style="width: 900px; height: 500px;"></div>-->
                 <!--</div>-->
@@ -210,10 +180,7 @@
         </div>
     </div>
 
-
-
-</div>
-<script async defer
+<script defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy0-D5zCNe2d3E-wSsfbMSr3upkWsdRcA">
 </script>
 
