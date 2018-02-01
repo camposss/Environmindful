@@ -6,20 +6,22 @@ var geo_info_object = {
     lat: 34.0522 ,
     lon: -118.2437,
     city: "Los Angeles",
-    state: "California",
+    state: "California"
 };
+
 /*
 Set click handler for submit button; call geocode function
 load pie chart for future use using google source link found in head of index.html
 callApi function to coordinate api calls.
  */
 function initializeApp() {
-
     var submit_button = $('#submit_button');
     submit_button.on('click', geocode);
     google.charts.load('current', {'packages':['corechart']});
     callApi();
+
 }
+
 //*********************** open weather api *************************
 /*
 url:http://api.openweathermap.org/data/2.5/weather?lat=' +
@@ -36,50 +38,43 @@ function handleWeatherInfo() {
         method: 'get',
         data: {
             api_key: '262d0228050ee6334c5273af092b068c',
-        latitude: geo_info_object.lat,
-        longitude: geo_info_object.lon
+            latitude: geo_info_object.lat,
+            longitude: geo_info_object.lon
         },
         url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
         geo_info_object.lat + '&lon=' +
         geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
         dataType: 'json',
         success: function (data) {
+            console.log(data);
             var dataMain = data['main'];
+            // var cityName = geo_info_object.city;
             geo_info_object.temperature = dataMain['temp'];
             geo_info_object.humidity = dataMain['humidity'];
             geo_info_object.minTemp = dataMain['temp_min'];
             geo_info_object.maxTemp = dataMain['temp_max'];
             weatherOutput();
-            switch(data['weather'][0]['description']) {
-                case 'broken clouds':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
-                    break;
-                case 'clear sky':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-                    break;
-                case 'scattered clouds':
+            console.log(data['weather'][0]['description']);
+            if(data['weather'][0]['description'] === 'broken clouds'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
+            }else if(data['weather'][0]['description'] === 'clear sky'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+            }else if(data['weather'][0]['description'] === 'scattered clouds'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');}
+            else if(data['weather'][0]['description'] === 'few clouds'){
                     $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
-                    break;
-                case 'few clouds':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
-                    break;
-                case 'shower rain':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-                    break;
-                case 'rain':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-                    break;
-                case 'thunderstorm':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
-                    break;
-                case 'snow':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
-                    break;
-                case 'mist':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
-                    break;
-                default:
-                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+            }else if(data['weather'][0]['description'] === 'shower rain'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+            }else if(data['weather'][0]['description'] === 'rain'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+            }else if(data['weather'][0]['description'] === 'thunderstorm'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
+            }else if(data['weather'][0]['description'] === 'snow'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
+            }else if(data['weather'][0]['description'] === 'mist'){
+                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
+            }else{
+                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
             }
         },
         error: function () {
@@ -134,6 +129,7 @@ function successfulCarmaPull(data) {
     geo_info_object.hydro = parseFloat(data[0].hydro.present);
     geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
     geo_info_object.renewable = parseFloat(data[0].renewable.present);
+    google.charts.setOnLoadCallback(drawChart);
 }
 function errorPull(data) {
     console.log('something went wrong :(', data);
@@ -155,7 +151,7 @@ function geocode(e) {
             key: "AIzaSyD2vYz71KVg4PUiyae7M21lCA1Wkh0b8RY"
         },
         success: function (data) {
-            console.log('geocodesuccess: ',data);
+            console.log(data);
             //geometry
             var city;
             var state;
@@ -174,11 +170,12 @@ function geocode(e) {
                 city: city,
                 state: state
             };
-            console.log('GeoInfoObj: ' + geo_info_object);
+            console.log('GeoInfoObj: ' +geo_info_object);
             callApi();
         }
     });
 }
+
 function callApi() {
         initMap(geo_info_object.lat, geo_info_object.lon);
         $(".newsListDisplay").text("");
@@ -188,7 +185,6 @@ function callApi() {
         getAqiData(geo_info_object.state);
     
         setTimeout(function(){ google.charts.setOnLoadCallback(drawChart); }, 2500);
-        
 
 }
 /*
@@ -199,7 +195,7 @@ function skeleton taken from google maps API documentation
 function initMap(lat, lng) {
     var center = {lat: lat, lng: lng};
     var map = new google.maps.Map(document.getElementById('map_display'), {
-        zoom: 10,
+        zoom: 12,
         center: center
     });
     var marker = new google.maps.Marker({
@@ -217,6 +213,7 @@ function initMap(lat, lng) {
       map.overlayMapTypes.insertAt(0,waqiMapOverlay);  
 }
 
+// **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
 *   url: http://api.waqi.info/search/?token=TOKEN&keyword=KEYWORD    
@@ -237,11 +234,12 @@ function getAqiData(keyword) {
         },
         method: 'GET',
         dataType: 'json',
-        url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword + ',USA',
+        url: 'http://api.waqi.info/search/?token=' + '1af10262d0228050ee6334c5273af092b068ca53' + '&keyword=' + keyword + ',USA',
         success: function(result) {
+            console.log('WHAT YOU NEED!!!!' + result.data);
             if (result.data.length === 0) {
                 console.log('************** NO STATIONS EXIST IN ' + keyword);
-                $('#aqi-city').text('N/A');
+                $('#aqi-city').text(keyword);
                 $('#aqiNum').text('N/A');
                 $('#h_implications').text('No health implications at this time, please try again later.');
                 $('#c_statement').text('No cautionary statements at this time, please try again later.');
@@ -261,7 +259,7 @@ function getAqiData(keyword) {
                 // determineAqiLevel(geo_info_object.aqi, keyword);
             }
             console.log('**************NO AQI AVAILABLE FOR ' + keyword);
-            $('#aqi-city').text('N/A');
+            $('#aqi-city').text(keyword);
             $('#aqiNum').text('N/A');
             $('#h_implications').text('No health implications at this time, please try again later.');
             $('#c_statement').text('No cautionary statements at this time, please try again later.');
@@ -375,6 +373,7 @@ function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorL
 *
 */
 
+//HELLO THERE! I HAVE NO IDEA IF THIS FUNCTION IS WORKING :) PLEASE LET ME KNOW IF YOU DECIDE TO USE IT.
 function getDataByLocation(lat, lon) {
     $.ajax({
         data: {
@@ -384,7 +383,7 @@ function getDataByLocation(lat, lon) {
         dataType: 'json',
         url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
         success: function (result) {
-            var aqi = result.data[0].aqi; //only grabbing the first element in the array
+            var aqi = result.data.aqi; //only grabbing the first element in the array
             determineAqiLevel(aqi);
             return aqi;
             console.log('getDataByLocation call was successful', result);
@@ -413,7 +412,6 @@ function getDataByLocation(lat, lon) {
 
 // Function for news data retrieval
 function getNewsData() {
-    var checkNewsAvailability = 0;
     // Calling format text area function to retrieve data from input, formats string to pass api param properly
     var cityName= formatTextArea();
     // Clears news list display to repopulate updated search
@@ -422,66 +420,52 @@ function getNewsData() {
     var nationalGeoAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=national-geographic&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
-            // If there no available articles
-            if (!data.articles.length) {
-                // Increment counter 
-                checkNewsAvailability++;
-            }
-            displayNewsData(data, checkNewsAvailability);
+            displayNewsData(data);
+            console.log("Data received from National Geo: ", data);
         },
         error: function () {
-            $("")
+            console.log("The data was not received.");
         }
     };
     var googleAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=google-news&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
-            if (!data.articles.length) {
-                checkNewsAvailability++;
-            }
-            displayNewsData(data, checkNewsAvailability);
+            displayNewsData(data);
+            console.log("Data received from Google news: ", data);
         },
         error: function () {
-            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
+            console.log("The data was not received.");
         }
     };
     var scienceAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=new-scientist&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
-            if (!data.articles.length) {
-                checkNewsAvailability++;
-            }
-            displayNewsData(data, checkNewsAvailability);
+            console.log("Data received from New Scientist news: ", data);
+            displayNewsData(data);
         },
         error: function () {
-            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
+            console.log("The data was not received.");
         }
     };
     var huffingtonAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=the-huffington-post&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
-            if (!data.articles.length) {
-                checkNewsAvailability++;
-            }
-            displayNewsData(data, checkNewsAvailability);
+            console.log("Data received from Huffington news: ", data);
+            displayNewsData(data);
         },
         error: function () {
-            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
+            console.log("The data was not received.");
         }
     };
     // Ajax calls from news sources
-    $.ajax(nationalGeoAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });
-    $.ajax(googleAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });;
-    $.ajax(scienceAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });;
-    $.ajax(huffingtonAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });;
+    $.ajax(nationalGeoAPIajaxOptions);
+    $.ajax(googleAPIajaxOptions);
+    $.ajax(scienceAPIajaxOptions);
+    $.ajax(huffingtonAPIajaxOptions);
 }
 
 // Function to display proper news data to div
-function displayNewsData(data, newsAvailability) {
-    if (newsAvailability === 4) {
-        $(".newsListDisplay").text("Sorry, no articles available for entered location.");
-        return;
-    }
+function displayNewsData(data) {
     // Declare variables to use when storing data from News API and displaying on DOM
     var newsInfoArray = [];
     var newsInfo;
@@ -532,14 +516,16 @@ function displayNewsData(data, newsAvailability) {
         $(".newsListDisplay").append(newsItems);
         newsItems[0].indexPosition = newsInfoArrayIndex;
         newsItems[0].newsSource = data.articles[newsInfoArrayIndex].source.id;
+        console.log("Here is a news item: ", newsItems);
     }
     // Function to display detailed info of article on modal
     function displayModal () {
             // Declare variable to store news article link
+            var fullArticleLink;
             // Created function to loop through array and pull up the correct info according what was clicked. Used closure to get snapshot of what is being clicked to populate modal with correct data
             (function () {
             for (var newsClickIndex = 0; newsClickIndex < newsInfoArray.length; newsClickIndex++) {
-                var fullArticleLink = $("<a>", {
+                fullArticleLink = $("<a>", {
                     href: newsInfoArray[newsClickIndex].newsLink,
                     text: "here",
                     target: "_blank"
@@ -563,12 +549,6 @@ function displayNewsData(data, newsAvailability) {
 }
 // Function to format value from user input to send as param to ajax api request
 function formatTextArea() {
-    if (!geo_info_object.city) {
-        $("#location-input").attr({
-            "placeholder": "Please enter a city name.",
-        }).val("");
-        return;
-    }
     var enteredText = geo_info_object.city.split(" ").join('+');
     return enteredText;
 }
@@ -588,14 +568,15 @@ function drawChart() {
     } else {
         name = geo_info_object.state + ' Energy Production';
     }
-        
+
     var data = google.visualization.arrayToDataTable([
-        ['Element', 'Percentage'],
+        ['Element', 'Presentage'],
         ['Fossil',geo_info_object.fossil],
         ['Hydro',geo_info_object.hydro],
         ['Nuclear',geo_info_object.nuclear],
         ['Renewable',geo_info_object.renewable]
     ]);
+
 
     var options = {
         backgroundColor: '#61982f',
@@ -605,7 +586,6 @@ function drawChart() {
             fontSize: 24,
             bold: true,
             fontName: 'Montserrat Alternates'
-
         },
         slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0.4}],
         fontSize: 20,
@@ -630,8 +610,6 @@ function drawChart() {
             width: "80%"
         }    
     };
-
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
-
 }
