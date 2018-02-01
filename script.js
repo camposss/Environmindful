@@ -187,7 +187,7 @@ function callApi() {
         pullFromCarma();
         getAqiData(geo_info_object.state);
     
-    setTimeout(function(){ google.charts.setOnLoadCallback(drawChart); }, 2000);
+        setTimeout(function(){ google.charts.setOnLoadCallback(drawChart); }, 2500);
         
 
 }
