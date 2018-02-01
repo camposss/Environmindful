@@ -48,11 +48,19 @@ h1 {
     background-color: #dd651d;
 }
 .title-search-container {
-    position: relative;
     height: 15vh;
+    display: inline-block;
 }
+
+.title {
+    display: inline-block;
+    margin: 0;
+}
+
 .searchContainer {
     line-height: 10vh;
+    display: inline-block;
+    margin: 0;
 }
 .news-carousel {
 
