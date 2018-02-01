@@ -8,7 +8,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="style2.css">
     <title>Environmindful</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -17,30 +18,29 @@
 </head>
 <body>
 <div class="container">
-    <div class="row title-search-container col-md-12">
-        <div class="title col-md-7 row">
+    <div class="title-search-container row">
+        <div class="title col-xs-12 col-md-3">
             <img src="images/logo.png" alt="">
             <h1>Environmindful</h1>
         </div>
-        <div class="searchContainer col-md-5 row">
+        <div class="searchContainer col-xs-12 col-md-3 pull-right">
             <form id="location-form" class="form-inline">
                 <input type="text" id="location-input" class="form-control" placeholder="Enter a city...">
                 <button id="submit_button" type="submit" class="btn btn-primary getNews">Submit</button>
             </form>
         </div>
     </div>
-    <div class="row news-carousel">
-        <div class="leftCol col-sm-5 row">
-            <div class="news">
-                <div class="row m-auto text-center newsTitle">
+    <div class="news-carousel">
+        <div class="news-carousel">
+            <div class="news col-md-5">
+                <div class="newsTitle">
                     <h1>Recent News</h1>
                 </div>
                 <div class="newsListDisplay"></div>
             </div>
         </div>
-
-        <div class="rightCol col-sm-7 row">
-            <div class="carouselContainer m-auto row col-md-12">
+        <div class="news-carousel">
+            <div class="carouselContainer col-md-7">
                 <div class="data">
                     <!--dataCarousel-->
                     <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="2800">
@@ -177,9 +177,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="map_div col-md-12">
+            <div class="map_div col-xs-12">
 
                 <!--
                             <div class="btnCol">
@@ -188,7 +186,6 @@
                             </div>
                 -->
                 <div id="map_display"></div>
-
                 <!--<div class="carouselContainer m-auto row col-md-12">-->
                 <!--<div id="piechart" style="width: 900px; height: 500px;"></div>-->
                 <!--</div>-->

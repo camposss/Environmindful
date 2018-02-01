@@ -8,7 +8,6 @@ var geo_info_object = {
     city: "Los Angeles",
     state: "California",
 };
-
 /*
 Set click handler for submit button; call geocode function
 load pie chart for future use using google source link found in head of index.html
@@ -422,13 +421,15 @@ function getNewsData() {
     var nationalGeoAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=national-geographic&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
+            // If there no available articles
             if (!data.articles.length) {
+                // Increment counter 
                 checkNewsAvailability++;
             }
             displayNewsData(data, checkNewsAvailability);
         },
         error: function () {
-            console.log("The data was not received.");
+            $("")
         }
     };
     var googleAPIajaxOptions = {
@@ -440,7 +441,7 @@ function getNewsData() {
             displayNewsData(data, checkNewsAvailability);
         },
         error: function () {
-            console.log("The data was not received.");
+            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
         }
     };
     var scienceAPIajaxOptions = {
@@ -452,7 +453,7 @@ function getNewsData() {
             displayNewsData(data, checkNewsAvailability);
         },
         error: function () {
-            console.log("The data was not received.");
+            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
         }
     };
     var huffingtonAPIajaxOptions = {
@@ -464,7 +465,7 @@ function getNewsData() {
             displayNewsData(data, checkNewsAvailability);
         },
         error: function () {
-            console.log("The data was not received.");
+            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
         }
     };
     // Ajax calls from news sources
