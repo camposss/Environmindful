@@ -14,14 +14,6 @@ Set click handler for submit button; call geocode function
 load pie chart for future use using google source link found in head of index.html
 callApi function to coordinate api calls.
  */
-
-    var geo_info_object = {
-        lat: 34.0522 ,
-        lon: -118.2437,
-        city: "Los Angeles",
-        state: "California"
-    };
-
 function initializeApp() {
 
     var submit_button = $('#submit_button');
@@ -205,7 +197,7 @@ function skeleton taken from google maps API documentation
 function initMap(lat, lng) {
     var center = {lat: lat, lng: lng};
     var map = new google.maps.Map(document.getElementById('map_display'), {
-        zoom: 12,
+        zoom: 10,
         center: center
     });
     var marker = new google.maps.Marker({
@@ -599,28 +591,31 @@ function drawChart() {
         title: geo_info_object.state +' Energy Production',
         titleTextStyle: {
             color: 'white',
-            fontSize: 28,
+            fontSize: 24,
             bold: true,
             fontName: 'Montserrat Alternates'
             
         },
-        slices: [{color: 'red', offset: 0.2}, {color: 'blue', offset: 0.2},{color: 'orange', offset: 0.2}, {color: 'magenta', offset: 0.2}],
-        fontSize: 24,
-        width: 500,
+        slices: [{color: 'red', offset: 0.1}, {color: 'blue', offset: 0.1},{color: 'orange', offset: 0.1}, {color: 'magenta', offset: 0.1}],
+        fontSize: 20,
+        width: 550,
         height: 450,
+        pieStartAngle: 0,
         legend: {
             textStyle: {
             bold: true,
             color: 'white',
             fontSize: 20
-        }
+        },
+            position: 'left',
+            alignment: 'center'
         
         },
         chartArea: {
-            left: "10%",
+            left: "15%",
             top: "10%",
-            height: "95%",
-            width: "95%"
+            height: "75%",
+            width: "75%"
         }    
     };
     
