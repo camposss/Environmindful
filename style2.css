@@ -148,11 +148,9 @@ h1 {
     line-height: 5vh;
 }
 /* Air Quality Services */
-.aqi-container {
-    font-family: Tahoma, Geneva, sans-serif;
-    height: 50vmin;
-    width: 100%;
-    /*   border: 2px solid black; */
+.aqi-container > img{
+    margin-top: 15%;
+    width: 90%;
 }
 #head-col {
     font-size: 20px;

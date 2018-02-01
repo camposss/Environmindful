@@ -153,6 +153,8 @@ h1 {
 #pieChart{
     border: 1px solid black;
     width:100%;
+    font-family: Montserrat-Alt;
+    font-size: 24px;
 }
 .newsListDisplay {
     background-color: #272727;
@@ -191,18 +193,30 @@ h1 {
 }
 
 /*Air quality styles*/
+/*
 
 .aqi-container {
     font-family: Tahoma, Geneva, sans-serif;
     height: 50vmin;
     width: 100%;
-    /*   border: 2px solid black; */
+       border: 2px solid black; 
     display: flex;
     flex-direction: column;
 }
+*/
 
-#head-col {
+/*
+#aqi-table td {
     font-size: 20px;
+}
+*/
+
+.aqi-container > img {
+    margin-top: 10%;
+    width: 80%;
+}
+#head-col {
+    font-size: 32px;
     height: 8vmin;
     text-align: center;
     /*   background-color: lightgrey; */
