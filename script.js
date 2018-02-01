@@ -134,7 +134,6 @@ function successfulCarmaPull(data) {
     geo_info_object.hydro = parseFloat(data[0].hydro.present);
     geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
     geo_info_object.renewable = parseFloat(data[0].renewable.present);
-    google.charts.setOnLoadCallback(drawChart);
 }
 function errorPull(data) {
     console.log('something went wrong :(', data);
@@ -187,6 +186,9 @@ function callApi() {
         handleWeatherInfo();
         pullFromCarma();
         getAqiData(geo_info_object.state);
+        google.charts.setOnLoadCallback(drawChart);
+
+        
 }
 /*
 function takes 2 params: latitude and longitude found in geocode function
@@ -214,7 +216,6 @@ function initMap(lat, lng) {
       map.overlayMapTypes.insertAt(0,waqiMapOverlay);  
 }
 
-// **********************CESKA'S CODE -- AIR POLLUTION API -- START**********************
 
 /*
 *   url: http://api.waqi.info/search/?token=TOKEN&keyword=KEYWORD    
@@ -239,7 +240,7 @@ function getAqiData(keyword) {
         success: function(result) {
             if (result.data.length === 0) {
                 console.log('************** NO STATIONS EXIST IN ' + keyword);
-                $('#aqi-city').text(keyword);
+                $('#aqi-city').text('N/A');
                 $('#aqiNum').text('N/A');
                 $('#h_implications').text('No health implications at this time, please try again later.');
                 $('#c_statement').text('No cautionary statements at this time, please try again later.');
@@ -259,7 +260,7 @@ function getAqiData(keyword) {
                 // determineAqiLevel(geo_info_object.aqi, keyword);
             }
             console.log('**************NO AQI AVAILABLE FOR ' + keyword);
-            $('#aqi-city').text(keyword);
+            $('#aqi-city').text('N/A');
             $('#aqiNum').text('N/A');
             $('#h_implications').text('No health implications at this time, please try again later.');
             $('#c_statement').text('No cautionary statements at this time, please try again later.');
@@ -373,7 +374,6 @@ function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorL
 *
 */
 
-//HELLO THERE! I HAVE NO IDEA IF THIS FUNCTION IS WORKING :) PLEASE LET ME KNOW IF YOU DECIDE TO USE IT.
 function getDataByLocation(lat, lon) {
     $.ajax({
         data: {
@@ -580,6 +580,7 @@ function skeleton taken from google pie chart documentation
  */
 
 function drawChart() {
+        
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Percentage'],
         ['Fossil',geo_info_object.fossil],
@@ -587,20 +588,27 @@ function drawChart() {
         ['Nuclear',geo_info_object.nuclear],
         ['Renewable',geo_info_object.renewable]
     ]);
+    
+    if(geo_info_object.state === undefined){
+        var name = 'No Energy Production Data';        
+    } else {
+        name = geo_info_object.state + ' Energy Production';
+    }
+    
     var options = {
         backgroundColor: '#61982f',
-        title: "  "+geo_info_object.state +' Energy Production',
+        title: name,
         titleTextStyle: {
             color: 'white',
             fontSize: 24,
             bold: true,
             fontName: 'Montserrat Alternates'
-            
+
         },
         slices: [{color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0.4}],
         fontSize: 20,
-        width: 550,
-        height: 450,
+        width: 500,
+        height: 500,
         pieStartAngle: 90,
         pieHole: 0.4,
         legend: {
@@ -611,16 +619,17 @@ function drawChart() {
         },
             position: 'left',
             alignment: 'center'
-        
+
         },
         chartArea: {
             left: "10%",
             top: "10%",
-            height: "70%",
-            width: "70%"
+            height: "80%",
+            width: "80%"
         }    
     };
-    
+
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
+
 }
