@@ -224,7 +224,6 @@ function initMap(lat, lng) {
 */
 
 function getAqiData(keyword) {
-    console.log('*************************GET STATIONS BY KEYWORD FUNCTION IS BEING CALLED*************************');
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
