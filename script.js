@@ -186,9 +186,10 @@ function callApi() {
         handleWeatherInfo();
         pullFromCarma();
         getAqiData(geo_info_object.state);
-        google.charts.setOnLoadCallback(drawChart);
-
+    
+    setTimeout(function(){ google.charts.setOnLoadCallback(drawChart); }, 2000);
         
+
 }
 /*
 function takes 2 params: latitude and longitude found in geocode function
@@ -580,6 +581,13 @@ function skeleton taken from google pie chart documentation
  */
 
 function drawChart() {
+    var name = '';
+        
+    if(geo_info_object.state === undefined){
+        name = 'No Energy Production Data';        
+    } else {
+        name = geo_info_object.state + ' Energy Production';
+    }
         
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Percentage'],
@@ -588,13 +596,7 @@ function drawChart() {
         ['Nuclear',geo_info_object.nuclear],
         ['Renewable',geo_info_object.renewable]
     ]);
-    
-    if(geo_info_object.state === undefined){
-        var name = 'No Energy Production Data';        
-    } else {
-        name = geo_info_object.state + ' Energy Production';
-    }
-    
+
     var options = {
         backgroundColor: '#61982f',
         title: name,
@@ -605,10 +607,10 @@ function drawChart() {
             fontName: 'Montserrat Alternates'
 
         },
-        slices: [{color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0.4}],
+        slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0.4}],
         fontSize: 20,
-        width: 500,
-        height: 500,
+        width: 650,
+        height: 350,
         pieStartAngle: 90,
         pieHole: 0.4,
         legend: {
@@ -622,8 +624,8 @@ function drawChart() {
 
         },
         chartArea: {
-            left: "10%",
-            top: "10%",
+            left: "5%",
+            top: "15%",
             height: "80%",
             width: "80%"
         }    

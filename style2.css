@@ -90,6 +90,7 @@ h1 {
     font-size: 3vmin;
     font-weight: 400;
     color: #fff;
+    margin-left: 3%;
 }
 .newsTitle {
     margin: 0 auto;
@@ -149,7 +150,7 @@ h1 {
 }
 /* Air Quality Services */
 .aqi-container > img{
-    margin-top: 15%;
+    margin-top: 3%;
     width: 90%;
 }
 #head-col {
