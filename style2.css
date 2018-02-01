@@ -243,3 +243,9 @@ thead {
         left: 1%;
     }
 }
+
+@media (max-width: 767px){
+    .aqi-container > img{
+        margin-top: 20%;
+    }
+}

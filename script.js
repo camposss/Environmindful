@@ -562,12 +562,37 @@ function skeleton taken from google pie chart documentation
 
 function drawChart() {
     var name = '';
+    var chartWidth = null;
+    var chartHeight = null;
+    var titleFont = null;
+    var fontSize = null;
+    var topPercent = '';
         
     if(geo_info_object.state === undefined){
         name = 'No Energy Production Data';        
     } else {
         name = geo_info_object.state + ' Energy Production';
     }
+    
+    var x = window.matchMedia("(max-width: 767px)");
+    //console.log("x", x);
+    
+    if(x.matches){
+        //phone screen
+        chartWidth = 300;
+        chartHeight = 250;
+        titleFont = 16;
+        fontSize = 14;
+        topPercent = '30%';
+        
+    } else {
+        chartWidth = 650;
+        chartHeight = 350;
+        titleFont = 24;
+        fontSize = 20;
+        topPercent = '15%';
+    }
+    
 
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
@@ -583,21 +608,21 @@ function drawChart() {
         title: name,
         titleTextStyle: {
             color: 'white',
-            fontSize: 24,
+            fontSize: titleFont,
             bold: true,
             fontName: 'Montserrat Alternates'
         },
         slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0.4}],
-        fontSize: 20,
-        width: 650,
-        height: 350,
+        fontSize: fontSize,
+        width: chartWidth,
+        height: chartHeight,
         pieStartAngle: 90,
         pieHole: 0.4,
         legend: {
             textStyle: {
             bold: true,
             color: 'white',
-            fontSize: 20
+            fontSize: fontSize
         },
             position: 'left',
             alignment: 'center'
@@ -605,7 +630,7 @@ function drawChart() {
         },
         chartArea: {
             left: "5%",
-            top: "15%",
+            top: topPercent,
             height: "80%",
             width: "80%"
         }    
