@@ -559,6 +559,39 @@ function skeleton taken from google pie chart documentation
  */
 
 function drawChart() {
+    var name = '';
+    var chartWidth = null;
+    var chartHeight = null;
+    var titleFont = null;
+    var fontSize = null;
+    var topPercent = '';
+        
+    if(geo_info_object.state === undefined){
+        name = 'No Energy Production Data';        
+    } else {
+        name = geo_info_object.state + ' Energy Production';
+    }
+    
+    var x = window.matchMedia("(max-width: 767px)");
+    //console.log("x", x);
+    
+    if(x.matches){
+        //phone screen
+        chartWidth = 300;
+        chartHeight = 250;
+        titleFont = 16;
+        fontSize = 14;
+        topPercent = '30%';
+        
+    } else {
+        chartWidth = 650;
+        chartHeight = 350;
+        titleFont = 24;
+        fontSize = 20;
+        topPercent = '15%';
+    }
+    
+
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
         ['Fossil',geo_info_object.fossil],
@@ -566,23 +599,42 @@ function drawChart() {
         ['Nuclear',geo_info_object.nuclear],
         ['Renewable',geo_info_object.renewable]
     ]);
+
+
     var options = {
-        title: geo_info_object.state +' Energy Production',
-        chartArea: {
-            width: '60%', 
-            height: '105%',
-            top: 50
-        },
+
+        backgroundColor: '#61982f',
+        title: name,
         titleTextStyle: {
-            fontSize: 22
+            color: 'white',
+            fontSize: titleFont,
+            bold: true,
+            fontName: 'Montserrat Alternates'
         },
+                //  fossil                      hydro                   nuclear                         renewable
+        slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: '#9900ff', offset: 0}, {color: '#78ff00', offset: 0}],
+        fontSize: fontSize,
+        width: chartWidth,
+        height: chartHeight,
+        pieStartAngle: 90,
+        pieHole: 0.4,
         legend: {
-            textStyle: { fontSize: 16}
+            textStyle: {
+            bold: true,
+            color: 'white',
+            fontSize: fontSize
         },
-        pieSliceTextStyle: {
-            fontSize: 11
+            position: 'left',
+            alignment: 'center'
+
         },
-        // is3D: true
+        chartArea: {
+            left: "5%",
+            top: topPercent,
+            height: "80%",
+            width: "80%"
+        }    
+
     };
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);

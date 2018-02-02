@@ -274,6 +274,7 @@ svg:not(:root) {
 table, td, th {
     border: 1px solid black;
     padding: 6px;
+    text-align: left;
 }
 th, .neutral {
     background-color: #dfdfdf;
