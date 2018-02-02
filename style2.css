@@ -183,6 +183,12 @@ div.item {
 rect {
     fill: none;
 }
+svg:not(:root) {
+    /* overflow: hidden; */
+    /* margin: 0 auto; */
+    margin: 20px;
+    margin-left: 15%;
+}
 /* ****** END OF PIE CHART SLIDE ****** */
 
 
