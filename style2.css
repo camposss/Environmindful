@@ -40,7 +40,7 @@ h1 {
 }
 #submit_button {
     height: 5vh;
-    background-color: #ff8155;
+    background-color: #ff7342;
     border: none;
     transition: 0.2s;
     font-weight: bold;
@@ -194,6 +194,7 @@ rect {
     line-height:initial;
     text-align: left;
     padding: 40px;
+    margin: 0 auto;
 }
 #weatherList{
     list-style: none;
@@ -211,8 +212,10 @@ rect {
 
 
 /* ****** START AIR QUALITY INDEX SLIDE ***** */
-.aqi-container > img{
-    width: 90%;
+#aqi-table {
+    margin: 0 auto;
+    margin-top: 6%;
+    font-size: 24px;
 }
 /* ****** END AIR QUALITY INDEX SLIDE ***** */
 
@@ -265,6 +268,9 @@ rect {
 table, td, th {
     border: 1px solid black;
     padding: 6px;
-    background-color: #f3f2ec;
+}
+th, .neutral {
+    background-color: #dfdfdf;
+    text-align: center;
 }
 /* ******END OF CITY AIR POLLUTION SLIDE****** */
