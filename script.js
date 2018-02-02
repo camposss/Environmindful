@@ -574,7 +574,13 @@ function drawChart() {
             top: 50
         },
         titleTextStyle: {
-            fontSize: 20
+            fontSize: 22
+        },
+        legend: {
+            textStyle: { fontSize: 16}
+        },
+        pieSliceTextStyle: {
+            fontSize: 11
         },
         is3D: true
     };
