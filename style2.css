@@ -66,6 +66,7 @@ h1 {
     /*margin-bottom: 2vh;*/
     position: relative;
 }
+
 #map_display{
     width: 99.7%;
     height: 100%;
@@ -166,28 +167,16 @@ h1 {
 div.item {
     margin: 20px;
 }
-
 /* ****** END CAROUSEL AND NEWS CSS ***** */
 
 
 
 /* ****** START OF PIE CHART SLIDE ****** */
-/* .pieChartPage{
-    width: 100%;
-}
-#pieChart{
-    border: 1px solid black;
-    width:100%;
-} */
-
 rect {
     fill: none;
 }
 svg:not(:root) {
-    /* overflow: hidden; */
-    /* margin: 0 auto; */
     margin: 20px;
-    /* margin-left: 15%; */
 }
 /* ****** END OF PIE CHART SLIDE ****** */
 

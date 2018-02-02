@@ -611,7 +611,7 @@ function drawChart() {
             bold: true,
             fontName: 'Montserrat Alternates'
         },
-                //  fossil                      hydro                   nuclear                         renewable
+                //        fossil                     hydro                      nuclear                        renewable
         slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: '#9900ff', offset: 0}, {color: '#78ff00', offset: 0}],
         fontSize: fontSize,
         width: chartWidth,
