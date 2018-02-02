@@ -12,6 +12,7 @@ body {
 }
 .title {
     width: 60%;
+    margin-top: 5px;
 }
 .title > img{
     border: 3px solid #ff652f;
@@ -48,13 +49,15 @@ h1 {
     background-color: #dd651d;
 }
 .title-search-container {
-    height: 15vh;
+    position: relative;
+    height: 11vh;
     display: inline-block;
 }
 
 .title {
     display: inline-block;
     margin: 0;
+
 }
 
 .searchContainer {
@@ -62,9 +65,10 @@ h1 {
     display: inline-block;
     margin: 0;
 }
-.news-carousel {
 
-}
+
+
+/* ****** START GOOGLE MAP ***** */
 .map_div{
     height: 35vh;
     /*margin-bottom: 2vh;*/
@@ -77,15 +81,21 @@ h1 {
     box-shadow: 3px 2px 3px #888888;
     border-radius: 5px;
 }
-/* Data  */
+
+.map_div {
+    padding-left: 0;
+    padding-right: 0;
+}
+/* ****** END GOOGLE MAP ***** */
+
+
+/* ****** START CAROUSEL AND NEWS CSS ***** */
 .carouselContainer{
-    /*margin-bottom: 1vh;*/
     height: 50vh;
     background-color: #61982f;
     border-radius: 1%;
-    text-align: center;
+    /* text-align: center; */
     color: #000;
-    font-size: 1vmin;
     box-shadow: 4px 3px 9px 3px #888888;
 }
 .news{
@@ -119,13 +129,7 @@ h1 {
 .newsModalImage {
     width: 100%;
 }
-.pieChartPage{
-    width: 100%;
-}
-#pieChart{
-    border: 1px solid black;
-    width:100%;
-}
+
 .newsListDisplay {
     background-color: #272727;
     width: 95%;
@@ -143,6 +147,56 @@ h1 {
     color: #272727;
 }
 
+.news, .carouselContainer {
+    margin-bottom: 2vh;
+}
+
+@media (min-width: 1180px) {
+    .carouselContainer {
+        width: 57%;
+        position: relative;
+        left: 1%;
+    }
+}
+
+.carousel-control.left, .carousel-control.right {
+    background: none !important;
+    filter: none !important;
+    outline: 0;
+  }
+
+.carousel-control {
+    opacity: 0.1;
+}
+.carousel-control:hover {
+    visibility: visible;
+}
+
+div.item {
+    margin: 20px;
+}
+
+/* ****** END CAROUSEL AND NEWS CSS ***** */
+
+
+
+/* ****** START OF PIE CHART SLIDE ****** */
+/* .pieChartPage{
+    width: 100%;
+}
+#pieChart{
+    border: 1px solid black;
+    width:100%;
+} */
+
+rect {
+    fill: none;
+}
+/* ****** END OF PIE CHART SLIDE ****** */
+
+
+
+/* ****** START OF WEATHER SLIDE ****** */
 #weatherDisplay{
     font-size:3vmin;
     color: white;
@@ -151,29 +205,28 @@ h1 {
 }
 #weatherList{
     list-style: none;
-    height: 50vh;
 }
 #weatherList li {
     line-height: 5vh;
 }
-/* Air Quality Services */
+
+#weatherIcon{
+    height:20%;
+    width: 15%;
+}
+/* ****** END OF WEATHER SLIDE ****** */
+
+
+
+/* ****** START AIR QUALITY INDEX SLIDE ***** */
 .aqi-container > img{
     margin-top: 3%;
     width: 90%;
 }
-#head-col {
-    font-size: 20px;
-    height: 8vmin;
-    text-align: center;
-    /*   background-color: lightgrey; */
-}
-#aqi-col {
-    width: 10%;
-}
+/* ****** END AIR QUALITY INDEX SLIDE ***** */
 
-#poll-col {
-    width: 15%;
-}
+
+/* ******START OF CITY AIR POLLUTION SLIDE****** */
 .good {
     background-color: #009966;
 }
@@ -204,37 +257,27 @@ h1 {
     padding: 2%;
 }
 #aqi-number-container {
-    height: 20vmin;
-    width: 20vmin;
     border: 2px solid black;
-    margin: auto;
+    border-radius: 6px;
+    padding: 10px;
     text-align: center;
-    padding: 3%;
-    border-radius: 20px;
-    background-color: #80d6f9;
+    min-height: 180px;
+    width: 180px;
+    margin: 0 auto;
+    margin-bottom: 10px;
 }
-.message, p#h_implications, p#c_statement {
-    font-size: 15px;
-}
-
+  
 #aqiNum {
-    font-size: 10vmin;
+    font-size: 100px;
 }
-thead {
-    background-color: #fff;
+  
+table, td, th {
+    border: 1px solid black;
+    padding: 6px;
+    background-color: #f3f2ec;
 }
+/* ******END OF CITY AIR POLLUTION SLIDE****** */
 
-#weatherIcon{
-    height:20%;
-    width: 15%;
-}
-.news, .carouselContainer {
-    margin-bottom: 2vh;
-}
-.map_div {
-    padding-left: 0;
-    padding-right: 0;
-}
 
 @media (min-width: 1180px) {
     .carouselContainer {
@@ -243,3 +286,10 @@ thead {
         left: 1%;
     }
 }
+
+@media (max-width: 767px){
+    .aqi-container > img{
+        margin-top: 20%;
+    }
+}
+

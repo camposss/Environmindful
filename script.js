@@ -226,6 +226,7 @@ function initMap(lat, lng) {
 *
 */
 
+//HELLO THERE! THIS FUNCTION IS NOT BEING USED, IT IS NOT VERY ACCURATE :) PLEASE LET ME KNOW IF YOU DECIDE TO USE IT.
 function getAqiData(keyword) {
     console.log('*************************GET STATIONS BY KEYWORD FUNCTION IS BEING CALLED*************************');
     $.ajax({
@@ -331,7 +332,7 @@ function determineAqiLevel(aqi, keyword) {
     } else {
         console.log('*****NO AQI AVAILABLE*****');
     }
-    console.log('*****State: ' + keyword);
+    console.log('*****State: ' + keyword); // result.data.city.url might need regex to get state name
     console.log('*****Air Quality Level: ', aqi);
     console.log('*****Air Pollution Level: ' + airPollutionLvl);
     console.log('*****Health Implications: ' + healthImplications);
@@ -357,8 +358,7 @@ function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorL
     $('#h_implications').text(healthImplications);
     $('#c_statement').text(cautionaryStmt);
     $('#aqi-number-container').css({
-        'background-color': colorLvl,
-        'font-size':'155%'
+        'background-color': colorLvl
     });
 }
 
@@ -373,8 +373,8 @@ function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorL
 *
 */
 
-//HELLO THERE! I HAVE NO IDEA IF THIS FUNCTION IS WORKING :) PLEASE LET ME KNOW IF YOU DECIDE TO USE IT.
 function getDataByLocation(lat, lon) {
+    console.log('********************** GET DATA BY LAT/LON FUNCTION IS BEING CALLED **********************');
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
@@ -562,12 +562,37 @@ function skeleton taken from google pie chart documentation
 
 function drawChart() {
     var name = '';
+    var chartWidth = null;
+    var chartHeight = null;
+    var titleFont = null;
+    var fontSize = null;
+    var topPercent = '';
         
     if(geo_info_object.state === undefined){
         name = 'No Energy Production Data';        
     } else {
         name = geo_info_object.state + ' Energy Production';
     }
+    
+    var x = window.matchMedia("(max-width: 767px)");
+    //console.log("x", x);
+    
+    if(x.matches){
+        //phone screen
+        chartWidth = 300;
+        chartHeight = 250;
+        titleFont = 16;
+        fontSize = 14;
+        topPercent = '30%';
+        
+    } else {
+        chartWidth = 650;
+        chartHeight = 350;
+        titleFont = 24;
+        fontSize = 20;
+        topPercent = '15%';
+    }
+    
 
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
@@ -579,25 +604,29 @@ function drawChart() {
 
 
     var options = {
+
+        title: geo_info_object.state +' Energy Production',
+        chartArea: {width: 400, height: 300}
+
         backgroundColor: '#61982f',
         title: name,
         titleTextStyle: {
             color: 'white',
-            fontSize: 24,
+            fontSize: titleFont,
             bold: true,
             fontName: 'Montserrat Alternates'
         },
         slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0.4}],
-        fontSize: 20,
-        width: 650,
-        height: 350,
+        fontSize: fontSize,
+        width: chartWidth,
+        height: chartHeight,
         pieStartAngle: 90,
         pieHole: 0.4,
         legend: {
             textStyle: {
             bold: true,
             color: 'white',
-            fontSize: 20
+            fontSize: fontSize
         },
             position: 'left',
             alignment: 'center'
@@ -605,10 +634,11 @@ function drawChart() {
         },
         chartArea: {
             left: "5%",
-            top: "15%",
+            top: topPercent,
             height: "80%",
             width: "80%"
         }    
+
     };
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
