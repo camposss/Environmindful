@@ -468,10 +468,10 @@ function getNewsData() {
         }
     };
     // Ajax calls from news sources
-    $.ajax(nationalGeoAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });
-    $.ajax(googleAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });;
-    $.ajax(scienceAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });;
-    $.ajax(huffingtonAPIajaxOptions).then( function () { console.log(checkNewsAvailability) });;
+    $.ajax(nationalGeoAPIajaxOptions);
+    $.ajax(googleAPIajaxOptions);
+    $.ajax(scienceAPIajaxOptions);
+    $.ajax(huffingtonAPIajaxOptions);
 }
 
 // Function to display proper news data to div
