@@ -188,10 +188,10 @@ svg:not(:root) {
     color: white;
     line-height:initial;
     text-align: left;
-    padding: 40px;
-    margin: 0 auto;
+    margin-top: 20%;
 }
 #weatherList{
+    display: inline-block;
     list-style: none;
 }
 #weatherList li {
@@ -201,6 +201,8 @@ svg:not(:root) {
 #weatherIcon{
     height:20%;
     width: 15%;
+    float: right;
+    margin-right: 10%;
 }
 /* ****** END OF WEATHER SLIDE ****** */
 
@@ -268,5 +270,6 @@ table, td, th {
 th, .neutral {
     background-color: #dfdfdf;
     text-align: center;
+    font-size: 2vmin;
 }
 /* ******END OF CITY AIR POLLUTION SLIDE****** */
