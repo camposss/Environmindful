@@ -182,7 +182,8 @@ function callApi() {
         getNewsData();
         handleWeatherInfo();
         pullFromCarma();
-        getAqiData(geo_info_object.state);
+        //getAqiData(geo_info_object.state);
+        getDataByLocation(geo_info_object.lat, geo_info_object.lon)
 }
 /*
 function takes 2 params: latitude and longitude found in geocode function
@@ -223,6 +224,7 @@ function initMap(lat, lng) {
 *
 */
 
+//HELLO THERE! THIS FUNCTION IS NOT BEING USED, IT IS NOT VERY ACCURATE :) PLEASE LET ME KNOW IF YOU DECIDE TO USE IT.
 function getAqiData(keyword) {
     console.log('*************************GET STATIONS BY KEYWORD FUNCTION IS BEING CALLED*************************');
     $.ajax({
@@ -231,8 +233,9 @@ function getAqiData(keyword) {
         },
         method: 'GET',
         dataType: 'json',
-        url: 'http://api.waqi.info/search/?token=1af10262d0228050ee6334c5273af092b068ca53&keyword=' + keyword + ',USA',
+        url: 'http://api.waqi.info/search/?token=' + '1af10262d0228050ee6334c5273af092b068ca53' + '&keyword=' + keyword + ',USA',
         success: function(result) {
+            console.log('WHAT YOU NEED!!!!' + result.data);
             if (result.data.length === 0) {
                 console.log('************** NO STATIONS EXIST IN ' + keyword);
                 $('#aqi-city').text(keyword);
@@ -327,7 +330,7 @@ function determineAqiLevel(aqi, keyword) {
     } else {
         console.log('*****NO AQI AVAILABLE*****');
     }
-    console.log('*****State: ' + keyword);
+    console.log('*****State: ' + keyword); // result.data.city.url might need regex to get state name
     console.log('*****Air Quality Level: ', aqi);
     console.log('*****Air Pollution Level: ' + airPollutionLvl);
     console.log('*****Health Implications: ' + healthImplications);
@@ -353,8 +356,7 @@ function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorL
     $('#h_implications').text(healthImplications);
     $('#c_statement').text(cautionaryStmt);
     $('#aqi-number-container').css({
-        'background-color': colorLvl,
-        'font-size':'155%'
+        'background-color': colorLvl
     });
 }
 
@@ -369,8 +371,8 @@ function renderAqiInfoOnDom(keyword,aqi,healthImplications,cautionaryStmt,colorL
 *
 */
 
-//HELLO THERE! I HAVE NO IDEA IF THIS FUNCTION IS WORKING :) PLEASE LET ME KNOW IF YOU DECIDE TO USE IT.
 function getDataByLocation(lat, lon) {
+    console.log('********************** GET DATA BY LAT/LON FUNCTION IS BEING CALLED **********************');
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
@@ -379,7 +381,7 @@ function getDataByLocation(lat, lon) {
         dataType: 'json',
         url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
         success: function (result) {
-            var aqi = result.data[0].aqi; //only grabbing the first element in the array
+            var aqi = result.data.aqi; //only grabbing the first element in the array
             determineAqiLevel(aqi);
             return aqi;
             console.log('getDataByLocation call was successful', result);
@@ -565,7 +567,8 @@ function drawChart() {
         ['Renewable',geo_info_object.renewable]
     ]);
     var options = {
-        title: geo_info_object.state +' Energy Production'
+        title: geo_info_object.state +' Energy Production',
+        chartArea: {width: 400, height: 300}
     };
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
