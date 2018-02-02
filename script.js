@@ -568,7 +568,8 @@ function drawChart() {
     ]);
     var options = {
         title: geo_info_object.state +' Energy Production',
-        chartArea: {width: 400, height: 300}
+        chartArea: {width: 400, height: 300},
+        is3D: true
     };
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
