@@ -582,7 +582,7 @@ function drawChart() {
         pieSliceTextStyle: {
             fontSize: 11
         },
-        is3D: true
+        // is3D: true
     };
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
