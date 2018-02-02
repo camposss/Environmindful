@@ -182,8 +182,10 @@ function callApi() {
         getNewsData();
         handleWeatherInfo();
         pullFromCarma();
-        //getAqiData(geo_info_object.state);
-        getDataByLocation(geo_info_object.lat, geo_info_object.lon)
+        getAqiData(geo_info_object.state);
+    
+        setTimeout(function(){ google.charts.setOnLoadCallback(drawChart); }, 2500);
+
 }
 /*
 function takes 2 params: latitude and longitude found in geocode function
@@ -559,6 +561,39 @@ function skeleton taken from google pie chart documentation
  */
 
 function drawChart() {
+    var name = '';
+    var chartWidth = null;
+    var chartHeight = null;
+    var titleFont = null;
+    var fontSize = null;
+    var topPercent = '';
+        
+    if(geo_info_object.state === undefined){
+        name = 'No Energy Production Data';        
+    } else {
+        name = geo_info_object.state + ' Energy Production';
+    }
+    
+    var x = window.matchMedia("(max-width: 767px)");
+    //console.log("x", x);
+    
+    if(x.matches){
+        //phone screen
+        chartWidth = 300;
+        chartHeight = 250;
+        titleFont = 16;
+        fontSize = 14;
+        topPercent = '30%';
+        
+    } else {
+        chartWidth = 650;
+        chartHeight = 350;
+        titleFont = 24;
+        fontSize = 20;
+        topPercent = '15%';
+    }
+    
+
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
         ['Fossil',geo_info_object.fossil],
@@ -566,9 +601,44 @@ function drawChart() {
         ['Nuclear',geo_info_object.nuclear],
         ['Renewable',geo_info_object.renewable]
     ]);
+
+
     var options = {
+
         title: geo_info_object.state +' Energy Production',
         chartArea: {width: 400, height: 300}
+
+        backgroundColor: '#61982f',
+        title: name,
+        titleTextStyle: {
+            color: 'white',
+            fontSize: titleFont,
+            bold: true,
+            fontName: 'Montserrat Alternates'
+        },
+        slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0.4}],
+        fontSize: fontSize,
+        width: chartWidth,
+        height: chartHeight,
+        pieStartAngle: 90,
+        pieHole: 0.4,
+        legend: {
+            textStyle: {
+            bold: true,
+            color: 'white',
+            fontSize: fontSize
+        },
+            position: 'left',
+            alignment: 'center'
+
+        },
+        chartArea: {
+            left: "5%",
+            top: topPercent,
+            height: "80%",
+            width: "80%"
+        }    
+
     };
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
