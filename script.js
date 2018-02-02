@@ -605,8 +605,8 @@ function drawChart() {
 
     var options = {
 
-        title: geo_info_object.state +' Energy Production',
-        chartArea: {width: 400, height: 300}
+        // title: geo_info_object.state +' Energy Production',
+        // chartArea: {width: 400, height: 300},
 
         backgroundColor: '#61982f',
         title: name,
@@ -616,7 +616,7 @@ function drawChart() {
             bold: true,
             fontName: 'Montserrat Alternates'
         },
-        slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0.4}],
+        slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0}],
         fontSize: fontSize,
         width: chartWidth,
         height: chartHeight,
