@@ -202,8 +202,10 @@ rect {
     color: white;
     line-height:initial;
     text-align: left;
+    margin-top: 20%;
 }
 #weatherList{
+    display: inline-block;
     list-style: none;
 }
 #weatherList li {
@@ -213,6 +215,8 @@ rect {
 #weatherIcon{
     height:20%;
     width: 15%;
+    float: right;
+    margin-right: 10%;
 }
 /* ****** END OF WEATHER SLIDE ****** */
 
