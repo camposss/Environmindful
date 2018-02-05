@@ -436,7 +436,7 @@ function getNewsData() {
         success: function (data) {
             // If there no available articles
             if (!data.articles.length) {
-                // Increment counter 
+                // Increment counter
                 checkNewsAvailability++;
             }
             displayNewsData(data, checkNewsAvailability);
@@ -447,7 +447,6 @@ function getNewsData() {
         })
     }
 }
-
 // Function to display proper news data to div
 function displayNewsData(data, newsAvailability) {
     if (newsAvailability === 4) {
@@ -547,16 +546,16 @@ function drawChart() {
     var titleFont = null;
     var fontSize = null;
     var topPercent = '';
-        
+
     if(geo_info_object.state === undefined){
-        name = 'No Energy Production Data';        
+        name = 'No Energy Production Data';
     } else {
         name = geo_info_object.state + ' Energy Production';
     }
-    
+
     var x = window.matchMedia("(max-width: 767px)");
     //console.log("x", x);
-    
+
     if(x.matches){
         //phone screen
         chartWidth = 300;
@@ -564,7 +563,7 @@ function drawChart() {
         titleFont = 16;
         fontSize = 14;
         topPercent = '30%';
-        
+
     } else {
         chartWidth = 650;
         chartHeight = 350;
@@ -572,7 +571,7 @@ function drawChart() {
         fontSize = 20;
         topPercent = '15%';
     }
-    
+
 
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
@@ -584,7 +583,6 @@ function drawChart() {
 
 
     var options = {
-
         // title: geo_info_object.state +' Energy Production',
         // chartArea: {width: 400, height: 300},
 
@@ -617,7 +615,7 @@ function drawChart() {
             top: topPercent,
             height: "80%",
             width: "80%"
-        }    
+        }
 
     };
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));

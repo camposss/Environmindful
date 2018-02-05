@@ -7,20 +7,21 @@
     box-sizing: border-box;
 }
 body {
-    background-color: #f2f2f2;
+    background-image: url('images/stone-stack.jpeg');
+    background-size: cover;
+    height: 100%;
     color: #86c232;
 }
 .title {
-    width: 60%;
-    margin-top: 5px;
+    /*width: 60%;*/
+    /*margin-top: 5px;*/
 }
 .title > img{
-    border: 3px solid #ff652f;
-    border-radius: 5px;
-    width: 20%;
+    max-height: 80px;
     display: inline-block;
     margin-left: 2%;
-    box-shadow: 3px 3px 2px #888888;
+    -webkit-filter: drop-shadow(3px 3px 4px #000000);
+    filter: drop-shadow(3px 3px 4px #000000);
 }
 h1 {
     font-family: Montserrat-Alt;
@@ -30,7 +31,7 @@ h1 {
     display: inline-block;
     font-size: 5vmin;
     vertical-align: bottom;
-    text-shadow: 2px 1px 1px #666666;
+    text-shadow: 3px 2px 7px #000000;
 }
 /* Main Content */
 .inputBox{
@@ -39,31 +40,24 @@ h1 {
 }
 #submit_button {
     height: 5vh;
-    background-color: #ff652f;
+    background-color: #ff7342;
     border: none;
     transition: 0.2s;
     font-weight: bold;
-    box-shadow: 3px 3px 2px #888888;
+    box-shadow: 1px 2px 10px #000000;
+    margin-left: 5px;
 }
 #submit_button:hover {
     background-color: #dd651d;
 }
 .title-search-container {
     position: relative;
-    height: 11vh;
-    display: inline-block;
-}
-
-.title {
-    display: inline-block;
-    margin: 0;
-
 }
 
 .searchContainer {
-    line-height: 10vh;
-    display: inline-block;
-    margin: 0;
+    margin: 2vh auto 2vh auto;
+    padding: 0;
+    /*line-height: 10vh;*/
 }
 
 
@@ -74,12 +68,13 @@ h1 {
     /*margin-bottom: 2vh;*/
     position: relative;
 }
+
 #map_display{
-    width: 100%;
+    width: 99.7%;
     height: 100%;
-    border: 5px #ff652f ridge;
-    box-shadow: 3px 2px 3px #888888;
-    border-radius: 5px;
+    border: 5px #619830b0 ridge;
+    box-shadow: 0px 0px 13px 0px #000000;
+    /* border-radius: 5px; */
 }
 
 .map_div {
@@ -92,17 +87,17 @@ h1 {
 /* ****** START CAROUSEL AND NEWS CSS ***** */
 .carouselContainer{
     height: 50vh;
-    background-color: #61982f;
-    border-radius: 1%;
+    background-color: #619830b5;
+    /* border-radius: 1%; */
     /* text-align: center; */
     color: #000;
-    box-shadow: 4px 3px 9px 3px #888888;
+    box-shadow: 0px 0px 13px 0px #000000;
 }
 .news{
     height: 50vh;
-    background-color: #61982f;
-    border-radius: 1%;
-    box-shadow: 4px 3px 9px 3px #888888;
+    background-color: #619830b5;
+    /* border-radius: 1%; */
+    box-shadow: 0px 0px 13px 0px #000000;
 }
 .news h1 {
     font-size: 3vmin;
@@ -138,7 +133,7 @@ h1 {
     padding-left: 5%;
     padding-right: 5%;
     margin: 0 auto;
-    border-radius: 1%;
+    /* border-radius: 1%; */
     overflow-y: scroll;
 }
 .modal-title,
@@ -175,22 +170,16 @@ h1 {
 div.item {
     margin: 20px;
 }
-
 /* ****** END CAROUSEL AND NEWS CSS ***** */
 
 
 
 /* ****** START OF PIE CHART SLIDE ****** */
-/* .pieChartPage{
-    width: 100%;
-}
-#pieChart{
-    border: 1px solid black;
-    width:100%;
-} */
-
 rect {
     fill: none;
+}
+svg:not(:root) {
+    margin: 20px;
 }
 /* ****** END OF PIE CHART SLIDE ****** */
 
@@ -263,7 +252,7 @@ rect {
 #aqi-number-container {
     border: 2px solid black;
     border-radius: 6px;
-    padding: 10px;
+    padding-top: 20px;
     text-align: center;
     min-height: 180px;
     width: 180px;
@@ -278,7 +267,27 @@ rect {
 table, td, th {
     border: 1px solid black;
     padding: 6px;
-    background-color: #f3f2ec;
+    text-align: left;
+}
+th, .neutral {
+    background-color: #dfdfdf;
+    text-align: center;
+    font-size: 2vmin;
+}
+/* ******END OF CITY AIR POLLUTION SLIDE****** */
+
+/* ***** Bootstrap Overrides****** */
+#location-input{
+    width: 100%
+}
+.row{
+    margin: auto;
+}
+.inputDiv{
+    padding: 0;
+}
+.submitButtonDiv{
+    padding-left: 5px;
 }
 /* ******END OF CITY AIR POLLUTION SLIDE****** */
 
@@ -296,4 +305,3 @@ table, td, th {
         margin-top: 20%;
     }
 }
-
