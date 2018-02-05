@@ -414,7 +414,7 @@ function getDataByLocation(lat, lon) {
 function getNewsData() {
     var checkNewsAvailability = 0;
     // Calling format text area function to retrieve data from input, formats string to pass api param properly
-    var cityName= formatTextArea();
+    var cityName = formatTextArea();
     // Clears news list display to repopulate updated search
     $(".newsListDisplay").text("");
     // Different news sources pulled from National Geo, Google News, New Scientist, and The Huffington Post through News API
