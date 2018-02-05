@@ -410,16 +410,29 @@ function getDataByLocation(lat, lon) {
 *
 */
 
+// Function to format value from user input to send as param to ajax api request
+function formatTextArea() {
+    var enteredText = geo_info_object.city.split(" ").join('+');
+    return enteredText;
+}
+
 // Function for news data retrieval
 function getNewsData() {
     var checkNewsAvailability = 0;
     // Calling format text area function to retrieve data from input, formats string to pass api param properly
-    var cityName= formatTextArea();
+    var cityName = formatTextArea();
     // Clears news list display to repopulate updated search
     $(".newsListDisplay").text("");
     // Different news sources pulled from National Geo, Google News, New Scientist, and The Huffington Post through News API
-    var nationalGeoAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=national-geographic&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
+    var newsOptions = [
+        'national-geographic',
+        'google-news',
+        'new-scientist',
+        'the-huffington-post'
+    ];
+    for (var i = 0; i < newsOptions.length; i++) {
+        $.ajax({
+            url: "https://newsapi.org/v2/everything?sources="+ newsOptions[i] +"&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             // If there no available articles
             if (!data.articles.length) {
@@ -431,48 +444,8 @@ function getNewsData() {
         error: function () {
             $(".newsListDisplay").text("There was a problem with your request. Please try again.");
         }
-    };
-    var googleAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=google-news&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
-        success: function (data) {
-            if (!data.articles.length) {
-                checkNewsAvailability++;
-            }
-            displayNewsData(data, checkNewsAvailability);
-        },
-        error: function () {
-            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
-        }
-    };
-    var scienceAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=new-scientist&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
-        success: function (data) {
-            if (!data.articles.length) {
-                checkNewsAvailability++;
-            }
-            displayNewsData(data, checkNewsAvailability);
-        },
-        error: function () {
-            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
-        }
-    };
-    var huffingtonAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=the-huffington-post&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
-        success: function (data) {
-            if (!data.articles.length) {
-                checkNewsAvailability++;
-            }
-            displayNewsData(data, checkNewsAvailability);
-        },
-        error: function () {
-            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
-        }
-    };
-    // Ajax calls from news sources
-    $.ajax(nationalGeoAPIajaxOptions);
-    $.ajax(googleAPIajaxOptions);
-    $.ajax(scienceAPIajaxOptions);
-    $.ajax(huffingtonAPIajaxOptions);
+        })
+    }
 }
 
 // Function to display proper news data to div
@@ -560,12 +533,6 @@ function displayNewsData(data, newsAvailability) {
         })()
     }
 }
-// Function to format value from user input to send as param to ajax api request
-function formatTextArea() {
-    var enteredText = geo_info_object.city.split(" ").join('+');
-    return enteredText;
-}
-
 // Drawing Pie Chart
 /*
 function drawChart updates the initial chart that was loaded earlier (on page load) with data collected after Carma ajax call
