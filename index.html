@@ -18,30 +18,33 @@
 </head>
 <body>
 <div class="container">
-    <div class="title-search-container row">
-        <div class="title col-xs-12 col-md-3">
+    <div class="row">
+        <div class="title col-xs-4 col-md-2">
             <img src="images/kawaii-earth.png" alt="">
-            <h1>Environmindful</h1>
         </div>
-        <div class="searchContainer col-xs-12 col-md-3 pull-right">
+        <div class="col-xs-8  col-md-4">
+            <h2>Environmindful</h2>
+        </div>
+        <div class="searchContainer col-xs-12 col-md-6 pull-right">
             <form id="location-form" class="form-inline">
-                <input type="text" id="location-input" class="form-control" placeholder="Enter a city...">
-                <button id="submit_button" type="submit" class="btn btn-primary getNews">Submit</button>
+                <div class="inputDiv col-xs-9 col-md-9">
+                    <input type="text" id="location-input" class="form-control" placeholder="Enter a city...">
+                </div>
+                <div class="submitButtonDiv col-xs-3 col-md-3">
+                    <button id="submit_button" type="submit" class="btn btn-primary getNews">Submit</button>
+                </div>
             </form>
         </div>
     </div>
-    <div class="news-carousel">
-        <div class="news-carousel">
-            <div class="news col-md-5">
+    <div class="news-carousel row">
+            <div class="news col-xs-12 col-md-5">
                 <div class="newsTitle">
                     <h1>Recent News</h1>
                 </div>
                 <div class="newsListDisplay"></div>
             </div>
-        </div>
-        <div class="news-carousel">
-
-            <div class="carouselContainer col-md-7">
+        <!--<div class="news-carousel">-->
+            <div class="carouselContainer col-xs-12 col-md-7">
                 <div class="data">
                     <!--dataCarousel-->
                     <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="3800">
@@ -166,7 +169,7 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            <!--</div>-->
             <div class="map_div col-xs-12">
 
                 <!--
@@ -196,7 +199,7 @@
                 </div>
             </div>
         </div>
-    </div>
+</div>
 
 <script defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy0-D5zCNe2d3E-wSsfbMSr3upkWsdRcA">
