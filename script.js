@@ -182,8 +182,10 @@ function callApi() {
         getNewsData();
         handleWeatherInfo();
         pullFromCarma();
-        //getAqiData(geo_info_object.state);
-        getDataByLocation(geo_info_object.lat, geo_info_object.lon)
+        getAqiData(geo_info_object.state);
+    
+        setTimeout(function(){ google.charts.setOnLoadCallback(drawChart); }, 2500);
+
 }
 /*
 function takes 2 params: latitude and longitude found in geocode function
@@ -408,32 +410,33 @@ function getDataByLocation(lat, lon) {
 *
 */
 
+// Function to format value from user input to send as param to ajax api request
+function formatTextArea() {
+    var enteredText = geo_info_object.city.split(" ").join('+');
+    return enteredText;
+}
+
 // Function for news data retrieval
 function getNewsData() {
     var checkNewsAvailability = 0;
     // Calling format text area function to retrieve data from input, formats string to pass api param properly
-    var cityName= formatTextArea();
+    var cityName = formatTextArea();
     // Clears news list display to repopulate updated search
     $(".newsListDisplay").text("");
     // Different news sources pulled from National Geo, Google News, New Scientist, and The Huffington Post through News API
-    var nationalGeoAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=national-geographic&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
+    var newsOptions = [
+        'national-geographic',
+        'google-news',
+        'new-scientist',
+        'the-huffington-post'
+    ];
+    for (var i = 0; i < newsOptions.length; i++) {
+        $.ajax({
+            url: "https://newsapi.org/v2/everything?sources="+ newsOptions[i] +"&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             // If there no available articles
             if (!data.articles.length) {
-                // Increment counter 
-                checkNewsAvailability++;
-            }
-            displayNewsData(data, checkNewsAvailability);
-        },
-        error: function () {
-            $("")
-        }
-    };
-    var googleAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=google-news&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
-        success: function (data) {
-            if (!data.articles.length) {
+                // Increment counter
                 checkNewsAvailability++;
             }
             displayNewsData(data, checkNewsAvailability);
@@ -441,36 +444,8 @@ function getNewsData() {
         error: function () {
             $(".newsListDisplay").text("There was a problem with your request. Please try again.");
         }
-    };
-    var scienceAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=new-scientist&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
-        success: function (data) {
-            if (!data.articles.length) {
-                checkNewsAvailability++;
-            }
-            displayNewsData(data, checkNewsAvailability);
-        },
-        error: function () {
-            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
-        }
-    };
-    var huffingtonAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=the-huffington-post&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
-        success: function (data) {
-            if (!data.articles.length) {
-                checkNewsAvailability++;
-            }
-            displayNewsData(data, checkNewsAvailability);
-        },
-        error: function () {
-            $(".newsListDisplay").text("There was a problem with your request. Please try again.");
-        }
-    };
-    // Ajax calls from news sources
-    $.ajax(nationalGeoAPIajaxOptions);
-    $.ajax(googleAPIajaxOptions);
-    $.ajax(scienceAPIajaxOptions);
-    $.ajax(huffingtonAPIajaxOptions);
+        })
+    }
 }
 // Function to display proper news data to div
 function displayNewsData(data, newsAvailability) {
@@ -557,13 +532,6 @@ function displayNewsData(data, newsAvailability) {
         })()
     }
 }
-
-// Function to format value from user input to send as param to ajax api request
-function formatTextArea() {
-    var enteredText = geo_info_object.city.split(" ").join('+');
-    return enteredText;
-}
-
 // Drawing Pie Chart
 /*
 function drawChart updates the initial chart that was loaded earlier (on page load) with data collected after Carma ajax call
@@ -578,16 +546,16 @@ function drawChart() {
     var titleFont = null;
     var fontSize = null;
     var topPercent = '';
-        
+
     if(geo_info_object.state === undefined){
-        name = 'No Energy Production Data';        
+        name = 'No Energy Production Data';
     } else {
         name = geo_info_object.state + ' Energy Production';
     }
-    
+
     var x = window.matchMedia("(max-width: 767px)");
     //console.log("x", x);
-    
+
     if(x.matches){
         //phone screen
         chartWidth = 300;
@@ -595,7 +563,7 @@ function drawChart() {
         titleFont = 16;
         fontSize = 14;
         topPercent = '30%';
-        
+
     } else {
         chartWidth = 650;
         chartHeight = 350;
@@ -603,7 +571,7 @@ function drawChart() {
         fontSize = 20;
         topPercent = '15%';
     }
-    
+
 
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
@@ -615,6 +583,8 @@ function drawChart() {
 
 
     var options = {
+        // title: geo_info_object.state +' Energy Production',
+        // chartArea: {width: 400, height: 300},
 
         backgroundColor: '#61982f',
         title: name,
@@ -624,8 +594,7 @@ function drawChart() {
             bold: true,
             fontName: 'Montserrat Alternates'
         },
-                //        fossil                     hydro                      nuclear                        renewable
-        slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: '#9900ff', offset: 0}, {color: '#78ff00', offset: 0}],
+        slices: [ {color: 'red', offset: 0}, {color: 'blue', offset: 0},{color: 'orange', offset: 0}, {color: '#56b300', offset: 0}],
         fontSize: fontSize,
         width: chartWidth,
         height: chartHeight,
@@ -646,7 +615,7 @@ function drawChart() {
             top: topPercent,
             height: "80%",
             width: "80%"
-        }    
+        }
 
     };
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));

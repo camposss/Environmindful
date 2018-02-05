@@ -52,8 +52,8 @@ h1 {
 }
 .title-search-container {
     position: relative;
-    /*height: 11vh;*/
 }
+
 .searchContainer {
     margin: 2vh auto 2vh auto;
     padding: 0;
@@ -103,6 +103,7 @@ h1 {
     font-size: 3vmin;
     font-weight: 400;
     color: #fff;
+    margin-left: 3%;
 }
 .newsTitle {
     margin: 0 auto;
@@ -211,10 +212,9 @@ svg:not(:root) {
 
 
 /* ****** START AIR QUALITY INDEX SLIDE ***** */
-#aqi-table {
-    margin: 0 auto;
-    margin-top: 6%;
-    font-size: 3vmin;
+.aqi-container > img{
+    margin-top: 3%;
+    width: 90%;
 }
 /* ****** END AIR QUALITY INDEX SLIDE ***** */
 
@@ -288,4 +288,20 @@ th, .neutral {
 }
 .submitButtonDiv{
     padding-left: 5px;
+}
+/* ******END OF CITY AIR POLLUTION SLIDE****** */
+
+
+@media (min-width: 1180px) {
+    .carouselContainer {
+        width: 57%;
+        position: relative;
+        left: 1%;
+    }
+}
+
+@media (max-width: 767px){
+    .aqi-container > img{
+        margin-top: 20%;
+    }
 }
