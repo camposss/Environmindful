@@ -145,7 +145,10 @@ h1 {
 .news, .carouselContainer {
     margin-bottom: 2vh;
 }
-
+.modal-content {
+    top: 50vh;
+    transform: translateY(-50%);
+}
 @media (min-width: 1180px) {
     .carouselContainer {
         width: 57%;
