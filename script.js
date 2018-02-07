@@ -465,7 +465,7 @@ function getNewsData() {
             }
         })
     }
-
+}
 // Function to display proper news data to div
 function displayNewsData(data, newsAvailability) {
     if (newsAvailability === 4) {
