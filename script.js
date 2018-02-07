@@ -122,7 +122,7 @@ function pullFromCarma() {
     var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
-        url: proxy + 'http://carma.org/api/1.1/searchLocations?name=' + geo_info_object.city,
+        url: proxy + 'http://carma.org/api/1.1/searchLocations?name=' + geo_info_object.state,
         method: 'get',
         success: successfulCarmaPull,
         error: errorPull
