@@ -114,7 +114,7 @@ function pullFromCarma() {
     var proxy = 'http://cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
-        url: proxy + 'http://carma.org/api/1.1/searchLocations?name=' + geo_info_object.state,
+        url: proxy + 'http://carma.org/api/1.1/searchLocations?name=' + geo_info_object.city,
         method: 'get',
         success: successfulCarmaPull,
         error: errorPull
@@ -125,7 +125,7 @@ function pullFromCarma() {
 Pulls Carma data, adds data to geo info object and calls drawChart
 */
 function successfulCarmaPull(data) {
-    //console.log("CarmaPull", data);
+    console.log("CarmaPull", data);
     geo_info_object.fossil = parseFloat(data[0].fossil.present);
     geo_info_object.hydro = parseFloat(data[0].hydro.present);
     geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
@@ -133,7 +133,7 @@ function successfulCarmaPull(data) {
     google.charts.setOnLoadCallback(drawChart);
 }
 function errorPull(data) {
-    //console.log('something went wrong :(', data);
+    console.log('something went wrong :(', data);
     geo_info_object.fossil = '';
     geo_info_object.hydro = '';
     geo_info_object.nuclear = '';
