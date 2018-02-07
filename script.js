@@ -125,6 +125,7 @@ function pullFromCarma() {
 Pulls Carma data, adds data to geo info object and calls drawChart
 */
 function successfulCarmaPull(data) {
+    //console.log("CarmaPull", data);
     geo_info_object.fossil = parseFloat(data[0].fossil.present);
     geo_info_object.hydro = parseFloat(data[0].hydro.present);
     geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
@@ -132,7 +133,11 @@ function successfulCarmaPull(data) {
     google.charts.setOnLoadCallback(drawChart);
 }
 function errorPull(data) {
-    console.log('something went wrong :(', data);
+    //console.log('something went wrong :(', data);
+    geo_info_object.fossil = '';
+    geo_info_object.hydro = '';
+    geo_info_object.nuclear = '';
+    geo_info_object.renewable = '';
 }
 /* geocode function takes the click event as a parameter in order to prevent its default behavior
     -grabs value of input and makes ajax call to google maps geocode API
@@ -547,8 +552,8 @@ function drawChart() {
     var fontSize = null;
     var topPercent = '';
 
-    if(geo_info_object.state === undefined){
-        name = 'No Energy Production Data';
+    if(geo_info_object.state === undefined || geo_info_object.fossil === ''){
+        name = 'Sorry, No Energy Production Data';
     } else {
         name = geo_info_object.state + ' Energy Production';
     }
