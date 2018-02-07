@@ -447,6 +447,7 @@ function getNewsData() {
         'new-scientist',
         'the-huffington-post'
     ];
+
     for (var i = 0; i < newsOptions.length; i++) {
         $.ajax({
             url: "https://newsapi.org/v2/everything?sources=" + newsOptions[i] + "&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
@@ -464,7 +465,7 @@ function getNewsData() {
             }
         })
     }
-}
+
 // Function to display proper news data to div
 function displayNewsData(data, newsAvailability) {
     if (newsAvailability === 4) {
@@ -559,6 +560,13 @@ function displayNewsData(data, newsAvailability) {
         })()
     }
 }
+
+// Function to format value from user input to send as param to ajax api request
+function formatTextArea() {
+    var enteredText = geo_info_object.city.split(" ").join('+');
+    return enteredText;
+}
+
 // Drawing Pie Chart
 /*
 function drawChart updates the initial chart that was loaded earlier (on page load) with data collected after Carma ajax call
