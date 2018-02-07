@@ -52,28 +52,6 @@ function handleWeatherInfo() {
             geo_info_object.minTemp = dataMain['temp_min'];
             geo_info_object.maxTemp = dataMain['temp_max'];
             weatherOutput();
-            // if(data['weather'][0]['description'] === 'broken clouds'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
-            // }else if(data['weather'][0]['description'] === 'clear sky'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-            // }else if(data['weather'][0]['description'] === 'scattered clouds'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');}
-            // else if(data['weather'][0]['description'] === 'few clouds'){
-            //         $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
-            // }else if(data['weather'][0]['description'] === 'shower rain'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-            // }else if(data['weather'][0]['description'] === 'rain'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-            // }else if(data['weather'][0]['description'] === 'thunderstorm'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
-            // }else if(data['weather'][0]['description'] === 'snow'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
-            // }else if(data['weather'][0]['description'] === 'mist'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
-            // }else{
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-            // }
-
             switch (data['weather'][0]['description']) {
                 case 'broken clouds':
                     $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
@@ -191,8 +169,10 @@ function geocode(e) {
             var city;
             var state;
             var addressComponentArray= data.results[0].address_components;
-            if(addressComponentArray[0].types[0]==="locality"){
-                city= addressComponentArray[0].long_name;
+            for (var i = 0; i<data.results[0].types.length; i++ ){
+                if(addressComponentArray[0].types[i]==='locality'){
+                    city= addressComponentArray[0].long_name;
+                }
             }
             if(addressComponentArray.length===4){
                 state=addressComponentArray[2].long_name;
@@ -217,7 +197,8 @@ function callApi() {
         getNewsData();
         handleWeatherInfo();
         pullFromCarma();
-        getAqiData(geo_info_object.state);
+        getDataByLocation(geo_info_object.lat, geo_info_object.lon);
+        // getAqiData(geo_info_object.state);
     
         setTimeout(function(){ google.charts.setOnLoadCallback(drawChart); }, 2500);
 
@@ -273,6 +254,7 @@ function getAqiData(keyword) {
         url: 'http://api.waqi.info/search/?token=' + '1af10262d0228050ee6334c5273af092b068ca53' + '&keyword=' + keyword + ',USA',
         success: function(result) {
             console.log('WHAT YOU NEED!!!!' + result.data);
+            console.log('here is the result from aqi info api ', result);
             if (result.data.length === 0) {
                 console.log('************** NO STATIONS EXIST IN ' + keyword);
                 $('#aqi-city').text(keyword);
