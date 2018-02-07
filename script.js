@@ -494,14 +494,15 @@ function displayNewsData(data, newsAvailability) {
             newsSourceID: data.articles[newsIndex].source.id
         };
         // Create on object of necessary values from API and push into array for later use
-        if (newsInfoArray.length >= 1) {
+        if (newsInfoArray.length > 1) {
 
-            if (newsInfoArray[newsIndex - 1].newsLink === newsInfo.newsLink) {
+            if (newsInfoArray[newsInfoArray.length - 1].newsTitle === newsInfo.newsTitle) {
                 newsIndex++;
                 console.log(newsInfoArray[newsIndex] + "is a multiple")
             } else {
                 newsInfoArray.push(newsInfo);
             }
+
         } else {
             newsInfoArray.push(newsInfo);
         }
