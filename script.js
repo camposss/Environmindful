@@ -46,42 +46,50 @@ function handleWeatherInfo() {
         geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             var dataMain = data['main'];
-            // var cityName = geo_info_object.city;
             geo_info_object.temperature = dataMain['temp'];
             geo_info_object.humidity = dataMain['humidity'];
             geo_info_object.minTemp = dataMain['temp_min'];
             geo_info_object.maxTemp = dataMain['temp_max'];
             weatherOutput();
-            console.log(data['weather'][0]['description']);
-            if(data['weather'][0]['description'] === 'broken clouds'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
-            }else if(data['weather'][0]['description'] === 'clear sky'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-            }else if(data['weather'][0]['description'] === 'scattered clouds'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');}
-            else if(data['weather'][0]['description'] === 'few clouds'){
+            switch (data['weather'][0]['description']) {
+                case 'broken clouds':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
+                    break;
+                case 'clear sky':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+                    break;
+                case 'scattered clouds':
                     $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
-            }else if(data['weather'][0]['description'] === 'shower rain'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-            }else if(data['weather'][0]['description'] === 'rain'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-            }else if(data['weather'][0]['description'] === 'thunderstorm'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
-            }else if(data['weather'][0]['description'] === 'snow'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
-            }else if(data['weather'][0]['description'] === 'mist'){
-                $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
-            }else{
-                $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+                    break;
+                case 'few clouds':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
+                    break;
+                case 'shower rain':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+                    break;
+                case 'rain':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+                    break;
+                case 'thunderstorm':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
+                    break;
+                case 'snow':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
+                    break;
+                case 'mist':
+                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
+                    break;
+                default:
+                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
             }
-        },
-        error: function () {
-            $('.data').text('Sorry, your temperature info is missing!')
+
+        },error: function(error) {
+            $('.data').text('Sorry, your temperature info is missing!');
         }
     })
 }
+
 
 /*
 Called by handleWeatherInfo
@@ -125,6 +133,7 @@ function pullFromCarma() {
 Pulls Carma data, adds data to geo info object and calls drawChart
 */
 function successfulCarmaPull(data) {
+    console.log("CarmaPull", data);
     geo_info_object.fossil = parseFloat(data[0].fossil.present);
     geo_info_object.hydro = parseFloat(data[0].hydro.present);
     geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
@@ -133,6 +142,10 @@ function successfulCarmaPull(data) {
 }
 function errorPull(data) {
     console.log('something went wrong :(', data);
+    geo_info_object.fossil = '';
+    geo_info_object.hydro = '';
+    geo_info_object.nuclear = '';
+    geo_info_object.renewable = '';
 }
 /* geocode function takes the click event as a parameter in order to prevent its default behavior
     -grabs value of input and makes ajax call to google maps geocode API
@@ -156,8 +169,10 @@ function geocode(e) {
             var city;
             var state;
             var addressComponentArray= data.results[0].address_components;
-            if(addressComponentArray[0].types[0]==="locality"){
-                city= addressComponentArray[0].long_name;
+            for (var i = 0; i<data.results[0].types.length; i++ ){
+                if(addressComponentArray[0].types[i]==='locality'){
+                    city= addressComponentArray[0].long_name;
+                }
             }
             if(addressComponentArray.length===4){
                 state=addressComponentArray[2].long_name;
@@ -182,7 +197,8 @@ function callApi() {
         getNewsData();
         handleWeatherInfo();
         pullFromCarma();
-        getAqiData(geo_info_object.state);
+        getDataByLocation(geo_info_object.lat, geo_info_object.lon);
+        // getAqiData(geo_info_object.state);
     
         setTimeout(function(){ google.charts.setOnLoadCallback(drawChart); }, 2500);
 
@@ -238,6 +254,7 @@ function getAqiData(keyword) {
         url: 'http://api.waqi.info/search/?token=' + '1af10262d0228050ee6334c5273af092b068ca53' + '&keyword=' + keyword + ',USA',
         success: function(result) {
             console.log('WHAT YOU NEED!!!!' + result.data);
+            console.log('here is the result from aqi info api ', result);
             if (result.data.length === 0) {
                 console.log('************** NO STATIONS EXIST IN ' + keyword);
                 $('#aqi-city').text(keyword);
@@ -410,28 +427,44 @@ function getDataByLocation(lat, lon) {
 *
 */
 
+// Function to format value from user input to send as param to ajax api request
+function formatTextArea() {
+    var enteredText = geo_info_object.city.split(" ").join('+');
+    return enteredText;
+}
+
 // Function for news data retrieval
 function getNewsData() {
     var checkNewsAvailability = 0;
     // Calling format text area function to retrieve data from input, formats string to pass api param properly
-    var cityName= formatTextArea();
+    var cityName = formatTextArea();
     // Clears news list display to repopulate updated search
     $(".newsListDisplay").text("");
     // Different news sources pulled from National Geo, Google News, New Scientist, and The Huffington Post through News API
-    var nationalGeoAPIajaxOptions = {
-        url: "https://newsapi.org/v2/everything?sources=national-geographic&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
-        success: function (data) {
-            // If there no available articles
-            if (!data.articles.length) {
-                // Increment counter 
-                checkNewsAvailability++;
+    var newsOptions = [
+        'national-geographic',
+        'google-news',
+        'new-scientist',
+        'the-huffington-post'
+    ];
+
+    for (var i = 0; i < newsOptions.length; i++) {
+        $.ajax({
+            url: "https://newsapi.org/v2/everything?sources="+ newsOptions[i] +"&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
+            success: function (data) {
+                // If there no available articles
+                if (!data.articles.length) {
+                    // Increment counter 
+                    checkNewsAvailability++;
+                };
+                displayNewsData(data, checkNewsAvailability);
+            },
+            error: function () {
+                $("");
             }
-            displayNewsData(data, checkNewsAvailability);
-        },
-        error: function () {
-            $("")
-        }
-    };
+        });
+    }
+
     var googleAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=google-news&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
@@ -444,6 +477,7 @@ function getNewsData() {
             $(".newsListDisplay").text("There was a problem with your request. Please try again.");
         }
     };
+
     var scienceAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=new-scientist&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
@@ -456,10 +490,12 @@ function getNewsData() {
             $(".newsListDisplay").text("There was a problem with your request. Please try again.");
         }
     };
+
     var huffingtonAPIajaxOptions = {
         url: "https://newsapi.org/v2/everything?sources=the-huffington-post&q=" + cityName + "+climate+environment&apiKey=626bed419f824271a515c974d606275b",
         success: function (data) {
             if (!data.articles.length) {
+                // Increment counter
                 checkNewsAvailability++;
             }
             displayNewsData(data, checkNewsAvailability);
@@ -467,13 +503,9 @@ function getNewsData() {
         error: function () {
             $(".newsListDisplay").text("There was a problem with your request. Please try again.");
         }
-    };
-    // Ajax calls from news sources
-    $.ajax(nationalGeoAPIajaxOptions);
-    $.ajax(googleAPIajaxOptions);
-    $.ajax(scienceAPIajaxOptions);
-    $.ajax(huffingtonAPIajaxOptions);
-}
+        }
+    }
+
 // Function to display proper news data to div
 function displayNewsData(data, newsAvailability) {
     if (newsAvailability === 4) {
@@ -580,16 +612,16 @@ function drawChart() {
     var titleFont = null;
     var fontSize = null;
     var topPercent = '';
-        
-    if(geo_info_object.state === undefined){
-        name = 'No Energy Production Data';        
+
+    if(geo_info_object.state === undefined || geo_info_object.fossil === ''){
+        name = 'Sorry, No Energy Production Data';
     } else {
         name = geo_info_object.state + ' Energy Production';
     }
-    
+
     var x = window.matchMedia("(max-width: 767px)");
     //console.log("x", x);
-    
+
     if(x.matches){
         //phone screen
         chartWidth = 300;
@@ -597,7 +629,7 @@ function drawChart() {
         titleFont = 16;
         fontSize = 14;
         topPercent = '30%';
-        
+
     } else {
         chartWidth = 650;
         chartHeight = 350;
@@ -605,7 +637,7 @@ function drawChart() {
         fontSize = 20;
         topPercent = '15%';
     }
-    
+
 
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Presentage'],
@@ -617,7 +649,6 @@ function drawChart() {
 
 
     var options = {
-
         // title: geo_info_object.state +' Energy Production',
         // chartArea: {width: 400, height: 300},
 
@@ -650,7 +681,7 @@ function drawChart() {
             top: topPercent,
             height: "80%",
             width: "80%"
-        }    
+        }
 
     };
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
