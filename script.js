@@ -156,8 +156,10 @@ function geocode(e) {
             var city;
             var state;
             var addressComponentArray= data.results[0].address_components;
-            if(addressComponentArray[0].types[0]==="locality"){
-                city= addressComponentArray[0].long_name;
+            for (var i = 0; i<data.results[0].types.length; i++ ){
+                if(addressComponentArray[0].types[i]==='locality'){
+                    city= addressComponentArray[0].long_name;
+                }
             }
             if(addressComponentArray.length===4){
                 state=addressComponentArray[2].long_name;
@@ -182,7 +184,8 @@ function callApi() {
         getNewsData();
         handleWeatherInfo();
         pullFromCarma();
-        getAqiData(geo_info_object.state);
+        getDataByLocation(geo_info_object.lat, geo_info_object.lon);
+        // getAqiData(geo_info_object.state);
     
         setTimeout(function(){ google.charts.setOnLoadCallback(drawChart); }, 2500);
 
@@ -238,6 +241,7 @@ function getAqiData(keyword) {
         url: 'http://api.waqi.info/search/?token=' + '1af10262d0228050ee6334c5273af092b068ca53' + '&keyword=' + keyword + ',USA',
         success: function(result) {
             console.log('WHAT YOU NEED!!!!' + result.data);
+            console.log('here is the result from aqi info api ', result);
             if (result.data.length === 0) {
                 console.log('************** NO STATIONS EXIST IN ' + keyword);
                 $('#aqi-city').text(keyword);
