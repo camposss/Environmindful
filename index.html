@@ -53,7 +53,7 @@
             <div class="carouselContainer col-xs-12 col-md-7">
                 <div class="data">
                     <!--dataCarousel-->
-                    <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="3800">
+                    <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="">
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
                             <div class="item active">
@@ -115,30 +115,31 @@
 
                             <!-- *********** SLIDE 2 **********-->
                             <div class="item">
-    
-                                <!-- city air pollution level (box)-->
-                                <div id="aqi-number-container">
-                                  
-                                  <span id="aqi-city">Your City</span>'s Air Pollution Level: 
-                                  <br>
-                                  <span id="aqiNum">N/A</span>
-                                  
-                                </div>
+                                <div class="air-pollution">
+                                    <!-- city air pollution level (box)-->
+                                    <div id="aqi-number-container">
+                                    
+                                    <span id="aqi-city">Your City</span>'s Air Pollution Level: 
+                                    <br>
+                                    <span id="aqiNum">N/A</span>
+                                    
+                                    </div>
+                                    
+                                    <!-- health implications and cautionary statement (message)-->
+                                    <div id="statements">
                                 
-                                <!-- health implications and cautionary statement (message)-->
-                                <div id="statements">
-                            
-                                  <table class="neutral">
-                                    <tr>
-                                      <th>Health Implications</th>
-                                      <th>Cautionary Statement</th> 
-                                    </tr>
-                                    <tr>
-                                      <td id="h_implications">No health implications at this time, please try again later.</td>
-                                      <td id="c_statement">No cautionary statements at this time, please try again later.</td> 
-                                    </tr>
-                                  </table>
-                                  
+                                    <table class="neutral">
+                                        <tr>
+                                        <th>Health Implications</th>
+                                        <th>Cautionary Statement</th> 
+                                        </tr>
+                                        <tr>
+                                        <td id="h_implications">No health implications at this time, please try again later.</td>
+                                        <td id="c_statement">No cautionary statements at this time, please try again later.</td> 
+                                        </tr>
+                                    </table>
+                                    
+                                    </div>
                                 </div>
                                   
                             </div>
