@@ -7,10 +7,6 @@
     box-sizing: border-box;
 }
 body {
-    /* background-image: url(images/stone-stack.jpeg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover; */
     height: 100%;
     color: #86c232;
     background-color: transparent !important;
@@ -22,10 +18,6 @@ html {
   height: 100%;
 }
 
-/* .title {
-    width: 60%;
-    margin-top: 5px;
-} */
 .title > img{
     max-height: 80px;
     display: inline-block;
