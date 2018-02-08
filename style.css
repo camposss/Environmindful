@@ -216,10 +216,10 @@ svg:not(:root) {
 
 
 /* ****** START AIR QUALITY INDEX SLIDE ***** */
-.aqi-container {
-    margin-top: 10%;
-    margin-left: 25%;
-    width: 90%;
+#aqi-table {
+    margin: 0 auto;
+    margin-top: 6%;
+    font-size: 3vmin;
 }
 /* ****** END AIR QUALITY INDEX SLIDE ***** */
 
