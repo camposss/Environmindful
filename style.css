@@ -6,8 +6,10 @@
 *{
     box-sizing: border-box;
 }
-body {
-    background-image: url('images/stone-stack.jpeg');
+body, html {
+    background-image: url(images/stone-stack.jpeg);
+    background-repeat: no-repeat;
+    background-position: center;
     background-size: cover;
     height: 100%;
     color: #86c232;
