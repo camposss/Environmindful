@@ -52,28 +52,6 @@ function handleWeatherInfo() {
             geo_info_object.minTemp = dataMain['temp_min'];
             geo_info_object.maxTemp = dataMain['temp_max'];
             weatherOutput();
-            // if(data['weather'][0]['description'] === 'broken clouds'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
-            // }else if(data['weather'][0]['description'] === 'clear sky'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-            // }else if(data['weather'][0]['description'] === 'scattered clouds'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');}
-            // else if(data['weather'][0]['description'] === 'few clouds'){
-            //         $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
-            // }else if(data['weather'][0]['description'] === 'shower rain'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-            // }else if(data['weather'][0]['description'] === 'rain'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-            // }else if(data['weather'][0]['description'] === 'thunderstorm'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
-            // }else if(data['weather'][0]['description'] === 'snow'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
-            // }else if(data['weather'][0]['description'] === 'mist'){
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
-            // }else{
-            //     $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-            // }
-
             switch (data['weather'][0]['description']) {
                 case 'broken clouds':
                     $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
