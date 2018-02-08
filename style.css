@@ -6,14 +6,22 @@
 *{
     box-sizing: border-box;
 }
-body, html {
-    background-image: url(images/stone-stack.jpeg);
+body {
+    /* background-image: url(images/stone-stack.jpeg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
+    background-size: cover; */
     height: 100%;
     color: #86c232;
+    background-color: transparent !important;
 }
+
+html {
+  background: url(images/stone-stack.jpeg) no-repeat center center fixed; 
+  background-size: cover;
+  height: 100%;
+}
+
 /* .title {
     width: 60%;
     margin-top: 5px;
