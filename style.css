@@ -7,15 +7,17 @@
     box-sizing: border-box;
 }
 body {
-    background-image: url('images/stone-stack.jpeg');
-    background-size: cover;
     height: 100%;
     color: #86c232;
+    background-color: transparent !important;
 }
-/* .title {
-    width: 60%;
-    margin-top: 5px;
-} */
+
+html {
+  background: url(images/stone-stack.jpeg) no-repeat center center fixed; 
+  background-size: cover;
+  height: 100%;
+}
+
 .title > img{
     max-height: 80px;
     display: inline-block;
@@ -27,7 +29,7 @@ h1{
     font-family: Montserrat-Alt;
 }
 
-.title> h1 {
+h2 {
     font-family: Montserrat-Alt;
     display: inline-block;
     font-size: 5vmin;
@@ -216,10 +218,10 @@ svg:not(:root) {
 
 
 /* ****** START AIR QUALITY INDEX SLIDE ***** */
-.aqi-container {
-    margin-top: 10%;
-    margin-left: 25%;
-    width: 90%;
+#aqi-table {
+    margin: 0 auto;
+    margin-top: 6%;
+    font-size: 3vmin;
 }
 /* ****** END AIR QUALITY INDEX SLIDE ***** */
 
@@ -254,19 +256,18 @@ svg:not(:root) {
     border: 2px solid black;
     padding: 2%;
 }
+
 #aqi-number-container {
     border: 2px solid black;
     border-radius: 6px;
-    padding-top: 20px;
     text-align: center;
-    min-height: 180px;
-    width: 180px;
-    margin: 0 auto;
-    margin-bottom: 10px;
+    width: 45%;
+    margin: 0px auto;
+    margin-bottom: 2%;
 }
   
 #aqiNum {
-    font-size: 100px;
+    font-size: 12vmin;
 }
   
 table, td, th {
