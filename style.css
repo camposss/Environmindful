@@ -12,10 +12,10 @@ body {
     height: 100%;
     color: #86c232;
 }
-.title {
-    /*width: 60%;*/
-    /*margin-top: 5px;*/
-}
+/* .title {
+    width: 60%;
+    margin-top: 5px;
+} */
 .title > img{
     max-height: 80px;
     display: inline-block;
@@ -23,9 +23,10 @@ body {
     -webkit-filter: drop-shadow(3px 3px 4px #000000);
     filter: drop-shadow(3px 3px 4px #000000);
 }
-h1 {
+h1{
     font-family: Montserrat-Alt;
 }
+
 .title> h1 {
     font-family: Montserrat-Alt;
     display: inline-block;
@@ -215,8 +216,9 @@ svg:not(:root) {
 
 
 /* ****** START AIR QUALITY INDEX SLIDE ***** */
-.aqi-container > img{
-    margin-top: 3%;
+.aqi-container {
+    margin-top: 10%;
+    margin-left: 25%;
     width: 90%;
 }
 /* ****** END AIR QUALITY INDEX SLIDE ***** */
