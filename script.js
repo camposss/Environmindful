@@ -606,7 +606,7 @@ function drawChart() {
         chartHeight = 350;
         titleFont = 24;
         fontSize = 20;
-        topPercent = '15%';
+        topPercent = '10%';
     }
 
 

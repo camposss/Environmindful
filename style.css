@@ -173,7 +173,13 @@ h2 {
     visibility: visible;
 }
 
+/*
 div.item {
+    margin: 20px;
+}
+*/
+
+.air-pollution{
     margin: 20px;
 }
 /* ****** END CAROUSEL AND NEWS CSS ***** */
