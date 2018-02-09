@@ -168,6 +168,7 @@ h2 {
 
 .carousel-control {
     opacity: 0.1;
+    width: 5%;
 }
 .carousel-control:hover {
     visibility: visible;
