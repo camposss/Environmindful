@@ -591,7 +591,6 @@ function drawChart() {
     }
 
     var x = window.matchMedia("(max-width: 767px)");
-    //console.log("x", x);
 
     if (x.matches) {
         //phone screen
@@ -602,11 +601,27 @@ function drawChart() {
         topPercent = '30%';
 
     } else {
-        chartWidth = 650;
-        chartHeight = 350;
-        titleFont = 24;
-        fontSize = 20;
-        topPercent = '10%';
+        x = window.matchMedia("(max-width: 991px)")
+        
+        if(x.matches){
+            //tablet
+            console.log('tabletdata');
+            chartWidth = 600;
+            chartHeight = 400;
+            titleFont = 18;
+            fontSize = 16;
+            topPercent = '20%';
+            
+        } else {
+            //desktop
+
+            chartWidth = 650;
+            chartHeight = 350;
+            titleFont = 24;
+            fontSize = 20;
+            topPercent = '10%';
+        }
+
     }
 
 
@@ -658,3 +673,11 @@ function drawChart() {
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
 }
+
+$( window ).resize(function() {
+    var resizeTimer;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+        drawChart();
+      }, 500);
+});
