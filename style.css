@@ -194,6 +194,10 @@ rect {
 svg:not(:root) {
     margin: 20px;
 }
+
+#piechart{
+    padding-bottom: 3%;
+}
 /* ****** END OF PIE CHART SLIDE ****** */
 
 
