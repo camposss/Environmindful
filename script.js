@@ -164,24 +164,39 @@ function geocode(e) {
             key: "AIzaSyD2vYz71KVg4PUiyae7M21lCA1Wkh0b8RY"
         },
         success: function (data) {
+            if(data.results.length===0){
+                console.log('NO DATA AVAILABLE');
+                geo_info_object = {
+                    lat: null,
+                    lon: null,
+                    city: null,
+                    state: null
+                };
+                callApi();
+                return;
+            }
             console.log(data);
             //geometry
             var city;
             var state;
             var addressComponentArray = data.results[0].address_components;
-            for (var i = 0; i < data.results[0].types.length; i++) {
-                if (addressComponentArray[0].types[i] === 'locality') {
-                    city = addressComponentArray[0].long_name;
+            var updatedLocation= data.results[0].geometry.location;
+            for (var i = 0; i < addressComponentArray.length; i++) {
+                for(var j =0; j<addressComponentArray[i].types.length; j++){
+                if (addressComponentArray[i].types[j] === 'administrative_area_level_1') {
+                        state = addressComponentArray[i].long_name;
+                        console.log(' this is the state ', state);
+                    }
+
+                    if (addressComponentArray[i].types[j] === 'locality') {
+                        city = addressComponentArray[i].long_name;
+                        console.log(' this is the city ', city);
+                    }
                 }
             }
-            if (addressComponentArray.length === 4) {
-                state = addressComponentArray[2].long_name;
-            } else if (addressComponentArray.length === 3) {
-                state = addressComponentArray[1].long_name;
-            }
             geo_info_object = {
-                lat: (data.results[0].geometry.location.lat),
-                lon: (data.results[0].geometry.location.lng),
+                lat: (updatedLocation.lat),
+                lon: (updatedLocation.lng),
                 city: city,
                 state: state
             };
@@ -209,6 +224,13 @@ map location is centered on the these params
 function skeleton taken from google maps API documentation
  */
 function initMap(lat, lng) {
+    console.log('we have reached initMap function');
+    if(lat ===null || lng=== null){
+        console.log('you have entered an invalid address no map availble ', lat, lng);
+        $('#map_display').text('Location Does not exist! Please search again.').addClass('displayMapError');
+        return;
+    }
+    $('#map_display').removeClass('displayMapError');
     var center = { lat: lat, lng: lng };
     var map = new google.maps.Map(document.getElementById('map_display'), {
         zoom: 12,
