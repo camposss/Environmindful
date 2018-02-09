@@ -2,32 +2,30 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon//apple-touch-icon.png">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="images/favicon//apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon//favicon-16x16.png">
     <link rel="manifest" href="images/favicon//site.webmanifest">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#ffffff"> -->
+    <link href="images/earth.ico" rel="icon" type="image/x-icon" />
    
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
-    <link href="images/earth.ico" rel="icon" type="image/x-icon" />
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
-          type="text/css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Environmindful</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="script.js"></script>
-
+    <title>Environmindful</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <div class="title col-xs-4 col-md-2">
+        <div class="title col-xs-4 col-md-1">
             <img src="images/kawaii-earth.png" alt="">
         </div>
         <div class="col-xs-8  col-md-4">
@@ -117,30 +115,31 @@
 
                             <!-- *********** SLIDE 2 **********-->
                             <div class="item">
-    
-                                <!-- city air pollution level (box)-->
-                                <div id="aqi-number-container">
-                                  
-                                  <span id="aqi-city">Your City</span>'s Air Pollution Level: 
-                                  <br>
-                                  <span id="aqiNum">N/A</span>
-                                  
-                                </div>
+                                <div class="air-pollution">
+                                    <!-- city air pollution level (box)-->
+                                    <div id="aqi-number-container">
+                                    
+                                    <span id="aqi-city">Your City</span>'s Air Pollution Level: 
+                                    <br>
+                                    <span id="aqiNum">N/A</span>
+                                    
+                                    </div>
+                                    
+                                    <!-- health implications and cautionary statement (message)-->
+                                    <div id="statements">
                                 
-                                <!-- health implications and cautionary statement (message)-->
-                                <div id="statements">
-                            
-                                  <table class="neutral">
-                                    <tr>
-                                      <th>Health Implications</th>
-                                      <th>Cautionary Statement</th> 
-                                    </tr>
-                                    <tr>
-                                      <td id="h_implications">No health implications at this time, please try again later.</td>
-                                      <td id="c_statement">No cautionary statements at this time, please try again later.</td> 
-                                    </tr>
-                                  </table>
-                                  
+                                    <table class="neutral">
+                                        <tr>
+                                        <th>Health Implications</th>
+                                        <th>Cautionary Statement</th> 
+                                        </tr>
+                                        <tr>
+                                        <td id="h_implications">No health implications at this time, please try again later.</td>
+                                        <td id="c_statement">No cautionary statements at this time, please try again later.</td> 
+                                        </tr>
+                                    </table>
+                                    
+                                    </div>
                                 </div>
                                   
                             </div>
