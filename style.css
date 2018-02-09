@@ -204,21 +204,44 @@ svg:not(:root) {
     line-height:initial;
     text-align: left;
     margin-top: 20%;
+    text-align: center;
 }
 #weatherList{
-    display: inline-block;
+    /*display: inline-block;*/
     list-style: none;
 }
 #weatherList li {
     line-height: 5vh;
 }
 
-#weatherIcon{
-    height:20%;
-    width: 15%;
-    float: right;
-    margin-right: 10%;
+
+@media (min-width: 1180px) {
+    #weatherIcon{
+        height:20%;
+        width: 15%;
+        float: right;
+        margin-right: 10%;
+    }
+
+    #weatherList{
+        display: inline-block;
+        padding-left: 12%;
+    }
+
 }
+
+@media (max-width: 767px){
+    #weatherIcon{
+        width: 15%;
+        margin: auto;
+    }
+
+    #weatherList{
+        display: block;
+        padding-left: 0;
+    }
+}
+
 /* ****** END OF WEATHER SLIDE ****** */
 
 
