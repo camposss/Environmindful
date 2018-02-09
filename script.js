@@ -608,8 +608,8 @@ function drawChart() {
             console.log('tabletdata');
             chartWidth = 600;
             chartHeight = 400;
-            titleFont = 18;
-            fontSize = 16;
+            titleFont = 24;
+            fontSize = 20;
             topPercent = '20%';
             
         } else {
