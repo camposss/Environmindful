@@ -224,10 +224,13 @@ map location is centered on the these params
 function skeleton taken from google maps API documentation
  */
 function initMap(lat, lng) {
+    console.log('we have reached initMap function');
     if(lat ===null || lng=== null){
         console.log('you have entered an invalid address no map availble ', lat, lng);
+        $('#map_display').text('Location Does not exist! Please search again.').addClass('displayMapError');
         return;
     }
+    $('#map_display').removeClass('displayMapError');
     var center = { lat: lat, lng: lng };
     var map = new google.maps.Map(document.getElementById('map_display'), {
         zoom: 12,
