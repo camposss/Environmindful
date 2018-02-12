@@ -34,60 +34,64 @@ Call function weatherOutput
  */
 
 function handleWeatherInfo() {
-    $.ajax({
-        method: 'get',
-        data: {
-            api_key: '262d0228050ee6334c5273af092b068c',
-            latitude: geo_info_object.lat,
-            longitude: geo_info_object.lon
-        },
-        url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
+    if(geo_info_object.lat !== null && geo_info_object.lon !== null) {
+        $.ajax({
+            method: 'get',
+            data: {
+                api_key: '262d0228050ee6334c5273af092b068c',
+                latitude: geo_info_object.lat,
+                longitude: geo_info_object.lon
+            },
+            url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
             geo_info_object.lat + '&lon=' +
             geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
-        dataType: 'json',
-        success: function (data) {
-            var dataMain = data['main'];
-            geo_info_object.temperature = dataMain['temp'];
-            geo_info_object.humidity = dataMain['humidity'];
-            geo_info_object.minTemp = dataMain['temp_min'];
-            geo_info_object.maxTemp = dataMain['temp_max'];
-            weatherOutput();
-            switch (data['weather'][0]['description']) {
-                case 'broken clouds':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
-                    break;
-                case 'clear sky':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-                    break;
-                case 'scattered clouds':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
-                    break;
-                case 'few clouds':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
-                    break;
-                case 'shower rain':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-                    break;
-                case 'rain':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-                    break;
-                case 'thunderstorm':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
-                    break;
-                case 'snow':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
-                    break;
-                case 'mist':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
-                    break;
-                default:
-                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-            }
+            dataType: 'json',
+            success: function (data) {
+                var dataMain = data['main'];
+                geo_info_object.temperature = dataMain['temp'];
+                geo_info_object.humidity = dataMain['humidity'];
+                geo_info_object.minTemp = dataMain['temp_min'];
+                geo_info_object.maxTemp = dataMain['temp_max'];
+                weatherOutputWithData();
+                switch (data['weather'][0]['description']) {
+                    case 'broken clouds':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
+                        break;
+                    case 'clear sky':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+                        break;
+                    case 'scattered clouds':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
+                        break;
+                    case 'few clouds':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
+                        break;
+                    case 'shower rain':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+                        break;
+                    case 'rain':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+                        break;
+                    case 'thunderstorm':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
+                        break;
+                    case 'snow':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
+                        break;
+                    case 'mist':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
+                        break;
+                    default:
+                        $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+                }
 
-        }, error: function (error) {
-            $('.data').text('Sorry, your temperature info is missing!');
-        }
-    })
+            }, error: function () {
+                $('.data').text('Sorry, your temperature info is missing!');
+            }
+        })
+    }else{
+        weatherOutputWithoutData();
+    }
 }
 
 
@@ -96,16 +100,24 @@ Called by handleWeatherInfo
 return: none
 param: none
  */
-function weatherOutput() {
+function weatherOutputWithData() {
     $('#weatherCity').empty();
     $('#weatherCurrent').empty();
     $('#weatherTemp').empty();
     $('#weatherHumidity').empty();
     $('#weatherCity').append('City: ' + geo_info_object.city);
     $('#weatherCurrent').append('Current Temperature: ' + parseInt(geo_info_object.temperature) + '&deg; C');
-    $('#weatherTemp').append('Temperature: ' + geo_info_object.minTemp + '&deg; C' + ' - ' + geo_info_object.maxTemp + '&deg; C');
+    $('#weatherTemp').append('Temperature Range: ' + geo_info_object.minTemp + '&deg; C' + ' - ' + geo_info_object.maxTemp + '&deg; C');
     $('#weatherHumidity').append('Humidity: ' + geo_info_object.humidity + '%');
 
+}
+
+function weatherOutputWithoutData() {
+    $('#weatherCity').empty();
+    $('#weatherCurrent').empty();
+    $('#weatherTemp').empty();
+    $('#weatherHumidity').empty();
+    $('#weatherDisplay').append('Sorry, no weather info available for entered location.')
 }
 
 /*

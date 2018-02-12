@@ -246,7 +246,11 @@ svg:not(:root) {
 
 }
 
-@media (max-width: 767px){
+@media (max-width: 1180px){
+    #weatherDisplay{
+        font-size: 5vmin;
+    }
+
     #weatherIcon{
         width: 15%;
         margin: auto;
