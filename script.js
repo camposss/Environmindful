@@ -47,6 +47,7 @@ function handleWeatherInfo() {
         dataType: 'json',
         success: function (data) {
             var dataMain = data['main'];
+
             geo_info_object.temperature = dataMain['temp'];
             geo_info_object.humidity = dataMain['humidity'];
             geo_info_object.minTemp = dataMain['temp_min'];
@@ -103,7 +104,7 @@ function weatherOutput() {
     $('#weatherHumidity').empty();
     $('#weatherCity').append('City: ' + geo_info_object.city);
     $('#weatherCurrent').append('Current Temperature: ' + parseInt(geo_info_object.temperature) + '&deg; C');
-    $('#weatherTemp').append('Temperature: ' + geo_info_object.minTemp + '&deg; C' + ' - ' + geo_info_object.maxTemp + '&deg; C');
+    $('#weatherTemp').append('Temperature Range: ' + geo_info_object.minTemp + '&deg; C' + ' - ' + geo_info_object.maxTemp + '&deg; C');
     $('#weatherHumidity').append('Humidity: ' + geo_info_object.humidity + '%');
 
 }
