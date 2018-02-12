@@ -506,7 +506,7 @@ function getNewsData() {
 // Function to display proper news data to div
 function displayNewsData(data, newsAvailability) {
     if (newsAvailability === 4) {
-        $(".newsListDisplay").text("Sorry, no articles available for entered location. Please enter a valid city!");
+        $(".newsListDisplay").text("Sorry, no articles available for entered location. Please enter a different city name!");
         return;
     }
     // Declare variables to use when storing data from News API and displaying on DOM
