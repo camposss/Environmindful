@@ -223,7 +223,6 @@ svg:not(:root) {
     text-align: center;
 }
 #weatherList{
-    /*display: inline-block;*/
     list-style: none;
 }
 #weatherList li {
@@ -242,11 +241,13 @@ svg:not(:root) {
     #weatherList{
         display: inline-block;
         padding-left: 12%;
+        text-align: left;
     }
+
 
 }
 
-@media (max-width: 1180px){
+@media (max-width: 780px){
     #weatherDisplay{
         font-size: 5vmin;
     }
@@ -254,11 +255,13 @@ svg:not(:root) {
     #weatherIcon{
         width: 15%;
         margin: auto;
+        text-align: center;
     }
 
     #weatherList{
         display: block;
         padding-left: 0;
+        text-align: center;
     }
 }
 
