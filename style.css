@@ -9,7 +9,7 @@
 body {
     height: 100%;
     color: #86c232;
-    background-color: transparent !important;
+    background-color: transparent;
 }
 
 html {
@@ -130,13 +130,15 @@ h2 {
     color: #9d9d9d;
     font-weight: 500;
 }
-.newsLink:hover {
+.newsLink:hover,
+.fullArticle a:hover {
     cursor: pointer;
     text-decoration: none;
     color: #ff652f;
 }
 .newsModalImage {
     width: 100%;
+    margin-bottom: 2%;
 }
 
 .newsListDisplay {
@@ -155,13 +157,22 @@ h2 {
 .fullArticle {
     color: #272727;
 }
-
+.modal-title {
+    font-family: Montserrat-Alt;
+}
+.fullArticle a {
+    color: #9d9d9d;
+}
+.close:hover {
+    color: #ff652f;
+}
 .news, .carouselContainer {
     margin-bottom: 2vh;
 }
 .modal-content {
     top: 50vh;
     transform: translateY(-50%);
+    border: 3px solid #86c232;
 }
 @media (min-width: 1180px) {
     .carouselContainer {
