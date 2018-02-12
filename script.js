@@ -165,7 +165,6 @@ function errorPull(data) {
     -Function skeleton taken from google maps geocode documentation.
  */
 function geocode(e) {
-    console.log("hello");
     //prevent actual submit
     e.preventDefault();
     var location = document.getElementById('location-input').value;
@@ -469,6 +468,10 @@ function formatTextArea() {
 
 // Function for news data retrieval
 function getNewsData() {
+    if(geo_info_object.lat === null || geo_info_object.lon === null){
+        $(".newsListDisplay").text("Sorry, no articles available for entered location. Please enter a valid city!");
+        return;
+    }
     var checkNewsAvailability = 0;
     // Calling format text area function to retrieve data from input, formats string to pass api param properly
     var cityName = formatTextArea();
@@ -503,7 +506,7 @@ function getNewsData() {
 // Function to display proper news data to div
 function displayNewsData(data, newsAvailability) {
     if (newsAvailability === 4) {
-        $(".newsListDisplay").text("Sorry, no articles available for entered location.");
+        $(".newsListDisplay").text("Sorry, no articles available for entered location. Please enter a valid city!");
         return;
     }
     // Declare variables to use when storing data from News API and displaying on DOM
@@ -599,6 +602,9 @@ function displayNewsData(data, newsAvailability) {
 
 // Function to format value from user input to send as param to ajax api request
 function formatTextArea() {
+    if (!geo_info_object.city) {
+        return;
+    }
     var enteredText = geo_info_object.city.split(" ").join('+');
     return enteredText;
 }
