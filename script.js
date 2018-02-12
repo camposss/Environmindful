@@ -656,8 +656,8 @@ function drawChart() {
             //desktop
 
             chartWidth = 650;
-            chartHeight = 350;
-            titleFont = 24;
+            chartHeight = 550;
+            titleFont = 32;
             fontSize = 20;
             topPercent = '10%';
         }
