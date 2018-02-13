@@ -13,9 +13,9 @@ body {
 }
 
 html {
-  background: url(images/stone-stack.jpeg) no-repeat center center fixed; 
-  background-size: cover;
-  height: 100%;
+    background: url(images/stone-stack.jpeg) no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
 }
 
 .title > img{
@@ -39,7 +39,7 @@ h2 {
 /* Main Content */
 .inputBox{
     height:8vh;
-    
+
 }
 #submit_button {
     height: 5vh;
@@ -186,7 +186,7 @@ h2 {
     background: none !important;
     filter: none !important;
     outline: 0;
-  }
+}
 
 .carousel-control {
     opacity: 0.1;
@@ -203,7 +203,7 @@ div.item {
 */
 
 .air-pollution{
-    margin: 20px;
+    margin: 17px;
 }
 /* ****** END CAROUSEL AND NEWS CSS ***** */
 
@@ -283,8 +283,8 @@ svg:not(:root) {
 /* ****** START AIR QUALITY INDEX SLIDE ***** */
 #aqi-table {
     margin: 0 auto;
-    margin-top: 6%;
-    font-size: 3vmin;
+    margin-top: 2%;
+    font-size: 2vmin;
 }
 /* ****** END AIR QUALITY INDEX SLIDE ***** */
 
@@ -330,7 +330,7 @@ svg:not(:root) {
 }
 
 #aqiNum {
-    font-size: 12vmin;
+    font-size: 6vmin;
 }
 
 table, td, th {
@@ -341,7 +341,7 @@ table, td, th {
 th, .neutral {
     background-color: #dfdfdf;
     text-align: center;
-    font-size: 2vmin;
+    font-size: 3vmin;
 }
 /* ******END OF CITY AIR POLLUTION SLIDE****** */
 
@@ -381,16 +381,18 @@ th, .neutral {
 
 @media (max-width: 375px){
     #aqi-table, .neutral{
-        font-size: 5vmin;
+        font-size: 3.5vmin;
     }
     #aqi-number-container{
         width: 65%
     }
     #aqiNum{
-        font-size: 25vmin
+        font-size: 8vmin
     }
     #weatherDisplay{
         margin-top: 25%;
-
+    }
+    .air-pollution{
+        margin: 10px;
     }
 }
