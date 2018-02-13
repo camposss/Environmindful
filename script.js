@@ -628,7 +628,10 @@ function drawChart() {
     var titleFont = null;
     var fontSize = null;
     var topPercent = '';
-
+    
+    var windowWidth = window.innerWidth;
+    var windowHeight = window.innerHeight;
+    
     if (geo_info_object.state === undefined || geo_info_object.fossil === '') {
         name = 'Sorry, No Energy Production Data';
     } else {
@@ -660,10 +663,10 @@ function drawChart() {
         } else {
             //desktop
 
-            chartWidth = 650;
-            chartHeight = 550;
-            titleFont = 32;
-            fontSize = 20;
+            chartWidth = windowWidth/4;
+            chartHeight = windowHeight/2;
+            titleFont = 28;
+            fontSize = 18;
             topPercent = '10%';
         }
 
