@@ -662,8 +662,10 @@ function drawChart() {
             
         } else {
             //desktop
+
             //650
             //350
+
             chartWidth = windowWidth/3;
             chartHeight = windowHeight/2;
             titleFont = 28;
