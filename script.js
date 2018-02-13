@@ -17,7 +17,6 @@ callApi function to coordinate api calls.
 function initializeApp() {
     var submit_button = $('#submit_button');
     screen.orientation.lock('portrait').catch(function(){
-        console.log("screen orientation not supported");
     });
     submit_button.on('click', geocode);
     google.charts.load('current', { 'packages': ['corechart'] });
@@ -150,7 +149,6 @@ function pullFromCarma() {
 Pulls Carma data, adds data to geo info object and calls drawChart
 */
 function successfulCarmaPull(data) {
-    console.log("CarmaPull", data);
     geo_info_object.fossil = parseFloat(data[0].fossil.present);
     geo_info_object.hydro = parseFloat(data[0].hydro.present);
     geo_info_object.nuclear = parseFloat(data[0].nuclear.present);
@@ -158,7 +156,6 @@ function successfulCarmaPull(data) {
     google.charts.setOnLoadCallback(drawChart);
 }
 function errorPull(data) {
-    console.log('something went wrong :(', data);
     geo_info_object.fossil = '';
     geo_info_object.hydro = '';
     geo_info_object.nuclear = '';
@@ -181,7 +178,6 @@ function geocode(e) {
         },
         success: function (data) {
             if(data.results.length===0){
-                console.log('NO DATA AVAILABLE');
                 geo_info_object = {
                     lat: null,
                     lon: null,
@@ -191,7 +187,6 @@ function geocode(e) {
                 callApi();
                 return;
             }
-            console.log(data);
             //geometry
             var city;
             var state;
@@ -201,12 +196,9 @@ function geocode(e) {
                 for(var j =0; j<addressComponentArray[i].types.length; j++){
                 if (addressComponentArray[i].types[j] === 'administrative_area_level_1') {
                         state = addressComponentArray[i].long_name;
-                        console.log(' this is the state ', state);
                     }
-
                     if (addressComponentArray[i].types[j] === 'locality') {
                         city = addressComponentArray[i].long_name;
-                        console.log(' this is the city ', city);
                     }
                 }
             }
@@ -216,7 +208,6 @@ function geocode(e) {
                 city: city,
                 state: state
             };
-            console.log('GeoInfoObj: ' + geo_info_object);
             callApi();
         }
     });
@@ -240,9 +231,7 @@ map location is centered on the these params
 function skeleton taken from google maps API documentation
  */
 function initMap(lat, lng) {
-    console.log('we have reached initMap function');
     if(lat ===null || lng=== null){
-        console.log('you have entered an invalid address no map availble ', lat, lng);
         $('#map_display').text('Location Does not exist! Please search again.').addClass('displayMapError');
         return;
     }
@@ -282,7 +271,6 @@ function initMap(lat, lng) {
 
 //HELLO THERE! THIS FUNCTION IS NOT BEING USED, IT IS NOT VERY ACCURATE :) PLEASE LET ME KNOW IF YOU DECIDE TO USE IT.
 function getAqiData(keyword) {
-    console.log('*************************GET STATIONS BY KEYWORD FUNCTION IS BEING CALLED*************************');
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
@@ -291,10 +279,7 @@ function getAqiData(keyword) {
         dataType: 'json',
         url: 'http://api.waqi.info/search/?token=' + '1af10262d0228050ee6334c5273af092b068ca53' + '&keyword=' + keyword + ',USA',
         success: function (result) {
-            console.log('WHAT YOU NEED!!!!' + result.data);
-            console.log('here is the result from aqi info api ', result);
             if (result.data.length === 0) {
-                console.log('************** NO STATIONS EXIST IN ' + keyword);
                 $('#aqi-city').text(keyword);
                 $('#aqiNum').text('N/A');
                 $('#h_implications').text('No health implications at this time, please try again later.');
@@ -314,7 +299,6 @@ function getAqiData(keyword) {
                 }
                 // determineAqiLevel(geo_info_object.aqi, keyword);
             }
-            console.log('**************NO AQI AVAILABLE FOR ' + keyword);
             $('#aqi-city').text(keyword);
             $('#aqiNum').text('N/A');
             $('#h_implications').text('No health implications at this time, please try again later.');
@@ -323,9 +307,6 @@ function getAqiData(keyword) {
                 'background-color': '#80d6f9',
                 'font-size': '155%'
             });
-        },
-        error: function (result) {
-            console.log('handleAirQuality ajax call resulted in error', result);
         }
     })
 
@@ -384,14 +365,7 @@ function determineAqiLevel(aqi, keyword) {
         airPollutionLvl = 'Hazardous';
         healthImplications = 'Health alert: everyone may experience more serious health effects';
         cautionaryStmt = 'Everyone should avoid all outdoor exertion';
-    } else {
-        console.log('*****NO AQI AVAILABLE*****');
-    }
-    console.log('*****State: ' + keyword); // result.data.city.url might need regex to get state name
-    console.log('*****Air Quality Level: ', aqi);
-    console.log('*****Air Pollution Level: ' + airPollutionLvl);
-    console.log('*****Health Implications: ' + healthImplications);
-    console.log('*****Cautionary Statement: ' + cautionaryStmt);
+    } 
     renderAqiInfoOnDom(keyword, aqi, healthImplications, cautionaryStmt, colorLvl);
 }
 
@@ -429,7 +403,6 @@ function renderAqiInfoOnDom(keyword, aqi, healthImplications, cautionaryStmt, co
 */
 
 function getDataByLocation(lat, lon) {
-    console.log('********************** GET DATA BY LAT/LON FUNCTION IS BEING CALLED **********************');
     $.ajax({
         data: {
             api_key: '1af10262d0228050ee6334c5273af092b068ca53' //variable api_key not being used at the moment, it is hardcoded into the url
@@ -441,10 +414,6 @@ function getDataByLocation(lat, lon) {
             var aqi = result.data.aqi; //only grabbing the first element in the array
             determineAqiLevel(aqi);
             return aqi;
-            console.log('getDataByLocation call was successful', result);
-        },
-        error: function (result) {
-            console.log('getDataByLocation call resulted in error', result);
         }
     })
 }
@@ -504,7 +473,6 @@ function getNewsData() {
                     // Increment counter
                     checkNewsAvailability++;
                 }
-                console.log("DATA SENT BACK: ", data);
                 displayNewsData(data, checkNewsAvailability);
             },
             error: function () {
@@ -545,7 +513,6 @@ function displayNewsData(data, newsAvailability) {
 
             if (newsInfoArray[newsInfoArray.length - 1].newsTitle === newsInfo.newsTitle) {
                 newsIndex++;
-                console.log(newsInfoArray[newsIndex] + "is a multiple")
             } else {
                 newsInfoArray.push(newsInfo);
             }
@@ -639,6 +606,7 @@ function drawChart() {
     
     if (geo_info_object.state === undefined || geo_info_object.fossil === '') {
         name = 'Sorry, No Energy Production Data';
+        return;
     } else {
         name = geo_info_object.state + ' Energy Production';
     }
@@ -651,27 +619,26 @@ function drawChart() {
         chartHeight = windowHeight/2;
         titleFont = 16;
         fontSize = 14;
-        topPercent = '20%';
+        topPercent = '10%';
 
     } else {
         x = window.matchMedia("(max-width: 991px)")
         
         if(x.matches){
             //tablet
-            //console.log('tabletdata');
             chartWidth = windowWidth * 0.8;
             chartHeight = windowHeight/2;
             titleFont = 24;
             fontSize = 20;
-            topPercent = '20%';
+            topPercent = '10%';
             
         } else {
             //desktop
-
-            //650
-            //350
-            if(windowWidth < 1500){
+            if(windowWidth < 1500 && windowWidth > 1200){
                 windowWidth = 1950;
+            }
+            if(windowWidth < 1199){
+                windowWidth = 1500;
             }
             chartWidth = windowWidth/3;
             chartHeight = windowHeight/2;
@@ -681,7 +648,6 @@ function drawChart() {
         }
 
     }
-
 
     var data = google.visualization.arrayToDataTable([
         ['Element', 'Percentage'],
@@ -734,6 +700,6 @@ $( window ).resize(function() {
     var resizeTimer;
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function() {
-        drawChart();
+        google.charts.setOnLoadCallback(drawChart);
       }, 500);
 });
