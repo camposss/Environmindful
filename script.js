@@ -642,26 +642,29 @@ function drawChart() {
 
     if (x.matches) {
         //phone screen
-        chartWidth = 300;
-        chartHeight = 250;
+        chartWidth = windowWidth * 0.8;
+        chartHeight = windowHeight/2;
         titleFont = 16;
         fontSize = 14;
-        topPercent = '30%';
+        topPercent = '20%';
 
     } else {
         x = window.matchMedia("(max-width: 991px)")
         
         if(x.matches){
             //tablet
-            console.log('tabletdata');
-            chartWidth = 600;
-            chartHeight = 400;
+            //console.log('tabletdata');
+            chartWidth = windowWidth * 0.8;
+            chartHeight = windowHeight/2;
             titleFont = 24;
             fontSize = 20;
             topPercent = '20%';
             
         } else {
             //desktop
+
+            //650
+            //350
 
             chartWidth = windowWidth/3;
             chartHeight = windowHeight/2;
@@ -674,7 +677,7 @@ function drawChart() {
 
 
     var data = google.visualization.arrayToDataTable([
-        ['Element', 'Presentage'],
+        ['Element', 'Percentage'],
         ['Fossil', geo_info_object.fossil],
         ['Hydro', geo_info_object.hydro],
         ['Nuclear', geo_info_object.nuclear],
@@ -683,8 +686,6 @@ function drawChart() {
 
 
     var options = {
-        // title: geo_info_object.state +' Energy Production',
-        // chartArea: {width: 400, height: 300},
         enableInteractivity: false,
         backgroundColor: '#61982f',
         title: name,
