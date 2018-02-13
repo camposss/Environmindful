@@ -258,7 +258,7 @@ svg:not(:root) {
 
 }
 
-@media (max-width: 780px){
+@media (max-width: 1180px){
     #weatherDisplay{
         font-size: 5vmin;
     }
@@ -367,10 +367,29 @@ th, .neutral {
         position: relative;
         left: 1%;
     }
+
 }
 
 @media (max-width: 767px){
     .aqi-container > img{
         margin-top: 20%;
+    }
+    #weatherDisplay{
+        margin-top: 10%;
+    }
+}
+
+@media (max-width: 375px){
+    #aqi-table, .neutral{
+        font-size: 5vmin;
+    }
+    #aqi-number-container{
+        width: 65%
+    }
+    #aqiNum{
+        font-size: 25vmin
+    }
+    #weatherDisplay{
+        margin-top: 25%;
     }
 }
