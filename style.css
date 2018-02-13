@@ -258,7 +258,7 @@ svg:not(:root) {
 
 }
 
-@media (min-width: 781px) and (max-width:1179px){
+@media (min-width: 767px) and (max-width:1179px){
     #weatherDisplay{
         font-size: 3vmin;
     }
@@ -279,7 +279,7 @@ svg:not(:root) {
 }
 
 
-@media (max-width: 780px){
+@media (max-width: 767px){
     #weatherDisplay{
         font-size: 5vmin;
     }
@@ -287,7 +287,7 @@ svg:not(:root) {
     #weatherIcon{
         width: 15%;
         height:20%;
-        margin: auto;
+        margin-right: 5%;
         text-align: center;
         float: right;
     }
