@@ -631,6 +631,8 @@ function drawChart() {
     
     var windowWidth = window.innerWidth;
     var windowHeight = window.innerHeight;
+    console.log("windowWidth:", windowWidth);
+    console.log("windowHeight:", windowHeight);
     
     if (geo_info_object.state === undefined || geo_info_object.fossil === '') {
         name = 'Sorry, No Energy Production Data';
@@ -646,7 +648,7 @@ function drawChart() {
         chartHeight = windowHeight/2;
         titleFont = 16;
         fontSize = 14;
-        topPercent = '20%';
+        topPercent = '10%';
 
     } else {
         x = window.matchMedia("(max-width: 991px)")
@@ -658,15 +660,19 @@ function drawChart() {
             chartHeight = windowHeight/2;
             titleFont = 24;
             fontSize = 20;
-            topPercent = '20%';
+            topPercent = '10%';
             
         } else {
             //desktop
 
             //650
             //350
-            if(windowWidth < 1500){
+            if(windowWidth < 1500 && windowWidth > 1200){
                 windowWidth = 1950;
+            }
+            if(windowWidth < 1199){
+                console.log("its working");
+                windowWidth = 1500;
             }
             chartWidth = windowWidth/3;
             chartHeight = windowHeight/2;
