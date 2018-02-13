@@ -220,8 +220,8 @@ svg:not(:root) {
 /* ****** START AIR QUALITY INDEX SLIDE ***** */
 #aqi-table {
     margin: 0 auto;
-    margin-top: 6%;
-    font-size: 3vmin;
+    margin-top: 2%;
+    font-size: 2vmin;
 }
 /* ****** END AIR QUALITY INDEX SLIDE ***** */
 
@@ -267,7 +267,7 @@ svg:not(:root) {
 }
   
 #aqiNum {
-    font-size: 12vmin;
+    font-size: 6vmin;
 }
   
 table, td, th {
