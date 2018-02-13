@@ -16,7 +16,9 @@ callApi function to coordinate api calls.
  */
 function initializeApp() {
     var submit_button = $('#submit_button');
-    screen.orientation.lock('portrait');
+    screen.orientation.lock('portrait').catch(function(){
+        console.log("screen orientation not supported");
+    });
     submit_button.on('click', geocode);
     google.charts.load('current', { 'packages': ['corechart'] });
     callApi();
