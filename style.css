@@ -304,7 +304,28 @@ svg:not(:root) {
     position: absolute;
     bottom: 0;
     right: 0;
+    opacity: 0.4;
+    cursor: pointer;
 }
+#info-icon:hover {
+    opacity: 1;
+}
+
+.popUp {
+    display: none;
+}
+
+.popUpText {
+    position: absolute;
+    background-color: #efefef;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid #007305;
+    transform: translateX(-50%);
+    left: 50%;
+    font-size: 2vmin;
+}
+
 /* ****** END AIR QUALITY INDEX SLIDE ***** */
 
 /* ******START OF CITY AIR POLLUTION SLIDE****** */
