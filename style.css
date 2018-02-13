@@ -374,8 +374,14 @@ th, .neutral {
     .aqi-container > img{
         margin-top: 20%;
     }
+    #weatherDisplay{
+        margin-top: 10%;
+    }
+}
+
+@media (max-width: 375px){
     #aqi-table, .neutral{
-        font-size: 4.5vmin;
+        font-size: 5vmin;
     }
     #aqi-number-container{
         width: 65%
@@ -383,5 +389,7 @@ th, .neutral {
     #aqiNum{
         font-size: 25vmin
     }
-
+    #weatherDisplay{
+        margin-top: 25%;
+    }
 }
