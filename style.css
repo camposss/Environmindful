@@ -13,9 +13,9 @@ body {
 }
 
 html {
-  background: url(images/stone-stack.jpeg) no-repeat center center fixed; 
-  background-size: cover;
-  height: 100%;
+    background: url(images/stone-stack.jpeg) no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
 }
 
 .title > img{
@@ -39,7 +39,7 @@ h2 {
 /* Main Content */
 .inputBox{
     height:8vh;
-    
+
 }
 #submit_button {
     height: 5vh;
@@ -186,7 +186,7 @@ h2 {
     background: none !important;
     filter: none !important;
     outline: 0;
-  }
+}
 
 .carousel-control {
     opacity: 0.1;
@@ -258,7 +258,7 @@ svg:not(:root) {
 
 }
 
-@media (min-width: 781px) and (max-width:1179px){
+@media (min-width: 767px) and (max-width:1179px){
     #weatherDisplay{
         font-size: 3vmin;
     }
@@ -279,7 +279,7 @@ svg:not(:root) {
 }
 
 
-@media (max-width: 780px){
+@media (max-width: 767px){
     #weatherDisplay{
         font-size: 5vmin;
     }
@@ -287,7 +287,7 @@ svg:not(:root) {
     #weatherIcon{
         width: 15%;
         height:20%;
-        margin-right: 12%;
+        margin-right: 5%;
         text-align: center;
         float: right;
     }
@@ -351,11 +351,11 @@ svg:not(:root) {
     margin: 0px auto;
     margin-bottom: 2%;
 }
-  
+
 #aqiNum {
     font-size: 6vmin;
 }
-  
+
 table, td, th {
     border: 1px solid black;
     padding: 6px;
