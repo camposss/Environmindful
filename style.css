@@ -287,7 +287,7 @@ svg:not(:root) {
     #weatherIcon{
         width: 15%;
         height:20%;
-        margin: auto;
+        margin-right: 12%;
         text-align: center;
         float: right;
     }
