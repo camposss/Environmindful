@@ -53,76 +53,78 @@
             <div class="carouselContainer col-xs-12 col-md-7">
                 <div class="data">
                     <!--dataCarousel-->
-                    <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="3800">
+                    <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="">
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
-                            <div class="item active">
+                            
 
                                 <!-- *********** SLIDE 1 **********-->
+                            <div class="item active">
                                 <div class="aqi-container">
-                                <!-- <img src="images/aqi-table2.png" alt=""> -->
 
-                                    <table id="aqi-table">
-                                        <thead class="neutral">
-                                        
-                                            <th id="aqi-col">AQI</th>
-                                            <th id="poll-col">Air Pollution Level</th>
-                                        
-                                        </thead>
-                                        <tbody>
+                                        <div class="air-pollution">
+                                                <!-- city air pollution level (box)-->
+                                                <div id="aqi-number-container">
+                                                
+                                                <span id="aqi-city">Your City</span>'s Air Pollution Level: 
+                                                <br>
+                                                <span id="aqiNum">N/A</span>
+                                                
+                                        </div>
 
-                                        <tr class="good">
-                                            <td>0-50</td>
-                                            <td>Good</td>
+                                        <table id="aqi-table">
+                                            <thead class="neutral">
                                             
-                                          </tr>
+                                                <th id="aqi-col">AQI</th>
+                                                <th id="poll-col">Air Pollution Level</th>
+                                            
+                                            </thead>
+                                            <tbody>
 
-                                        <tr class="moderate">
-                                            <td>51-100</td>
-                                            <td>Moderate</td>
-   
-                                        </tr>
+                                            <tr class="good">
+                                                <td>0-50</td>
+                                                <td>Good</td>
+                                                
+                                            </tr>
 
-                                        <tr class="sensitive">
-                                            <td>101-150</td>
-                                            <td>Unhealthy for Sensitive Groups</td>
-  
-                                        </tr>
+                                            <tr class="moderate">
+                                                <td>51-100</td>
+                                                <td>Moderate</td>
+    
+                                            </tr>
 
-                                        <tr class="unhealthy">
-                                            <td>151-200</td>
-                                            <td>Unhealthy</td>
-  
-                                        </tr>
+                                            <tr class="sensitive">
+                                                <td>101-150</td>
+                                                <td>Unhealthy for Sensitive Groups</td>
+    
+                                            </tr>
 
-                                        <tr class="very-unhealthy">
-                                            <td>201-300</td>
-                                            <td>Very Unhealthy</td>
-   
-                                        </tr>
+                                            <tr class="unhealthy">
+                                                <td>151-200</td>
+                                                <td>Unhealthy</td>
+    
+                                            </tr>
 
-                                        <tr class="hazard">
-                                            <td>300+</td>
-                                            <td>Hazardous</td>
-                                        </tr>
+                                            <tr class="very-unhealthy">
+                                                <td>201-300</td>
+                                                <td>Very Unhealthy</td>
+    
+                                            </tr>
 
-                                        </tbody>
-                                    </table>
+                                            <tr class="hazard">
+                                                <td>300+</td>
+                                                <td>Hazardous</td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- *********** SLIDE 2 **********-->
                             <div class="item">
-                                <div class="air-pollution">
-                                    <!-- city air pollution level (box)-->
-                                    <div id="aqi-number-container">
-                                    
-                                    <span id="aqi-city">Your City</span>'s Air Pollution Level: 
-                                    <br>
-                                    <span id="aqiNum">N/A</span>
-                                    
-                                    </div>
-                                    
                                     <!-- health implications and cautionary statement (message)-->
                                     <div id="statements">
                                 
@@ -140,7 +142,7 @@
                                     </div>
                                 </div>
                                   
-                            </div>
+                            
 
                             <!-- *********** SLIDE 3 **********-->
                             <div class="item">
@@ -163,7 +165,8 @@
                             </div>
                         </div>
 
-                        </div>
+                    </div>
+            </div>
 
                         <!-- Left and right controls -->
                         <a class="left carousel-control" href="#dataCarousel" data-slide="prev">

@@ -16,6 +16,9 @@ callApi function to coordinate api calls.
  */
 function initializeApp() {
     var submit_button = $('#submit_button');
+    screen.orientation.lock('portrait').catch(function(){
+        console.log("screen orientation not supported");
+    });
     submit_button.on('click', geocode);
     google.charts.load('current', { 'packages': ['corechart'] });
     callApi();
@@ -625,7 +628,10 @@ function drawChart() {
     var titleFont = null;
     var fontSize = null;
     var topPercent = '';
-
+    
+    var windowWidth = window.innerWidth;
+    var windowHeight = window.innerHeight;
+    
     if (geo_info_object.state === undefined || geo_info_object.fossil === '') {
         name = 'Sorry, No Energy Production Data';
     } else {
@@ -636,20 +642,20 @@ function drawChart() {
 
     if (x.matches) {
         //phone screen
-        chartWidth = 300;
-        chartHeight = 250;
+        chartWidth = windowWidth * 0.8;
+        chartHeight = windowHeight/2;
         titleFont = 16;
         fontSize = 14;
-        topPercent = '30%';
+        topPercent = '20%';
 
     } else {
         x = window.matchMedia("(max-width: 991px)")
         
         if(x.matches){
             //tablet
-            console.log('tabletdata');
-            chartWidth = 600;
-            chartHeight = 400;
+            //console.log('tabletdata');
+            chartWidth = windowWidth * 0.8;
+            chartHeight = windowHeight/2;
             titleFont = 24;
             fontSize = 20;
             topPercent = '20%';
@@ -657,10 +663,13 @@ function drawChart() {
         } else {
             //desktop
 
-            chartWidth = 650;
-            chartHeight = 550;
-            titleFont = 32;
-            fontSize = 20;
+            //650
+            //350
+
+            chartWidth = windowWidth/3;
+            chartHeight = windowHeight/2;
+            titleFont = 28;
+            fontSize = 18;
             topPercent = '10%';
         }
 
@@ -668,7 +677,7 @@ function drawChart() {
 
 
     var data = google.visualization.arrayToDataTable([
-        ['Element', 'Presentage'],
+        ['Element', 'Percentage'],
         ['Fossil', geo_info_object.fossil],
         ['Hydro', geo_info_object.hydro],
         ['Nuclear', geo_info_object.nuclear],
@@ -677,8 +686,6 @@ function drawChart() {
 
 
     var options = {
-        // title: geo_info_object.state +' Energy Production',
-        // chartArea: {width: 400, height: 300},
         enableInteractivity: false,
         backgroundColor: '#61982f',
         title: name,
