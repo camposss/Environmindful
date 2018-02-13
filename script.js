@@ -666,7 +666,7 @@ function drawChart() {
             //650
             //350
             if(windowWidth < 1500){
-                windowWidth = 650;
+                windowWidth = 1950;
             }
             chartWidth = windowWidth/3;
             chartHeight = windowHeight/2;
