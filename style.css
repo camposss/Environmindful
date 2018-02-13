@@ -367,10 +367,21 @@ th, .neutral {
         position: relative;
         left: 1%;
     }
+
 }
 
 @media (max-width: 767px){
     .aqi-container > img{
         margin-top: 20%;
     }
+    #aqi-table, .neutral{
+        font-size: 4.5vmin;
+    }
+    #aqi-number-container{
+        width: 65%
+    }
+    #aqiNum{
+        font-size: 25vmin
+    }
+
 }
