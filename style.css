@@ -341,7 +341,7 @@ table, td, th {
 th, .neutral {
     background-color: #dfdfdf;
     text-align: center;
-    font-size: 3vmin;
+    font-size: 2vmin;
 }
 /* ******END OF CITY AIR POLLUTION SLIDE****** */
 
@@ -394,5 +394,8 @@ th, .neutral {
     }
     .air-pollution{
         margin: 10px;
+    }
+    th, .neutral {
+        font-size: 3vmin;
     }
 }
