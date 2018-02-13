@@ -629,9 +629,6 @@ function drawChart() {
             
         } else {
             //desktop
-
-            //650
-            //350
             if(windowWidth < 1500 && windowWidth > 1200){
                 windowWidth = 1950;
             }
