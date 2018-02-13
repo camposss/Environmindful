@@ -598,8 +598,6 @@ function drawChart() {
     
     var windowWidth = window.innerWidth;
     var windowHeight = window.innerHeight;
-    console.log("windowWidth:", windowWidth);
-    console.log("windowHeight:", windowHeight);
     
     if (geo_info_object.state === undefined || geo_info_object.fossil === '') {
         name = 'Sorry, No Energy Production Data';
@@ -637,7 +635,6 @@ function drawChart() {
                 windowWidth = 1950;
             }
             if(windowWidth < 1199){
-                console.log("its working");
                 windowWidth = 1500;
             }
             chartWidth = windowWidth/3;
