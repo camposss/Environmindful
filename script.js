@@ -34,7 +34,7 @@ Call function weatherOutput
  */
 
 function handleWeatherInfo() {
-    if(geo_info_object.lat !== null && geo_info_object.lon !== null) {
+    if(geo_info_object.city !== undefined || geo_info_object.state !== undefined) {
         $.ajax({
             method: 'get',
             data: {
@@ -90,6 +90,7 @@ function handleWeatherInfo() {
             }
         })
     }else{
+        $('#weatherIcon').attr('src', 'images/weather_icon/sadFace.png');
         weatherOutputWithoutData();
     }
 }
@@ -117,7 +118,8 @@ function weatherOutputWithoutData() {
     $('#weatherCurrent').empty();
     $('#weatherTemp').empty();
     $('#weatherHumidity').empty();
-    $('#weatherDisplay').append('Sorry, no weather info available for entered location.')
+    $('#weatherIcon').empty();
+    $('#weatherCity').append('Sorry, no weather info available for entered location.  Please enter another city.')
 }
 
 /*
