@@ -22,7 +22,7 @@ function initializeApp() {
     submit_button.on('click', geocode);
     google.charts.load('current', { 'packages': ['corechart'] });
     callApi();
-
+    $('#info-icon').on('click', infoButtonClickHandler);
 }
 
 //*********************** open weather api *************************
@@ -447,6 +447,11 @@ function getDataByLocation(lat, lon) {
             console.log('getDataByLocation call resulted in error', result);
         }
     })
+}
+
+function infoButtonClickHandler() {
+    console.log('dropping some info on you son');
+    $('.popUp').toggle();
 }
 
 // **********************CESKA'S CODE -- AIR POLLUTION API -- END**********************
