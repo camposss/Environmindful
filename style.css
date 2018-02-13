@@ -295,6 +295,16 @@ svg:not(:root) {
   margin-top: 2%;
   font-size: 2vmin;
 }
+
+#info-icon {
+    height: 22px;
+    float: right;
+    margin-right: 5px;
+    padding: 3px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
 /* ****** END AIR QUALITY INDEX SLIDE ***** */
 
 /* ******START OF CITY AIR POLLUTION SLIDE****** */
@@ -329,12 +339,13 @@ svg:not(:root) {
 }
 
 #aqi-number-container {
-  border: 2px solid black;
-  border-radius: 6px;
-  text-align: center;
-  width: 45%;
-  margin: 0px auto;
-  margin-bottom: 2%;
+    border: 2px solid black;
+    border-radius: 6px;
+    text-align: center;
+    width: 45%;
+    margin: 0px auto;
+    margin-bottom: 2%;
+    position: relative;
 }
 
 #aqiNum {

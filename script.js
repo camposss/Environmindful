@@ -284,9 +284,9 @@ function getAqiData(keyword) {
                 $('#aqiNum').text('N/A');
                 $('#h_implications').text('No health implications at this time, please try again later.');
                 $('#c_statement').text('No cautionary statements at this time, please try again later.');
+                debugger;
                 $('#aqi-number-container').css({
-                    'background-color': '#80d6f9',
-                    'font-size': '155%'
+                    'background-color': '#80d6f9'
                 });
                 return;
             }
