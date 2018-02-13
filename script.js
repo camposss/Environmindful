@@ -16,6 +16,9 @@ callApi function to coordinate api calls.
  */
 function initializeApp() {
     var submit_button = $('#submit_button');
+    screen.orientation.lock('portrait').catch(function(){
+        console.log("screen orientation not supported");
+    });
     submit_button.on('click', geocode);
     google.charts.load('current', { 'packages': ['corechart'] });
     callApi();
@@ -34,60 +37,65 @@ Call function weatherOutput
  */
 
 function handleWeatherInfo() {
-    $.ajax({
-        method: 'get',
-        data: {
-            api_key: '262d0228050ee6334c5273af092b068c',
-            latitude: geo_info_object.lat,
-            longitude: geo_info_object.lon
-        },
-        url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
+    if(geo_info_object.city !== undefined || geo_info_object.state !== undefined) {
+        $.ajax({
+            method: 'get',
+            data: {
+                api_key: '262d0228050ee6334c5273af092b068c',
+                latitude: geo_info_object.lat,
+                longitude: geo_info_object.lon
+            },
+            url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
             geo_info_object.lat + '&lon=' +
             geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
-        dataType: 'json',
-        success: function (data) {
-            var dataMain = data['main'];
-            geo_info_object.temperature = dataMain['temp'];
-            geo_info_object.humidity = dataMain['humidity'];
-            geo_info_object.minTemp = dataMain['temp_min'];
-            geo_info_object.maxTemp = dataMain['temp_max'];
-            weatherOutput();
-            switch (data['weather'][0]['description']) {
-                case 'broken clouds':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
-                    break;
-                case 'clear sky':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-                    break;
-                case 'scattered clouds':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
-                    break;
-                case 'few clouds':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
-                    break;
-                case 'shower rain':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-                    break;
-                case 'rain':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
-                    break;
-                case 'thunderstorm':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
-                    break;
-                case 'snow':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
-                    break;
-                case 'mist':
-                    $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
-                    break;
-                default:
-                    $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
-            }
+            dataType: 'json',
+            success: function (data) {
+                var dataMain = data['main'];
+                geo_info_object.temperature = dataMain['temp'];
+                geo_info_object.humidity = dataMain['humidity'];
+                geo_info_object.minTemp = dataMain['temp_min'];
+                geo_info_object.maxTemp = dataMain['temp_max'];
+                weatherOutputWithData();
+                switch (data['weather'][0]['description']) {
+                    case 'broken clouds':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-cloud.png');
+                        break;
+                    case 'clear sky':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+                        break;
+                    case 'scattered clouds':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
+                        break;
+                    case 'few clouds':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud.png');
+                        break;
+                    case 'shower rain':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+                        break;
+                    case 'rain':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud-rain.png');
+                        break;
+                    case 'thunderstorm':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-multiple-lightning.png');
+                        break;
+                    case 'snow':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud-dark-snow.png');
+                        break;
+                    case 'mist':
+                        $('#weatherIcon').attr('src', 'images/weather_icon/cloud-fog.png');
+                        break;
+                    default:
+                        $('#weatherIcon').attr('src', 'images/weather_icon/sun-rays-small.png');
+                }
 
-        }, error: function (error) {
-            $('.data').text('Sorry, your temperature info is missing!');
-        }
-    })
+            }, error: function () {
+                $('.data').text('Sorry, your temperature info is missing!');
+            }
+        })
+    }else{
+        $('#weatherIcon').attr('src', 'images/weather_icon/sadFace.png');
+        weatherOutputWithoutData();
+    }
 }
 
 
@@ -96,16 +104,25 @@ Called by handleWeatherInfo
 return: none
 param: none
  */
-function weatherOutput() {
+function weatherOutputWithData() {
     $('#weatherCity').empty();
     $('#weatherCurrent').empty();
     $('#weatherTemp').empty();
     $('#weatherHumidity').empty();
     $('#weatherCity').append('City: ' + geo_info_object.city);
     $('#weatherCurrent').append('Current Temperature: ' + parseInt(geo_info_object.temperature) + '&deg; C');
-    $('#weatherTemp').append('Temperature: ' + geo_info_object.minTemp + '&deg; C' + ' - ' + geo_info_object.maxTemp + '&deg; C');
+    $('#weatherTemp').append('Temperature Range: ' + geo_info_object.minTemp + '&deg; C' + ' - ' + geo_info_object.maxTemp + '&deg; C');
     $('#weatherHumidity').append('Humidity: ' + geo_info_object.humidity + '%');
 
+}
+
+function weatherOutputWithoutData() {
+    $('#weatherCity').empty();
+    $('#weatherCurrent').empty();
+    $('#weatherTemp').empty();
+    $('#weatherHumidity').empty();
+    $('#weatherIcon').empty();
+    $('#weatherCity').append('Sorry, no weather info available for entered location.  Please enter another city.')
 }
 
 /*
@@ -153,7 +170,6 @@ function errorPull(data) {
     -Function skeleton taken from google maps geocode documentation.
  */
 function geocode(e) {
-    console.log("hello");
     //prevent actual submit
     e.preventDefault();
     var location = document.getElementById('location-input').value;
@@ -164,24 +180,39 @@ function geocode(e) {
             key: "AIzaSyD2vYz71KVg4PUiyae7M21lCA1Wkh0b8RY"
         },
         success: function (data) {
+            if(data.results.length===0){
+                console.log('NO DATA AVAILABLE');
+                geo_info_object = {
+                    lat: null,
+                    lon: null,
+                    city: null,
+                    state: null
+                };
+                callApi();
+                return;
+            }
             console.log(data);
             //geometry
             var city;
             var state;
             var addressComponentArray = data.results[0].address_components;
-            for (var i = 0; i < data.results[0].types.length; i++) {
-                if (addressComponentArray[0].types[i] === 'locality') {
-                    city = addressComponentArray[0].long_name;
+            var updatedLocation= data.results[0].geometry.location;
+            for (var i = 0; i < addressComponentArray.length; i++) {
+                for(var j =0; j<addressComponentArray[i].types.length; j++){
+                if (addressComponentArray[i].types[j] === 'administrative_area_level_1') {
+                        state = addressComponentArray[i].long_name;
+                        console.log(' this is the state ', state);
+                    }
+
+                    if (addressComponentArray[i].types[j] === 'locality') {
+                        city = addressComponentArray[i].long_name;
+                        console.log(' this is the city ', city);
+                    }
                 }
             }
-            if (addressComponentArray.length === 4) {
-                state = addressComponentArray[2].long_name;
-            } else if (addressComponentArray.length === 3) {
-                state = addressComponentArray[1].long_name;
-            }
             geo_info_object = {
-                lat: (data.results[0].geometry.location.lat),
-                lon: (data.results[0].geometry.location.lng),
+                lat: (updatedLocation.lat),
+                lon: (updatedLocation.lng),
                 city: city,
                 state: state
             };
@@ -209,6 +240,13 @@ map location is centered on the these params
 function skeleton taken from google maps API documentation
  */
 function initMap(lat, lng) {
+    console.log('we have reached initMap function');
+    if(lat ===null || lng=== null){
+        console.log('you have entered an invalid address no map availble ', lat, lng);
+        $('#map_display').text('Location Does not exist! Please search again.').addClass('displayMapError');
+        return;
+    }
+    $('#map_display').removeClass('displayMapError');
     var center = { lat: lat, lng: lng };
     var map = new google.maps.Map(document.getElementById('map_display'), {
         zoom: 12,
@@ -435,6 +473,10 @@ function formatTextArea() {
 
 // Function for news data retrieval
 function getNewsData() {
+    if(geo_info_object.lat === null || geo_info_object.lon === null){
+        $(".newsListDisplay").text("Sorry, no articles available for entered location. Please enter a valid city!");
+        return;
+    }
     var checkNewsAvailability = 0;
     // Calling format text area function to retrieve data from input, formats string to pass api param properly
     var cityName = formatTextArea();
@@ -469,7 +511,7 @@ function getNewsData() {
 // Function to display proper news data to div
 function displayNewsData(data, newsAvailability) {
     if (newsAvailability === 4) {
-        $(".newsListDisplay").text("Sorry, no articles available for entered location.");
+        $(".newsListDisplay").text("Sorry, no articles available for entered location. Please enter a different city name!");
         return;
     }
     // Declare variables to use when storing data from News API and displaying on DOM
@@ -565,6 +607,9 @@ function displayNewsData(data, newsAvailability) {
 
 // Function to format value from user input to send as param to ajax api request
 function formatTextArea() {
+    if (!geo_info_object.city) {
+        return;
+    }
     var enteredText = geo_info_object.city.split(" ").join('+');
     return enteredText;
 }
@@ -583,7 +628,10 @@ function drawChart() {
     var titleFont = null;
     var fontSize = null;
     var topPercent = '';
-
+    
+    var windowWidth = window.innerWidth;
+    var windowHeight = window.innerHeight;
+    
     if (geo_info_object.state === undefined || geo_info_object.fossil === '') {
         name = 'Sorry, No Energy Production Data';
     } else {
@@ -591,7 +639,6 @@ function drawChart() {
     }
 
     var x = window.matchMedia("(max-width: 767px)");
-    //console.log("x", x);
 
     if (x.matches) {
         //phone screen
@@ -602,11 +649,27 @@ function drawChart() {
         topPercent = '30%';
 
     } else {
-        chartWidth = 650;
-        chartHeight = 350;
-        titleFont = 24;
-        fontSize = 20;
-        topPercent = '15%';
+        x = window.matchMedia("(max-width: 991px)")
+        
+        if(x.matches){
+            //tablet
+            console.log('tabletdata');
+            chartWidth = 600;
+            chartHeight = 400;
+            titleFont = 24;
+            fontSize = 20;
+            topPercent = '20%';
+            
+        } else {
+            //desktop
+
+            chartWidth = 650;
+            chartHeight = 350;
+            titleFont = 28;
+            fontSize = 18;
+            topPercent = '10%';
+        }
+
     }
 
 
@@ -622,7 +685,7 @@ function drawChart() {
     var options = {
         // title: geo_info_object.state +' Energy Production',
         // chartArea: {width: 400, height: 300},
-
+        enableInteractivity: false,
         backgroundColor: '#61982f',
         title: name,
         titleTextStyle: {
@@ -658,3 +721,11 @@ function drawChart() {
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
 }
+
+$( window ).resize(function() {
+    var resizeTimer;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+        drawChart();
+      }, 500);
+});
