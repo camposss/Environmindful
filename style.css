@@ -320,7 +320,7 @@ svg:not(:root) {
     background-color: #efefef;
     padding: 5px;
     border-radius: 5px;
-    border: 2px solid #007305;
+    border: 2px ridge #007305;
     transform: translateX(-50%);
     left: 50%;
     font-size: 2vmin;
@@ -439,6 +439,9 @@ th,
   }
   th,
   .neutral {
+    font-size: 3vmin;
+  }
+  .popUpText {
     font-size: 3vmin;
   }
 }
