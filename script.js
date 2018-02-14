@@ -104,24 +104,24 @@ return: none
 param: none
  */
 function weatherOutputWithData() {
-    $('#weatherCity').empty();
-    $('#weatherCurrent').empty();
-    $('#weatherTemp').empty();
-    $('#weatherHumidity').empty();
+    clear();
     $('#weatherCity').append('City: ' + geo_info_object.city);
     $('#weatherCurrent').append('Current Temperature: ' + parseInt(geo_info_object.temperature) + '&deg; C');
     $('#weatherTemp').append('Temperature Range: ' + geo_info_object.minTemp + '&deg; C' + ' - ' + geo_info_object.maxTemp + '&deg; C');
     $('#weatherHumidity').append('Humidity: ' + geo_info_object.humidity + '%');
-
 }
 
 function weatherOutputWithoutData() {
+    clear();
+    $('#weatherIcon').empty();
+    $('#weatherCity').append('Sorry, no weather info available for entered location.  Please enter another city.')
+}
+
+function clear() {
     $('#weatherCity').empty();
     $('#weatherCurrent').empty();
     $('#weatherTemp').empty();
     $('#weatherHumidity').empty();
-    $('#weatherIcon').empty();
-    $('#weatherCity').append('Sorry, no weather info available for entered location.  Please enter another city.')
 }
 
 /*
