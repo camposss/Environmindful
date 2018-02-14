@@ -44,7 +44,7 @@ function handleWeatherInfo() {
                 latitude: geo_info_object.lat,
                 longitude: geo_info_object.lon
             },
-            url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
+            url: '//api.openweathermap.org/data/2.5/weather?lat=' +
             geo_info_object.lat + '&lon=' +
             geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
             dataType: 'json',
@@ -135,7 +135,7 @@ function clear() {
 */
 function pullFromCarma() {
 
-    var proxy = 'http://cors-anywhere.herokuapp.com/'
+    var proxy = '//cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
         url: proxy + 'http://carma.org/api/1.1/searchLocations?name=' + geo_info_object.state,
@@ -277,7 +277,7 @@ function getAqiData(keyword) {
         },
         method: 'GET',
         dataType: 'json',
-        url: 'http://api.waqi.info/search/?token=' + '1af10262d0228050ee6334c5273af092b068ca53' + '&keyword=' + keyword + ',USA',
+        url: '//api.waqi.info/search/?token=' + '1af10262d0228050ee6334c5273af092b068ca53' + '&keyword=' + keyword + ',USA',
         success: function (result) {
             if (result.data.length === 0) {
                 $('#aqi-city').text(keyword);
@@ -409,7 +409,7 @@ function getDataByLocation(lat, lon) {
         },
         method: 'GET',
         dataType: 'json',
-        url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
+        url: '//api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
         success: function (result) {
             var aqi = result.data.aqi; //only grabbing the first element in the array
             determineAqiLevel(aqi);
@@ -465,7 +465,7 @@ function getNewsData() {
 
     for (var i = 0; i < newsOptions.length; i++) {
         $.ajax({
-            url: "https://newsapi.org/v2/everything?sources=" + newsOptions[i] + "&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
+            url: "//newsapi.org/v2/everything?sources=" + newsOptions[i] + "&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
             success: function (data) {
                 // If there no available articles
                 if (!data.articles.length) {
