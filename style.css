@@ -217,6 +217,17 @@ svg:not(:root) {
 /* ****** END OF PIE CHART SLIDE ****** */
 
 /* ****** START OF WEATHER SLIDE ****** */
+.displayTempError {
+    font-size: 3rem;
+    color: white;
+    background-color: none;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 10vh;
+    display: flex;
+    justify-content: center;
+}
+
 #weatherDisplay {
   font-size: 3vmin;
   color: white;

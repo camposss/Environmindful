@@ -88,7 +88,7 @@ function handleWeatherInfo() {
                 }
 
             }, error: function () {
-                $('.data').text('Sorry, your temperature info is missing!');
+                $('.data').text('Sorry, your temperature info is missing!').addClass('displayTempError');
             }
         })
     }else{
@@ -232,7 +232,7 @@ function skeleton taken from google maps API documentation
  */
 function initMap(lat, lng) {
     if(lat ===null || lng=== null){
-        $('#map_display').text('Location Does not exist! Please search again.').addClass('displayMapError');
+        $('#map_display').text('Location does not exist! Please search again.').addClass('displayMapError');
         return;
     }
     $('#map_display').removeClass('displayMapError');
