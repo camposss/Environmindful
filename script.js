@@ -504,7 +504,7 @@ function displayNewsData(data, newsAvailability) {
             newsAuthor: data.articles[newsIndex].author,
             description: data.articles[newsIndex].description,
             newsLink: data.articles[newsIndex].url,
-            imgSource: data.articles[newsIndex].urlToImage,
+            imgSource: data.articles[newsIndex].urlToImage.replace(/^http:/, 'https:'),
             newsSourceID: data.articles[newsIndex].source.id
         };
         // Create on object of necessary values from API and push into array for later use
