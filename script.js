@@ -419,7 +419,6 @@ function getDataByLocation(lat, lon) {
 }
 
 function infoButtonClickHandler() {
-    console.log('dropping some info on you son');
     $('.popUp').toggle();
 }
 
