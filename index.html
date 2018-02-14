@@ -18,6 +18,7 @@
             crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="script.js"></script>
     <title>Environmindful</title>
@@ -53,7 +54,7 @@
             <div class="carouselContainer col-xs-12 col-md-7">
                 <div class="data">
                     <!--dataCarousel-->
-                    <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="">
+                    <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="3800">
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
                             
@@ -66,11 +67,19 @@
                                                 <!-- city air pollution level (box)-->
                                                 <div id="aqi-number-container">
                                                 
-                                                <span id="aqi-city">Your City</span>'s Air Pollution Level: 
-                                                <br>
-                                                <span id="aqiNum">N/A</span>
-                                                
-                                        </div>
+                                                    <span id="aqi-city">Your City</span>'s Air Pollution Level: 
+                                                    <br>
+                                                    <span id="aqiNum">N/A</span>
+                                                        <img id="info-icon" src="images/info-icon.png" alt="">
+                                                </div>
+
+                                                <div class="popUp popUpText">
+                                                    <b>Health Implications:</b>
+                                                    <p class="h_implications"></p>
+                                                    <br>
+                                                    <b>Cautionary Statement:</b><br>
+                                                    <p class="c_statement"></p>
+                                                </div>
 
                                         <table id="aqi-table">
                                             <thead class="neutral">
@@ -125,33 +134,12 @@
 
                             <!-- *********** SLIDE 2 **********-->
                             <div class="item">
-                                    <!-- health implications and cautionary statement (message)-->
-                                    <div id="statements">
-                                
-                                    <table class="neutral">
-                                        <tr>
-                                        <th>Health Implications</th>
-                                        <th>Cautionary Statement</th> 
-                                        </tr>
-                                        <tr>
-                                        <td id="h_implications">No health implications at this time, please try again later.</td>
-                                        <td id="c_statement">No cautionary statements at this time, please try again later.</td> 
-                                        </tr>
-                                    </table>
-                                    
-                                    </div>
-                                </div>
-                                  
-                            
-
-                            <!-- *********** SLIDE 3 **********-->
-                            <div class="item">
                                <div class="pieChartPage">
                                   <div id="piechart"></div>
                                </div>
                             </div>
 
-                            <!-- *********** SLIDE 4 **********-->
+                            <!-- *********** SLIDE 3 **********-->
                             <div class="item">
                                 <div id="weatherDisplay">
                                     <ul id="weatherList">
