@@ -504,7 +504,7 @@ function displayNewsData(data, newsAvailability) {
             newsAuthor: data.articles[newsIndex].author,
             description: data.articles[newsIndex].description,
             newsLink: data.articles[newsIndex].url,
-            imgSource: data.articles[newsIndex].urlToImage.replace(/^http:/, 'https:'),
+            imgSource: data.articles[newsIndex].urlToImage && data.articles[newsIndex].urlToImage.replace(/^http:/, 'https:'),
             newsSourceID: data.articles[newsIndex].source.id
         };
         // Create on object of necessary values from API and push into array for later use
@@ -521,6 +521,8 @@ function displayNewsData(data, newsAvailability) {
         }
     }
     // Loop to create dom element for each news article pulled from News API
+
+    /////****Put an alt attribute in the image tag if its unavailable***///////////
     for (var newsInfoArrayIndex = 0; newsInfoArrayIndex < newsInfoArray.length; newsInfoArrayIndex++) {
         newsAuthorDiv = $("<div>", {
             "class": "newsAuthor",
@@ -534,10 +536,10 @@ function displayNewsData(data, newsAvailability) {
             text: "here",
             href: newsInfoArray[newsInfoArrayIndex].newsLink
         });
-        image = $("<img>", {
-            src: newsInfoArray[newsInfoArrayIndex].imgSource,
-            class: "newsModalImage"
-        });
+        // image = $("<img>", {
+        //     src: newsInfoArray[newsInfoArrayIndex].imgSource,
+        //     "class": "newsModalImage"
+        // });
         newsSourceDiv = $("<div>", {
             "class": "newsSourceLink",
             text: "Source: " + newsInfoArray[newsInfoArrayIndex].newsSource
@@ -565,7 +567,8 @@ function displayNewsData(data, newsAvailability) {
                     $(".img-container").text("");
                     $(".img-container").append($("<img>", {
                         src: newsInfoArray[newsClickIndex].imgSource,
-                        "class": "newsModalImage"
+                        "class": "newsModalImage",
+                        "alt": "Picture Unavailable"
                     }));
                     $(".modal-body p").text(newsInfoArray[newsClickIndex].description);
                     $(".fullArticle").text("See full article: ").append(fullArticleLink);
