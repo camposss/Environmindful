@@ -44,7 +44,7 @@ function handleWeatherInfo() {
                 latitude: geo_info_object.lat,
                 longitude: geo_info_object.lon
             },
-            url: 'http://api.openweathermap.org/data/2.5/weather?lat=' +
+            url: '//api.openweathermap.org/data/2.5/weather?lat=' +
             geo_info_object.lat + '&lon=' +
             geo_info_object.lon + '&units=metric&appid=b231606340553d9174136f7f083904b3',
             dataType: 'json',
@@ -135,7 +135,7 @@ function clear() {
 */
 function pullFromCarma() {
 
-    var proxy = 'http://cors-anywhere.herokuapp.com/'
+    var proxy = '//cors-anywhere.herokuapp.com/'
     $.ajax({
         dataType: 'json',
         url: proxy + 'http://carma.org/api/1.1/searchLocations?name=' + geo_info_object.state,
@@ -277,7 +277,7 @@ function getAqiData(keyword) {
         },
         method: 'GET',
         dataType: 'json',
-        url: 'http://api.waqi.info/search/?token=' + '1af10262d0228050ee6334c5273af092b068ca53' + '&keyword=' + keyword + ',USA',
+        url: '//api.waqi.info/search/?token=' + '1af10262d0228050ee6334c5273af092b068ca53' + '&keyword=' + keyword + ',USA',
         success: function (result) {
             if (result.data.length === 0) {
                 $('#aqi-city').text(keyword);
@@ -409,7 +409,7 @@ function getDataByLocation(lat, lon) {
         },
         method: 'GET',
         dataType: 'json',
-        url: 'http://api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
+        url: '//api.waqi.info/feed/geo:' + lat + ';' + lon + '/?token=1af10262d0228050ee6334c5273af092b068ca53',
         success: function (result) {
             var aqi = result.data.aqi; //only grabbing the first element in the array
             determineAqiLevel(aqi);
@@ -465,7 +465,7 @@ function getNewsData() {
 
     for (var i = 0; i < newsOptions.length; i++) {
         $.ajax({
-            url: "https://newsapi.org/v2/everything?sources=" + newsOptions[i] + "&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
+            url: "//newsapi.org/v2/everything?sources=" + newsOptions[i] + "&q=" + cityName + "+climate&apiKey=626bed419f824271a515c974d606275b",
             success: function (data) {
                 // If there no available articles
                 if (!data.articles.length) {
@@ -504,7 +504,7 @@ function displayNewsData(data, newsAvailability) {
             newsAuthor: data.articles[newsIndex].author,
             description: data.articles[newsIndex].description,
             newsLink: data.articles[newsIndex].url,
-            imgSource: data.articles[newsIndex].urlToImage,
+            imgSource: data.articles[newsIndex].urlToImage && data.articles[newsIndex].urlToImage.replace(/^http:/, 'https:'),
             newsSourceID: data.articles[newsIndex].source.id
         };
         // Create on object of necessary values from API and push into array for later use
@@ -521,6 +521,8 @@ function displayNewsData(data, newsAvailability) {
         }
     }
     // Loop to create dom element for each news article pulled from News API
+
+    /////****Put an alt attribute in the image tag if its unavailable***///////////
     for (var newsInfoArrayIndex = 0; newsInfoArrayIndex < newsInfoArray.length; newsInfoArrayIndex++) {
         newsAuthorDiv = $("<div>", {
             "class": "newsAuthor",
@@ -534,10 +536,10 @@ function displayNewsData(data, newsAvailability) {
             text: "here",
             href: newsInfoArray[newsInfoArrayIndex].newsLink
         });
-        image = $("<img>", {
-            src: newsInfoArray[newsInfoArrayIndex].imgSource,
-            class: "newsModalImage"
-        });
+        // image = $("<img>", {
+        //     src: newsInfoArray[newsInfoArrayIndex].imgSource,
+        //     "class": "newsModalImage"
+        // });
         newsSourceDiv = $("<div>", {
             "class": "newsSourceLink",
             text: "Source: " + newsInfoArray[newsInfoArrayIndex].newsSource
@@ -565,7 +567,8 @@ function displayNewsData(data, newsAvailability) {
                     $(".img-container").text("");
                     $(".img-container").append($("<img>", {
                         src: newsInfoArray[newsClickIndex].imgSource,
-                        "class": "newsModalImage"
+                        "class": "newsModalImage",
+                        "alt": "Picture Unavailable"
                     }));
                     $(".modal-body p").text(newsInfoArray[newsClickIndex].description);
                     $(".fullArticle").text("See full article: ").append(fullArticleLink);
