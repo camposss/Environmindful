@@ -326,6 +326,7 @@ svg:not(:root) {
     font-size: 2vmin;
     margin-top: 2%;
     animation: fadeIn 0.5s linear;
+    width: 80%;
 }
 
 @-webkit-keyframes fadeIn {
