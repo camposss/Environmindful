@@ -282,8 +282,8 @@ function getAqiData(keyword) {
             if (result.data.length === 0) {
                 $('#aqi-city').text(keyword);
                 $('#aqiNum').text('N/A');
-                $('#h_implications').text('No health implications at this time, please try again later.');
-                $('#c_statement').text('No cautionary statements at this time, please try again later.');
+                $('.h_implications').text('No health implications at this time, please try again later.');
+                $('.c_statement').text('No cautionary statements at this time, please try again later.');
                 debugger;
                 $('#aqi-number-container').css({
                     'background-color': '#80d6f9'
@@ -301,8 +301,8 @@ function getAqiData(keyword) {
             }
             $('#aqi-city').text(keyword);
             $('#aqiNum').text('N/A');
-            $('#h_implications').text('No health implications at this time, please try again later.');
-            $('#c_statement').text('No cautionary statements at this time, please try again later.');
+            $('.h_implications').text('No health implications at this time, please try again later.');
+            $('.c_statement').text('No cautionary statements at this time, please try again later.');
             $('#aqi-number-container').css({
                 'background-color': '#80d6f9',
                 'font-size': '155%'
@@ -384,8 +384,8 @@ function determineAqiLevel(aqi, keyword) {
 function renderAqiInfoOnDom(keyword, aqi, healthImplications, cautionaryStmt, colorLvl) {
     $('#aqi-city').text(keyword);
     $('#aqiNum').text(aqi);
-    $('#h_implications').text(healthImplications);
-    $('#c_statement').text(cautionaryStmt);
+    $('.h_implications').text(healthImplications);
+    $('.c_statement').text(cautionaryStmt);
     $('#aqi-number-container').css({
         'background-color': colorLvl
     });
