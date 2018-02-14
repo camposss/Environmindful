@@ -2,183 +2,173 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="images/favicon//apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon//favicon-16x16.png">
+    <link rel="manifest" href="images/favicon//site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff"> -->
+    <link href="images/earth.ico" rel="icon" type="image/x-icon" />
+   
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
-          type="text/css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Environmindful</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates:700" rel="stylesheet">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="script.js"></script>
-
+    <title>Environmindful</title>
 </head>
 <body>
 <div class="container">
-    <div class="row title-search-container col-md-12">
-        <div class="title col-md-7 row">
-            <img src="images/logo.png" alt="">
-            <h1>Environmindful</h1>
+    <div class="row">
+        <div class="title col-xs-4 col-md-1">
+            <img src="images/kawaii-earth.png" alt="">
         </div>
-        <div class="searchContainer col-md-5 row">
+        <div class="col-xs-8  col-md-4">
+            <h2>Environmindful</h2>
+        </div>
+        <div class="searchContainer col-xs-12 col-md-6 pull-right">
             <form id="location-form" class="form-inline">
-                <input type="text" id="location-input" class="form-control" placeholder="Enter a city...">
-                <button id="submit_button" type="submit" class="btn btn-primary getNews">Submit</button>
+                <div class="inputDiv col-xs-9 col-md-9">
+                    <input type="text" id="location-input" class="form-control" placeholder="Please enter a city...">
+                </div>
+                <div class="submitButtonDiv col-xs-3 col-md-3">
+                    <button id="submit_button" type="submit" class="btn btn-primary getNews">Submit</button>
+                </div>
             </form>
         </div>
     </div>
-    <div class="row news-carousel">
-        <div class="leftCol col-sm-5 row">
-            <div class="news">
-                <div class="row m-auto text-center newsTitle">
+    <div class="news-carousel row">
+            <div class="news col-xs-12 col-md-5">
+                <div class="newsTitle">
                     <h1>Recent News</h1>
                 </div>
                 <div class="newsListDisplay"></div>
             </div>
-        </div>
-
-        <div class="rightCol col-sm-7 row">
-            <div class="carouselContainer m-auto row col-md-12">
+        <!--<div class="news-carousel">-->
+            <div class="carouselContainer col-xs-12 col-md-7">
                 <div class="data">
                     <!--dataCarousel-->
-                    <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="2800">
-                        <!-- Indicators -->
-                        <!--<ol class="carousel-indicators">-->
-                            <!--<li data-target="#dataCarousel" data-slide-to="0" class="active"></li>-->
-                            <!--<li data-target="#dataCarousel" data-slide-to="1"></li>-->
-                            <!--<li data-target="#dataCarousel" data-slide-to="2"></li>-->
-                        <!--</ol>-->
+                    <div id="dataCarousel" class="carousel slide" data-ride="carousel" data-interval="3800">
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
+                            
+
+                                <!-- *********** SLIDE 1 **********-->
                             <div class="item active">
                                 <div class="aqi-container">
-                                    <table>
-                                        <thead>
-                                        <tr id="head-col">
-                                            <td id="aqi-col">AQI</td>
-                                            <td id="poll-col">Air Pollution Level</td>
-                                            <td>Health Implications</td>
-                                            <td>Cautionary Statement (for PM2.5)</td>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
 
-                                        <tr class="good">
-                                            <td>0-50</td>
-                                            <td>Good</td>
-                                            <td>
-                                                Air quality is considered satisfactory, and air pollution poses little or no risk
-                                            </td>
-                                            <td>None</td>
-                                        </tr>
+                                        <div class="air-pollution">
+                                                <!-- city air pollution level (box)-->
+                                                <div id="aqi-number-container">
+                                                
+                                                    <span id="aqi-city">Your City</span>'s Air Pollution Level: 
+                                                    <br>
+                                                    <span id="aqiNum">N/A</span>
+                                                        <img id="info-icon" src="images/info-icon.png" alt="">
+                                                </div>
 
-                                        <tr class="moderate">
-                                            <td>51-100</td>
-                                            <td>Moderate</td>
-                                            <td>
-                                                Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.
-                                            </td>
-                                            <td>
-                                                Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.
-                                            </td>
-                                        </tr>
+                                                <div class="popUp popUpText">
+                                                    <b>Health Implications:</b>
+                                                    <p class="h_implications"></p>
+                                                    <br>
+                                                    <b>Cautionary Statement:</b><br>
+                                                    <p class="c_statement"></p>
+                                                </div>
 
-                                        <tr class="sensitive">
-                                            <td>101-150</td>
-                                            <td>Unhealthy for Sensitive Groups</td>
-                                            <td>
-                                                Members of sensitive groups may experience health effects. The general public is not likely to be affected.
-                                            </td>
-                                            <td>
-                                                Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.
-                                            </td>
-                                        </tr>
+                                        <table id="aqi-table">
+                                            <thead class="neutral">
+                                            
+                                                <th id="aqi-col">AQI</th>
+                                                <th id="poll-col">Air Pollution Level</th>
+                                            
+                                            </thead>
+                                            <tbody>
 
-                                        <tr class="unhealthy">
-                                            <td>151-200</td>
-                                            <td>Unhealthy</td>
-                                            <td>
-                                                Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects
-                                            </td>
-                                            <td>
-                                                Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion
-                                            </td>
-                                        </tr>
+                                            <tr class="good">
+                                                <td>0-50</td>
+                                                <td>Good</td>
+                                                
+                                            </tr>
 
-                                        <tr class="very-unhealthy">
-                                            <td>201-300</td>
-                                            <td>Very Unhealthy</td>
-                                            <td>
-                                                Health warnings of emergency conditions. The entire population is more likely to be affected.
-                                            </td>
-                                            <td>
-                                                Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.
-                                            </td>
-                                        </tr>
+                                            <tr class="moderate">
+                                                <td>51-100</td>
+                                                <td>Moderate</td>
+    
+                                            </tr>
 
-                                        <tr class="hazard">
-                                            <td>300+</td>
-                                            <td>Hazardous</td>
-                                            <td>
-                                                Health alert: everyone may experience more serious health effects
-                                            </td>
-                                            <td>
-                                                Everyone should avoid all outdoor exertion
-                                            </td>
-                                        </tr>
+                                            <tr class="sensitive">
+                                                <td>101-150</td>
+                                                <td>Unhealthy for Sensitive Groups</td>
+    
+                                            </tr>
 
-                                        </tbody>
-                                    </table>
+                                            <tr class="unhealthy">
+                                                <td>151-200</td>
+                                                <td>Unhealthy</td>
+    
+                                            </tr>
+
+                                            <tr class="very-unhealthy">
+                                                <td>201-300</td>
+                                                <td>Very Unhealthy</td>
+    
+                                            </tr>
+
+                                            <tr class="hazard">
+                                                <td>300+</td>
+                                                <td>Hazardous</td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
                                 </div>
                             </div>
-                            <div class="item">
-                                <div id="aqi-number-container">
-                                    <span id="aqi-city">Your City's</span>'s Air Pollution Level:
-                                    <span id="aqiNum">N/A</span>
-                                </div>
-                                <div>
-                                    <strong class="message">Health Implications: </strong><p id="h_implications">No health implications at this time, please try again later.</p>
-                                </div>
 
-                                <div>
-                                    <strong class="message">Cautionary Statement: </strong><p id="c_statement">No cautionary statements at this time, please try again later.</p>
-                                </div>
-                            </div>
+                            <!-- *********** SLIDE 2 **********-->
                             <div class="item">
                                <div class="pieChartPage">
-                                  <div id="piechart"></div>  
+                                  <div id="piechart"></div>
                                </div>
                             </div>
+
+                            <!-- *********** SLIDE 3 **********-->
                             <div class="item">
                                 <div id="weatherDisplay">
-                                        <img id="weatherIcon" src="">
                                     <ul id="weatherList">
                                         <li id="weatherCity"></li>
                                         <li id="weatherCurrent"></li>
                                         <li id="weatherTemp"></li>
                                         <li id="weatherHumidity"></li>
                                     </ul>
+                                    <img id="weatherIcon" src="">
                                 </div>
                             </div>
                         </div>
-                        </div>
 
-                        <!--&lt;!&ndash; Left and right controls &ndash;&gt;-->
-                        <!--<a class="left carousel-control" href="#dataCarousel" data-slide="prev">-->
-                            <!--<span class="glyphicon glyphicon-chevron-left"></span>-->
-                            <!--<span class="sr-only">Previous</span>-->
-                        <!--</a>-->
-                        <!--<a class="right carousel-control" href="#dataCarousel" data-slide="next">-->
-                            <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
-                            <!--<span class="sr-only">Next</span>-->
-                        <!--</a>-->
+                    </div>
+            </div>
+
+                        <!-- Left and right controls -->
+                        <a class="left carousel-control" href="#dataCarousel" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#dataCarousel" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="map_div col-md-12">
+            <!--</div>-->
+            <div class="map_div col-xs-12">
 
                 <!--
                             <div class="btnCol">
@@ -187,7 +177,6 @@
                             </div>
                 -->
                 <div id="map_display"></div>
-
                 <!--<div class="carouselContainer m-auto row col-md-12">-->
                 <!--<div id="piechart" style="width: 900px; height: 500px;"></div>-->
                 <!--</div>-->
@@ -208,12 +197,9 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-
 </div>
-<script async defer
+
+<script defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy0-D5zCNe2d3E-wSsfbMSr3upkWsdRcA">
 </script>
 
