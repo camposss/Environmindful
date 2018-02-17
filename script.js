@@ -606,7 +606,6 @@ function drawChart() {
     
     if (geo_info_object.state === undefined || geo_info_object.fossil === '') {
         name = 'Sorry, No Energy Production Data';
-        return;
     } else {
         name = geo_info_object.state + ' Energy Production';
     }
